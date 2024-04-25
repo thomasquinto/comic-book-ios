@@ -14,41 +14,50 @@ struct ComicListView: View {
     )
     
     var body: some View {
-        VStack(alignment: .leading) {
-            if viewModel.isLoading {
-                Spacer()
-                HStack{
+        NavigationStack {            
+            VStack(alignment: .leading) {
+                if viewModel.isLoading {
                     Spacer()
-                    ProgressView()
+                    HStack{
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
                     Spacer()
+                } else {
+                    comicList
                 }
-                Spacer()
-            } else {
-                comicList
+            }
+            .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingAlert) {
+                Button("OK", role: .cancel) { }
+            }
+            .task {
+                await viewModel.getComics()
             }
         }
-        .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingAlert) {
-            Button("OK", role: .cancel) { }
-        }
-        .ignoresSafeArea()
-        .task {
-            await viewModel.getComics()
+        .searchable(text: $viewModel.searchText)
+        .onChange(of: viewModel.searchText) {
+            Task {
+                await viewModel.getComics()
+            }
         }
     }
 }
 
 extension ComicListView {
-    
+        
     var comicList : some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(viewModel.comics, id: \.id) { comic in
-                    ComicItem(comicEntry: comic)
+        VStack {
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.comics, id: \.id) { comic in
+                        ComicItem(comicEntry: comic)
+                    }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .scrollIndicators(.hidden)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .scrollIndicators(.hidden)
     }
 }
 

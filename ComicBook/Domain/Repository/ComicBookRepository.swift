@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol ComicBookRepository{
+    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Comic]
+}

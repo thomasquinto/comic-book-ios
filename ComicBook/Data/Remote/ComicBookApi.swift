@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol ComicBookApi{
-    func getComics(offset: Int, limit: Int) async throws -> ComicsResponseDto
+protocol ComicBookApi{    
+    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> ComicsResponseDto
 }

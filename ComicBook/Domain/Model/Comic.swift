@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct Comic {
+    let id: Int
+    let title: String
+    let description: String
+    let thumbnailUrl: String
+    let modified: Date
+}
