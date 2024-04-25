@@ -29,6 +29,7 @@ extension ComicBookRemote: ComicBookApi{
         queryItems.append(URLQueryItem(name: "hash", value: generateHash(ts: timestamp, publicKey: publicKey, privateKey: privateKey)))
         queryItems.append(URLQueryItem(name: "offset", value: String(offset)))
         queryItems.append(URLQueryItem(name: "limit", value: String(limit)))
+        queryItems.append(URLQueryItem(name: "orderBy", value: "title"))
         if !titleStartsWith.isEmpty {
             queryItems.append(URLQueryItem(name: "titleStartsWith", value: titleStartsWith))
         }
@@ -51,6 +52,9 @@ extension ComicBookRemote: ComicBookApi{
         guard let response = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse("Invalid Response")
         }
+        
+        print("Request URL:", response.url?.absoluteString ?? "N/A")
+
         if response.statusCode != 200 {
             throw NetworkError.invalidResponse("Invalid Response with status code: \(response.statusCode)")
         }

@@ -16,29 +16,20 @@ struct ComicListView: View {
     var body: some View {
         NavigationStack {            
             VStack(alignment: .leading) {
-                if viewModel.isLoading {
-                    Spacer()
-                    HStack{
-                        Spacer()
-                        ProgressView()
-                        Spacer()
-                    }
-                    Spacer()
-                } else {
-                    comicList
-                }
+                comicList
             }
             .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingAlert) {
                 Button("OK", role: .cancel) { }
             }
             .task {
-                await viewModel.getComics()
+                await viewModel.getComics(reset: true)
             }
         }
         .searchable(text: $viewModel.searchText)
+        .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
         .onChange(of: viewModel.searchText) {
             Task {
-                await viewModel.getComics()
+                await viewModel.getComics(reset: true)
             }
         }
     }
@@ -53,7 +44,17 @@ extension ComicListView {
                     ForEach(viewModel.comics, id: \.id) { comic in
                         ComicItem(comicEntry: comic)
                     }
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .foregroundColor(.black)
+                        .foregroundColor(.red)
+                        .onAppear {
+                            Task {
+                                await viewModel.getComics(reset: false)
+                            }
+                        }
                 }
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .scrollIndicators(.hidden)

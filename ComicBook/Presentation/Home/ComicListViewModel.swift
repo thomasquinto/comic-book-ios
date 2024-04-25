@@ -17,16 +17,28 @@ class ComicListViewModel {
     var errorMessage = ""
     var isShowingAlert = false
     var searchText = ""
+    var offset = 0
+    var limit = 20
 
     init(repo: ComicBookRepository) {
         self.repo = repo
     }
         
-    func getComics() async {
+    func getComics(reset: Bool = false) async {
+        if reset {
+            offset = 0
+        } else {
+            offset += limit
+        }
         isLoading = true
         
         do {
-            comics = try await repo.getComics(titleStartsWith: searchText, offset: 0, limit: 20)
+            let comicsResponse = try await repo.getComics(titleStartsWith: searchText, offset: offset, limit: limit)
+            if reset {
+                comics = comicsResponse
+            } else {
+                comics += comicsResponse
+            }
             isLoading = false
         } catch {
             isLoading = false
