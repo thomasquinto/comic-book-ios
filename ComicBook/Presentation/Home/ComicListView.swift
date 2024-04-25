@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  ComicListView.swift
 //  ComicBook
 //
 //  Created by Thomas Quinto on 4/16/24.
@@ -21,9 +21,6 @@ struct ComicListView: View {
             .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingAlert) {
                 Button("OK", role: .cancel) { }
             }
-            .task {
-                await viewModel.getComics(reset: true)
-            }
         }
         .searchable(text: $viewModel.searchText)
         .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
@@ -44,15 +41,17 @@ extension ComicListView {
                     ForEach(viewModel.comics, id: \.id) { comic in
                         ComicItem(comicEntry: comic)
                     }
-                    ProgressView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .foregroundColor(.black)
-                        .foregroundColor(.red)
-                        .onAppear {
-                            Task {
-                                await viewModel.getComics(reset: false)
+                    if !viewModel.isEmpty {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .foregroundColor(.black)
+                            .foregroundColor(.red)
+                            .onAppear {
+                                Task {
+                                    await viewModel.getComics(reset: false)
+                                }
                             }
-                        }
+                    }
                 }
                 
             }
