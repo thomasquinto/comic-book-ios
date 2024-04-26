@@ -16,12 +16,12 @@ struct ComicListView: View {
     var body: some View {
         NavigationStack {
             comicList
-            .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingAlert) {
-                Button("OK", role: .cancel) { }
-            }
         }
         .searchable(text: $viewModel.searchText)
         .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+        .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingAlert) {
+            Button("OK", role: .cancel) { }
+        }
         .onChange(of: viewModel.searchText) {
             Task {
                 await viewModel.getComics(reset: true)
