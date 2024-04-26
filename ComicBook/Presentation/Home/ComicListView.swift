@@ -14,10 +14,8 @@ struct ComicListView: View {
     )
     
     var body: some View {
-        NavigationStack {            
-            VStack(alignment: .leading) {
-                comicList
-            }
+        NavigationStack {
+            comicList
             .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingAlert) {
                 Button("OK", role: .cancel) { }
             }
@@ -35,29 +33,31 @@ struct ComicListView: View {
 extension ComicListView {
         
     var comicList : some View {
-        VStack {
-            ScrollView {
-                LazyVStack {
-                    ForEach(viewModel.comics, id: \.id) { comic in
-                        ComicItem(comicEntry: comic)
-                    }
-                    if !viewModel.isEmpty {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .foregroundColor(.black)
-                            .foregroundColor(.red)
-                            .onAppear {
-                                Task {
-                                    await viewModel.getComics(reset: false)
-                                }
-                            }
-                    }
+        ScrollView {
+            LazyVStack {
+                ForEach(viewModel.comics) { comic in
+                     NavigationLink {
+                         ComicDetailView(viewModel: .init(comic: comic))
+                     } label: {
+                         ComicItem(comicEntry: comic)
+                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
-                
+                if !viewModel.isEmpty {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .foregroundColor(.black)
+                        .foregroundColor(.red)
+                        .onAppear {
+                            Task {
+                                await viewModel.getComics(reset: false)
+                            }
+                        }
+                }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .scrollIndicators(.hidden)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .scrollIndicators(.hidden)
     }
 }
 

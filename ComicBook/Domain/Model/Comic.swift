@@ -7,10 +7,14 @@
 
 import Foundation
 
-struct Comic {
+struct Comic: Identifiable, Hashable {
     let id: Int
     let title: String
     let description: String
     let thumbnailUrl: String
     let modified: Date
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
