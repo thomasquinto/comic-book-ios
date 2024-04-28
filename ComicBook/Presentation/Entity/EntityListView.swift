@@ -1,45 +1,57 @@
 //
-//  ComicListView.swift
+//  EntityListView.swift
 //  ComicBook
 //
-//  Created by Thomas Quinto on 4/16/24.
+//  Created by Thomas Quinto on 4/27/24.
 //
 
 import SwiftUI
 import CachedAsyncImage
 
-struct ComicListView: View {
-    @State var viewModel: ComicListViewModel = .init(
-        repo: ComicBookRepositoryImpl.shared
-    )
+struct EntityListView: View {
+    
+    let entityName: String
+    let fetchEntities: (String, Int, Int) async throws -> [Entity]
+    let makeDetailView: (Entity) -> AnyView
+    @State var viewModel: EntityListViewModel
+
+    init(entityName: String,
+         fetchEntities: @escaping (String, Int, Int) async throws -> [Entity],
+         makeDetailView: @escaping (Entity) -> AnyView) {
+        self.entityName = entityName
+        self.fetchEntities = fetchEntities
+        self.viewModel = .init(fetchEntities: fetchEntities)
+        self.makeDetailView = makeDetailView
+    }
     
     var body: some View {
         NavigationStack {
-            comicList
+            entityList
+                .navigationTitle(entityName)
+                .searchable(text: $viewModel.searchText)
         }
-        .searchable(text: $viewModel.searchText)
         .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
         .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingAlert) {
             Button("OK", role: .cancel) { }
         }
         .onChange(of: viewModel.searchText) {
             Task {
-                await viewModel.getComics(reset: true)
+                await viewModel.getEntities(reset: true)
             }
         }
     }
 }
 
-extension ComicListView {
+extension EntityListView {
         
-    var comicList : some View {
+    var entityList : some View {
         ScrollView {
             LazyVStack {
-                ForEach(viewModel.comics) { comic in
+                ForEach(viewModel.entities) { entity in
                      NavigationLink {
-                         ComicDetailView(viewModel: .init(comic: comic))
+                         makeDetailView(entity)
                      } label: {
-                         ComicItem(comicEntry: comic)
+                         EntityItem(entity: entity)
                      }
                     .buttonStyle(PlainButtonStyle())
                 }
@@ -50,7 +62,7 @@ extension ComicListView {
                         .foregroundColor(.red)
                         .onAppear {
                             Task {
-                                await viewModel.getComics(reset: false)
+                                await viewModel.getEntities(reset: false)
                             }
                         }
                 }
@@ -61,12 +73,12 @@ extension ComicListView {
     }
 }
 
-struct ComicItem: View {
-    let comicEntry: Comic
+struct EntityItem: View {
+    let entity: Entity
     
     var body: some View {
         HStack{
-            CachedAsyncImage(url: URL(string: comicEntry.thumbnailUrl)) { image in
+            CachedAsyncImage(url: URL(string: entity.imageUrl)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 100, height: 100)
@@ -77,7 +89,7 @@ struct ComicItem: View {
                     .frame(width: 100, height: 100)
             }
 
-            Text(comicEntry.title)
+            Text(entity.title)
                 .padding(2)
             
             Spacer()

@@ -24,10 +24,11 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
      */
     static let shared: ComicBookRepository = ComicBookRepositoryImpl(remote: ComicBookRemote.shared)
     
-    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Comic] {
-        let comicsResponseDto = try await remote.getComics(titleStartsWith: titleStartsWith, offset: offset, limit: limit)
-        return comicsResponseDto.data.results.map{ comicDto in
-            comicDto.toComic
-        }
+    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+        return try await remote.getComics(titleStartsWith: titleStartsWith, offset: offset, limit: limit)
+    }
+    
+    func getCharacters(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+        return try await remote.getCharacters(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
     }
 }

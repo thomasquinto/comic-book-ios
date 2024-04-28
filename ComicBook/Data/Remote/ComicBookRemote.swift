@@ -15,23 +15,22 @@ struct ComicBookRemote{
 }
 
 extension ComicBookRemote: ComicBookApi{
-
-    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> ComicsResponseDto{
-        
-        let baseUrl = "https://gateway.marvel.com:443/v1/public/comics"
+    
+    func getResponse(urlEntity: String, queryItems: [URLQueryItem], offset: Int, limit: Int)async throws -> Data {
+        let baseUrl = "https://gateway.marvel.com:443/v1/public/\(urlEntity)"
         let publicKey = "***REMOVED***"
         let privateKey = "***REMOVED***"
         
         let timestamp = Date().timeIntervalSince1970
-        var queryItems = [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "apikey", value: publicKey))
-        queryItems.append(URLQueryItem(name: "ts", value: String(timestamp)))
-        queryItems.append(URLQueryItem(name: "hash", value: generateHash(ts: timestamp, publicKey: publicKey, privateKey: privateKey)))
-        queryItems.append(URLQueryItem(name: "offset", value: String(offset)))
-        queryItems.append(URLQueryItem(name: "limit", value: String(limit)))
-        queryItems.append(URLQueryItem(name: "orderBy", value: "title"))
-        if !titleStartsWith.isEmpty {
-            queryItems.append(URLQueryItem(name: "titleStartsWith", value: titleStartsWith))
+        var queryItemArray = [URLQueryItem]()
+        queryItemArray.append(URLQueryItem(name: "apikey", value: publicKey))
+        queryItemArray.append(URLQueryItem(name: "ts", value: String(timestamp)))
+        queryItemArray.append(URLQueryItem(name: "hash", value: generateHash(ts: timestamp, publicKey: publicKey, privateKey: privateKey)))
+        queryItemArray.append(URLQueryItem(name: "offset", value: String(offset)))
+        queryItemArray.append(URLQueryItem(name: "limit", value: String(limit)))
+        
+        for queryItem in queryItems{
+            queryItemArray.append(queryItem)
         }
         
         let url = URL(string: baseUrl)
@@ -42,7 +41,7 @@ extension ComicBookRemote: ComicBookApi{
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             throw NetworkError.invalidURL("Invalid URL: \(baseUrl)")
         }
-        urlComponents.queryItems = queryItems
+        urlComponents.queryItems = queryItemArray
         guard let componentsUrl = urlComponents.url else {
             throw NetworkError.invalidURL("Invalid URL query items")
         }
@@ -59,9 +58,58 @@ extension ComicBookRemote: ComicBookApi{
             throw NetworkError.invalidResponse("Invalid Response with status code: \(response.statusCode)")
         }
         
+        return data
+    }
+    
+    func generateHash(ts: Double, publicKey: String, privateKey: String) -> String{
+        return (String(ts) + privateKey + publicKey).md5
+    }
+
+    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+        
+        var queryItems = [URLQueryItem]()
+        queryItems.append(URLQueryItem(name: "orderBy", value: "title"))
+        if !titleStartsWith.isEmpty {
+            queryItems.append(URLQueryItem(name: "titleStartsWith", value: titleStartsWith))
+        }
+        
+        let data = try await getResponse(urlEntity: "comics", queryItems: queryItems, offset: offset, limit: limit)
+        
         let decoder = JSONDecoder()
         do {
-            return try decoder.decode(ComicsResponseDto.self, from: data)
+            let response = try decoder.decode(ComicsResponseDto.self, from: data)
+            return response.data.results.map{ comicDto in
+                comicDto.toEntity
+            }
+        } catch let DecodingError.dataCorrupted(context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.keyNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.valueNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.typeMismatch(_, context)  {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch {
+            throw NetworkError.decodingError(error.localizedDescription)
+        }
+    }
+    
+    func getCharacters(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+
+        var queryItems = [URLQueryItem]()
+        queryItems.append(URLQueryItem(name: "orderBy", value: "name"))
+        if !nameStartsWith.isEmpty {
+            queryItems.append(URLQueryItem(name: "nameStartsWith", value: nameStartsWith))
+        }
+        
+        let data = try await getResponse(urlEntity: "characters", queryItems: queryItems, offset: offset, limit: limit)
+        
+        let decoder = JSONDecoder()
+        do {
+            let response = try decoder.decode(CharactersResponseDto.self, from: data)
+            return response.data.results.map{ characterDto in
+                characterDto.toEntity
+            }
         } catch let DecodingError.dataCorrupted(context) {
             throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
         } catch let DecodingError.keyNotFound(_, context) {
@@ -75,9 +123,6 @@ extension ComicBookRemote: ComicBookApi{
         }
     }
 
-    func generateHash(ts: Double, publicKey: String, privateKey: String) -> String{
-        return (String(ts) + privateKey + publicKey).md5
-    }
 }
 
 enum NetworkError: Error {

@@ -1,20 +1,22 @@
 //
-//  Comic.swift
+//  Entity.swift
 //  ComicBook
 //
-//  Created by Thomas Quinto on 4/16/24.
+//  Created by Thomas Quinto on 4/27/24.
 //
 
 import Foundation
 
-struct Comic: Identifiable, Hashable {
+struct Entity: Identifiable, Hashable {
     let id: Int
     let title: String
     let description: String
-    let thumbnailUrl: String
-    let modified: Date
+    let imageUrl: String
+    let date: Date
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
+
+

@@ -8,5 +8,6 @@
 import Foundation
 
 protocol ComicBookApi{    
-    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> ComicsResponseDto
+    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity]
+    func getCharacters(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity]
 }
