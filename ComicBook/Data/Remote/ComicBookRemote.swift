@@ -123,6 +123,90 @@ extension ComicBookRemote: ComicBookApi{
         }
     }
 
+    func getEvents(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+
+        var queryItems = [URLQueryItem]()
+        queryItems.append(URLQueryItem(name: "orderBy", value: "name"))
+        if !nameStartsWith.isEmpty {
+            queryItems.append(URLQueryItem(name: "nameStartsWith", value: nameStartsWith))
+        }
+        
+        let data = try await getResponse(urlEntity: "events", queryItems: queryItems, offset: offset, limit: limit)
+        
+        let decoder = JSONDecoder()
+        do {
+            let response = try decoder.decode(EventsResponseDto.self, from: data)
+            return response.data.results.map{ eventDto in
+                eventDto.toEntity
+            }
+        } catch let DecodingError.dataCorrupted(context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.keyNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.valueNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.typeMismatch(_, context)  {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch {
+            throw NetworkError.decodingError(error.localizedDescription)
+        }
+    }
+
+    func getStories(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+
+        var queryItems = [URLQueryItem]()
+        queryItems.append(URLQueryItem(name: "orderBy", value: "-modified"))
+        
+        let data = try await getResponse(urlEntity: "stories", queryItems: queryItems, offset: offset, limit: limit)
+        
+        let decoder = JSONDecoder()
+        do {
+            let response = try decoder.decode(StoriesResponseDto.self, from: data)
+            return response.data.results.map{ storyDto in
+                storyDto.toEntity
+            }
+        } catch let DecodingError.dataCorrupted(context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.keyNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.valueNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.typeMismatch(_, context)  {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch {
+            throw NetworkError.decodingError(error.localizedDescription)
+        }
+    }
+    
+    func getCreators(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+
+        var queryItems = [URLQueryItem]()
+        queryItems.append(URLQueryItem(name: "orderBy", value: "lastName"))
+        if !nameStartsWith.isEmpty {
+            queryItems.append(URLQueryItem(name: "nameStartsWith", value: nameStartsWith))
+        }
+        
+        let data = try await getResponse(urlEntity: "creators", queryItems: queryItems, offset: offset, limit: limit)
+        
+        let decoder = JSONDecoder()
+        do {
+            let response = try decoder.decode(CreatorsResponseDto.self, from: data)
+            return response.data.results.map{ creatorDto in
+                creatorDto.toEntity
+            }
+        } catch let DecodingError.dataCorrupted(context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.keyNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.valueNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.typeMismatch(_, context)  {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch {
+            throw NetworkError.decodingError(error.localizedDescription)
+        }
+    }
+
 }
 
 enum NetworkError: Error {

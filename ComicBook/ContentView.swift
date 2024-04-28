@@ -29,6 +29,33 @@ struct ContentView: View {
                 } label: {
                     Text("Characters")
                 }
+                NavigationLink {
+                    EntityListView(
+                        entityName: "Events",
+                        fetchEntities: ComicBookRepositoryImpl.shared.getEvents,
+                        makeDetailView: getEntityDetailView(entity:)
+                    )
+                } label: {
+                    Text("Events")
+                }
+                NavigationLink {
+                    EntityListView(
+                        entityName: "Stories",
+                        fetchEntities: ComicBookRepositoryImpl.shared.getStories,
+                        makeDetailView: getEntityDetailView(entity:)
+                    )
+                } label: {
+                    Text("Stories")
+                }
+                NavigationLink {
+                    EntityListView(
+                        entityName: "Creators",
+                        fetchEntities: ComicBookRepositoryImpl.shared.getCreators,
+                        makeDetailView: getEntityDetailView(entity:)
+                    )
+                } label: {
+                    Text("Creators")
+                }
             }
         }
     }

@@ -31,4 +31,16 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
     func getCharacters(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
         return try await remote.getCharacters(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
     }
+    
+    func getEvents(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+        return try await remote.getEvents(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
+    }
+    
+    func getStories(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+        return try await remote.getStories(titleStartsWith: titleStartsWith, offset: offset, limit: limit)
+    }
+    
+    func getCreators(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+        return try await remote.getCreators(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
+    }
 }
