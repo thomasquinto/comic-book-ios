@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CreatorDto: EntityMapper{
+struct CreatorDto: MappedEntity{
     let id: Int?
     let fullName: String?
     let thumbnail: ThumbnailDto?
@@ -18,5 +18,13 @@ struct CreatorDto: EntityMapper{
                       description: "",
                       imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
                       date: Date()) // TODO: convert Date properly
+    }
+    
+    func entityName() -> String {
+        return "creator"
+    }
+    
+    func entityNamePlural() -> String {
+        return "creators"
     }
 }

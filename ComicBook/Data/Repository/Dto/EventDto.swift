@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EventDto: EntityMapper {
+struct EventDto: MappedEntity {
     let id: Int?
     let title: String?
     let description: String?
@@ -19,5 +19,13 @@ struct EventDto: EntityMapper {
                       description: self.description ?? "",
                       imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
                       date: Date()) // TODO: convert Date properly
+    }
+    
+    func entityName() -> String {
+        return "event"
+    }
+    
+    func entityNamePlural() -> String {
+        return "events"
     }
 }

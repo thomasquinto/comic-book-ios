@@ -7,6 +7,8 @@
 
 import Foundation
 
-protocol EntityMapper: Codable, Identifiable {
+protocol MappedEntity: Codable, Identifiable {
     func toEntity() -> Entity
+    func entityName() -> String
+    func entityNamePlural() -> String
 }

@@ -9,6 +9,11 @@ import Foundation
 
 protocol ComicBookApi{    
     func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity]
+    func getComicCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity]
+    func getComicCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity]
+    func getComicEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity]
+    func getComicStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity]
+    
     func getCharacters(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity]
     func getSeries(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity]
     func getEvents(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity]

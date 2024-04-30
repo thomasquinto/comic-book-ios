@@ -9,7 +9,11 @@ import SwiftUI
 import CachedAsyncImage
 
 struct EntityDetailView: View {
-    @State var entity: Entity
+    let entity: Entity
+    let fetchDetails1: (Int, Int, Int, String?) async throws -> [Entity]
+    let fetchDetails2: (Int, Int, Int, String?) async throws -> [Entity]
+    let fetchDetails3: (Int, Int, Int, String?) async throws -> [Entity]
+    let fetchDetails4: (Int, Int, Int, String?) async throws -> [Entity]
     
     var body: some View {
         ScrollView {
@@ -38,13 +42,19 @@ struct EntityDetailView: View {
                 Text(entity.description)
                     .font(.body)
                     .foregroundColor(.secondary)
-                
+                                
+                EntityListHorizontalView(id: entity.id, fetchDetails: fetchDetails1)
+                EntityListHorizontalView(id: entity.id, fetchDetails: fetchDetails2)
+                EntityListHorizontalView(id: entity.id, fetchDetails: fetchDetails3)
+                EntityListHorizontalView(id: entity.id, fetchDetails: fetchDetails4)
+
                 Spacer()
             }.scenePadding()
         }
     }
 }
 
+/*
 #Preview {
     EntityDetailView(entity: .init(
                         id: 1,
@@ -53,3 +63,4 @@ struct EntityDetailView: View {
                         imageUrl: "http://i.annihil.us/u/prod/marvel/i/mg/4/30/6615461499ffc.jpg",
                         date: Date()))
 }
+*/

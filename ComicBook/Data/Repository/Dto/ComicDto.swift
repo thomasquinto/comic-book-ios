@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ComicDto: EntityMapper {
+struct ComicDto: MappedEntity {
     let id: Int?
     let title: String?
     let description: String?
@@ -53,6 +53,14 @@ struct ComicDto: EntityMapper {
         }
     }
      */
+    
+    func entityName() -> String {
+        return "comic"
+    }
+    
+    func entityNamePlural() -> String {
+        return "comics"
+    }
 }
 
 extension DateFormatter {

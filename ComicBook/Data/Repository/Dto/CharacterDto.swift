@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CharacterDto: EntityMapper {
+struct CharacterDto: MappedEntity {
     let id: Int?
     let name: String?
     let description: String?
@@ -21,4 +21,11 @@ struct CharacterDto: EntityMapper {
                       date: Date()) // TODO: convert Date properly
     }
     
+    func entityName() -> String {
+        return "character"
+    }
+    
+    func entityNamePlural() -> String {
+        return "characters"
+    }
 }

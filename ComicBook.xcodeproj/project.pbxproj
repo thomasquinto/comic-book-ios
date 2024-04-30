@@ -18,8 +18,11 @@
 		EDC934032BDEB1560056BBB0 /* SeriesDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC934022BDEB1560056BBB0 /* SeriesDto.swift */; };
 		EDC934112BE0735D0056BBB0 /* DataDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC934102BE0735D0056BBB0 /* DataDto.swift */; };
 		EDC934132BE073640056BBB0 /* ResponseDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC934122BE073640056BBB0 /* ResponseDto.swift */; };
-		EDC934172BE0762E0056BBB0 /* EntityMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC934162BE0762E0056BBB0 /* EntityMapper.swift */; };
+		EDC934172BE0762E0056BBB0 /* MappedEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC934162BE0762E0056BBB0 /* MappedEntity.swift */; };
 		EDC934192BE0787E0056BBB0 /* ThumbnailDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC934182BE0787E0056BBB0 /* ThumbnailDto.swift */; };
+		EDC9341F2BE142910056BBB0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC9341E2BE142910056BBB0 /* HomeView.swift */; };
+		EDC934222BE14C260056BBB0 /* EntityListHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC934212BE14C260056BBB0 /* EntityListHorizontalView.swift */; };
+		EDC934242BE1526F0056BBB0 /* EntityListHorizontalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC934232BE1526F0056BBB0 /* EntityListHorizontalViewModel.swift */; };
 		EDEB792E2BCEE164007711FD /* ComicBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEB792D2BCEE164007711FD /* ComicBookApp.swift */; };
 		EDEB79302BCEE164007711FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEB792F2BCEE164007711FD /* ContentView.swift */; };
 		EDEB79322BCEE165007711FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDEB79312BCEE165007711FD /* Assets.xcassets */; };
@@ -64,8 +67,11 @@
 		EDC934022BDEB1560056BBB0 /* SeriesDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesDto.swift; sourceTree = "<group>"; };
 		EDC934102BE0735D0056BBB0 /* DataDto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataDto.swift; sourceTree = "<group>"; };
 		EDC934122BE073640056BBB0 /* ResponseDto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseDto.swift; sourceTree = "<group>"; };
-		EDC934162BE0762E0056BBB0 /* EntityMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityMapper.swift; sourceTree = "<group>"; };
+		EDC934162BE0762E0056BBB0 /* MappedEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedEntity.swift; sourceTree = "<group>"; };
 		EDC934182BE0787E0056BBB0 /* ThumbnailDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailDto.swift; sourceTree = "<group>"; };
+		EDC9341E2BE142910056BBB0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		EDC934212BE14C260056BBB0 /* EntityListHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityListHorizontalView.swift; sourceTree = "<group>"; };
+		EDC934232BE1526F0056BBB0 /* EntityListHorizontalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityListHorizontalViewModel.swift; sourceTree = "<group>"; };
 		EDEB792A2BCEE164007711FD /* ComicBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComicBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDEB792D2BCEE164007711FD /* ComicBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicBookApp.swift; sourceTree = "<group>"; };
 		EDEB792F2BCEE164007711FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,14 +115,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EDC933D52BDDBD590056BBB0 /* Entity */ = {
+		EDC933D52BDDBD590056BBB0 /* EntityList */ = {
 			isa = PBXGroup;
 			children = (
-				EDC933D82BDDC0F00056BBB0 /* EntityListViewModel.swift */,
 				EDC933DA2BDDC22E0056BBB0 /* EntityListView.swift */,
+				EDC933D82BDDC0F00056BBB0 /* EntityListViewModel.swift */,
+			);
+			path = EntityList;
+			sourceTree = "<group>";
+		};
+		EDC9341C2BE142150056BBB0 /* EntityDetail */ = {
+			isa = PBXGroup;
+			children = (
 				EDC933CF2BDC0FA40056BBB0 /* EntityDetailView.swift */,
 			);
-			path = Entity;
+			path = EntityDetail;
+			sourceTree = "<group>";
+		};
+		EDC9341D2BE1421D0056BBB0 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				EDC9341E2BE142910056BBB0 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		EDC934202BE14BE40056BBB0 /* EntityListHorizontal */ = {
+			isa = PBXGroup;
+			children = (
+				EDC934212BE14C260056BBB0 /* EntityListHorizontalView.swift */,
+				EDC934232BE1526F0056BBB0 /* EntityListHorizontalViewModel.swift */,
+			);
+			path = EntityListHorizontal;
 			sourceTree = "<group>";
 		};
 		EDEB79212BCEE164007711FD = {
@@ -191,7 +221,10 @@
 		EDEB79582BCEFB52007711FD /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				EDC933D52BDDBD590056BBB0 /* Entity */,
+				EDC9341D2BE1421D0056BBB0 /* Home */,
+				EDC9341C2BE142150056BBB0 /* EntityDetail */,
+				EDC933D52BDDBD590056BBB0 /* EntityList */,
+				EDC934202BE14BE40056BBB0 /* EntityListHorizontal */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -251,7 +284,7 @@
 				EDC933F22BDDF1D60056BBB0 /* CreatorDto.swift */,
 				EDC933F82BDDF2140056BBB0 /* StoryDto.swift */,
 				EDC934022BDEB1560056BBB0 /* SeriesDto.swift */,
-				EDC934162BE0762E0056BBB0 /* EntityMapper.swift */,
+				EDC934162BE0762E0056BBB0 /* MappedEntity.swift */,
 			);
 			path = Dto;
 			sourceTree = "<group>";
@@ -404,12 +437,14 @@
 				EDEB79642BCF028F007711FD /* ComicDto.swift in Sources */,
 				EDC933D42BDDB4340056BBB0 /* Entity.swift in Sources */,
 				EDC933F92BDDF2140056BBB0 /* StoryDto.swift in Sources */,
+				EDC9341F2BE142910056BBB0 /* HomeView.swift in Sources */,
 				EDC933F32BDDF1D60056BBB0 /* CreatorDto.swift in Sources */,
 				EDC933D02BDC0FA40056BBB0 /* EntityDetailView.swift in Sources */,
 				EDC934132BE073640056BBB0 /* ResponseDto.swift in Sources */,
 				EDC934032BDEB1560056BBB0 /* SeriesDto.swift in Sources */,
 				EDC933D92BDDC0F00056BBB0 /* EntityListViewModel.swift in Sources */,
-				EDC934172BE0762E0056BBB0 /* EntityMapper.swift in Sources */,
+				EDC934172BE0762E0056BBB0 /* MappedEntity.swift in Sources */,
+				EDC934242BE1526F0056BBB0 /* EntityListHorizontalViewModel.swift in Sources */,
 				EDC933EB2BDDEF560056BBB0 /* EventDto.swift in Sources */,
 				EDEB79302BCEE164007711FD /* ContentView.swift in Sources */,
 				EDC934112BE0735D0056BBB0 /* DataDto.swift in Sources */,
@@ -417,6 +452,7 @@
 				EDEB795F2BCEFC89007711FD /* ComicBookRepository.swift in Sources */,
 				EDC934192BE0787E0056BBB0 /* ThumbnailDto.swift in Sources */,
 				EDEB792E2BCEE164007711FD /* ComicBookApp.swift in Sources */,
+				EDC934222BE14C260056BBB0 /* EntityListHorizontalView.swift in Sources */,
 				EDEB796C2BCF05CB007711FD /* ComicBookApi.swift in Sources */,
 				EDEB79712BCF094E007711FD /* ComicBookRemote.swift in Sources */,
 			);
