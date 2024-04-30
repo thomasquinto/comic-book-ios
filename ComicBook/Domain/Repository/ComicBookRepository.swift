@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ComicBookRepository{
+    
     func getCharacters(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity]
     func getCharacterComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity]
     func getCharacterEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity]

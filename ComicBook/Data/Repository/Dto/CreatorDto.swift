@@ -20,12 +20,4 @@ struct CreatorDto: MappedEntity{
                       date: Date(),
                       entityName: "Creators") // TODO: convert Date properly
     }
-    
-    func entityName() -> String {
-        return "creator"
-    }
-    
-    func entityNamePlural() -> String {
-        return "creators"
-    }
 }

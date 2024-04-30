@@ -21,12 +21,4 @@ struct SeriesDto: MappedEntity {
                       date: Date(),
                       entityName: "Series") // TODO: convert Date properly
     }
-    
-    func entityName() -> String {
-        return "series"
-    }
-    
-    func entityNamePlural() -> String {
-        return "series"
-    }
 }
