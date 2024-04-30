@@ -31,6 +31,15 @@ struct ContentView: View {
                 }
                 NavigationLink {
                     EntityListView(
+                        entityName: "Series",
+                        fetchEntities: ComicBookRepositoryImpl.shared.getSeries,
+                        makeDetailView: getEntityDetailView(entity:)
+                    )
+                } label: {
+                    Text("Series")
+                }
+                NavigationLink {
+                    EntityListView(
                         entityName: "Events",
                         fetchEntities: ComicBookRepositoryImpl.shared.getEvents,
                         makeDetailView: getEntityDetailView(entity:)

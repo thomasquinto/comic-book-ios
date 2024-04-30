@@ -1,14 +1,14 @@
 //
-//  StoryMapper.swift
+//  SeriesMapper.swift
 //  ComicBook
 //
-//  Created by Thomas Quinto on 4/27/24.
+//  Created by Thomas Quinto on 4/28/24.
 //
 
 import Foundation
 
-extension StoryDto {
- 
+extension SeriesDto {
+    
     func getThumbnailUrl() -> String {
         if let thumbnail = self.thumbnail {
             return "\(thumbnail.path).\(thumbnail.suffix)".replacing("http://", with: "https://")

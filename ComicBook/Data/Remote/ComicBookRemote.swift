@@ -122,6 +122,36 @@ extension ComicBookRemote: ComicBookApi{
             throw NetworkError.decodingError(error.localizedDescription)
         }
     }
+    
+    func getSeries(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+
+        var queryItems = [URLQueryItem]()
+        queryItems.append(URLQueryItem(name: "orderBy", value: "title"))
+        if !titleStartsWith.isEmpty {
+            queryItems.append(URLQueryItem(name: "titleStartsWith", value: titleStartsWith))
+        }
+        
+        let data = try await getResponse(urlEntity: "series", queryItems: queryItems, offset: offset, limit: limit)
+        
+        let decoder = JSONDecoder()
+        do {
+            let response = try decoder.decode(SeriesResponseDto.self, from: data)
+            return response.data.results.map{ seriesDto in
+                seriesDto.toEntity
+            }
+        } catch let DecodingError.dataCorrupted(context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.keyNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.valueNotFound(_, context) {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch let DecodingError.typeMismatch(_, context)  {
+            throw NetworkError.decodingError("\(context.debugDescription), codingPath: \(context.codingPath)")
+        } catch {
+            throw NetworkError.decodingError(error.localizedDescription)
+        }
+    }
+    
 
     func getEvents(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
 

@@ -39,6 +39,7 @@ struct EntityListView: View {
                 await viewModel.getEntities(reset: true)
             }
         }
+        .navigationTitle("Marvel Comics")
     }
 }
 
