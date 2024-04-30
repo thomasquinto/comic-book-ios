@@ -18,14 +18,7 @@ struct CharacterDto: MappedEntity {
                       title: self.name ?? "",
                       description: self.description ?? "",
                       imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
-                      date: Date()) // TODO: convert Date properly
-    }
-    
-    func entityName() -> String {
-        return "character"
-    }
-    
-    func entityNamePlural() -> String {
-        return "characters"
+                      date: Date(),
+                      entityName: "Characters") // TODO: convert Date properly
     }
 }

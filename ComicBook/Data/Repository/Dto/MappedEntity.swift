@@ -9,6 +9,4 @@ import Foundation
 
 protocol MappedEntity: Codable, Identifiable {
     func toEntity() -> Entity
-    func entityName() -> String
-    func entityNamePlural() -> String
 }

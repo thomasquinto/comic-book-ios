@@ -18,7 +18,8 @@ struct SeriesDto: MappedEntity {
                       title: self.title ?? "",
                       description: self.description ?? "",
                       imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
-                      date: Date()) // TODO: convert Date properly
+                      date: Date(),
+                      entityName: "Series") // TODO: convert Date properly
     }
     
     func entityName() -> String {

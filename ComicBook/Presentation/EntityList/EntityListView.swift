@@ -12,12 +12,12 @@ struct EntityListView: View {
     
     let entityName: String
     let fetchEntities: (String, Int, Int) async throws -> [Entity]
-    let makeDetailView: (Entity) -> AnyView
+    let makeDetailView: (Entity, String) -> AnyView
     @State var viewModel: EntityListViewModel
 
     init(entityName: String,
          fetchEntities: @escaping (String, Int, Int) async throws -> [Entity],
-         makeDetailView: @escaping (Entity) -> AnyView) {
+         makeDetailView: @escaping (Entity, String) -> AnyView) {
         self.entityName = entityName
         self.fetchEntities = fetchEntities
         self.makeDetailView = makeDetailView
@@ -50,7 +50,7 @@ extension EntityListView {
             LazyVStack {
                 ForEach(viewModel.entities) { entity in
                      NavigationLink {
-                         makeDetailView(entity)
+                         makeDetailView(entity, entityName)
                      } label: {
                          EntityItem(entity: entity)
                      }

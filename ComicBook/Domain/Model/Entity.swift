@@ -13,7 +13,8 @@ struct Entity: Identifiable, Hashable {
     let description: String
     let imageUrl: String
     let date: Date
-    
+    let entityName: String
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

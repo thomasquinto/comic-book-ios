@@ -10,28 +10,47 @@ import CachedAsyncImage
 
 struct EntityListHorizontalView: View {
     let id: Int
+    let name: String
     let fetchDetails: (Int, Int, Int, String?) async throws -> [Entity]
+let makeDetailView: (Entity, String) -> AnyView
     @State var viewModel: EntityListHorizontalViewModel
 
-    init(id: Int, 
-         fetchDetails: @escaping (Int, Int, Int, String?) async throws -> [Entity]) {
+    init(id: Int,
+         name: String,
+         fetchDetails: @escaping (Int, Int, Int, String?) async throws -> [Entity],
+         makeDetailView: @escaping (Entity, String) -> AnyView
+    ) {
         self.id = id
+        self.name = name
         self.fetchDetails = fetchDetails
+        self.makeDetailView = makeDetailView
         self.viewModel = .init(id: id, fetchDetails: fetchDetails)
     }
 
     var body: some View {
-        ScrollView(.horizontal) {
-            LazyHStack {
-                ForEach(viewModel.entities) { entity in
-                    EntityItemView(entity: entity)
-                }        
+        VStack(alignment: .leading) {
+            if !viewModel.entities.isEmpty {
+                Text(name)
+                    .font(.title3)
             }
-            .task {
-                await viewModel.getEntities(reset: false)
+                
+            ScrollView(.horizontal) {
+                LazyHStack {
+                    ForEach(viewModel.entities) { entity in
+                        NavigationLink {
+                            makeDetailView(entity, entity.entityName)
+                        } label: {
+                            EntityItemView(entity: entity)
+                        }
+                       .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .task {
+                    await viewModel.getEntities(reset: false)
+                }
             }
+            .scrollIndicators(.hidden)
         }
-        .scrollIndicators(.hidden)
     }
 }
 

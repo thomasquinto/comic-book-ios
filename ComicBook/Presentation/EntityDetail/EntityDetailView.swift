@@ -10,11 +10,18 @@ import CachedAsyncImage
 
 struct EntityDetailView: View {
     let entity: Entity
+    let makeDetailView: (Entity, String) -> AnyView
+    let detailName1: String
     let fetchDetails1: (Int, Int, Int, String?) async throws -> [Entity]
+    let detailName2: String
     let fetchDetails2: (Int, Int, Int, String?) async throws -> [Entity]
+    let detailName3: String
     let fetchDetails3: (Int, Int, Int, String?) async throws -> [Entity]
+    let detailName4: String
     let fetchDetails4: (Int, Int, Int, String?) async throws -> [Entity]
-    
+    let detailName5: String?
+    let fetchDetails5: ((Int, Int, Int, String?) async throws -> [Entity])?
+
     var body: some View {
         ScrollView {
             // Hero Image
@@ -43,13 +50,18 @@ struct EntityDetailView: View {
                     .font(.body)
                     .foregroundColor(.secondary)
                                 
-                EntityListHorizontalView(id: entity.id, fetchDetails: fetchDetails1)
-                EntityListHorizontalView(id: entity.id, fetchDetails: fetchDetails2)
-                EntityListHorizontalView(id: entity.id, fetchDetails: fetchDetails3)
-                EntityListHorizontalView(id: entity.id, fetchDetails: fetchDetails4)
+                EntityListHorizontalView(id: entity.id, name: detailName1, fetchDetails: fetchDetails1, makeDetailView: makeDetailView)
+                EntityListHorizontalView(id: entity.id, name: detailName2, fetchDetails: fetchDetails2, makeDetailView: makeDetailView)
+                EntityListHorizontalView(id: entity.id, name: detailName3, fetchDetails: fetchDetails3, makeDetailView: makeDetailView)
+                EntityListHorizontalView(id: entity.id, name: detailName4, fetchDetails: fetchDetails4, makeDetailView: makeDetailView)
+                if let detailName5 {
+                    EntityListHorizontalView(id: entity.id, name: detailName5, fetchDetails: fetchDetails5!, makeDetailView: makeDetailView)
+                }
 
                 Spacer()
-            }.scenePadding()
+            }
+            .scenePadding()
+            .frame(maxWidth: UIScreen.main.bounds.size.width)
         }
     }
 }
