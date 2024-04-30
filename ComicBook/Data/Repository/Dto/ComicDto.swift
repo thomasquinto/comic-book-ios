@@ -7,12 +7,20 @@
 
 import Foundation
 
-struct ComicDto: Codable, Identifiable{
+struct ComicDto: EntityMapper {
     let id: Int?
     let title: String?
     let description: String?
     let thumbnail: ThumbnailDto?
     
+    func toEntity() -> Entity {
+        return Entity(id: self.id ?? 0,
+                      title: self.title ?? "",
+                      description: self.description ?? "",
+                      imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
+                      date: Date()) // TODO: convert Date properly
+    }
+  
     /*
      let modified: Date?
      
@@ -45,17 +53,6 @@ struct ComicDto: Codable, Identifiable{
         }
     }
      */
-}
-
-struct ThumbnailDto: Codable{
-    let path: String
-    // extension is JSON name
-    let suffix: String
-    
-    enum CodingKeys: String, CodingKey{
-        case path
-        case suffix = "extension"
-    }
 }
 
 extension DateFormatter {

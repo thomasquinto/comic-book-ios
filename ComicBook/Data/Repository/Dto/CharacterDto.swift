@@ -7,9 +7,18 @@
 
 import Foundation
 
-struct CharacterDto: Codable, Identifiable{
+struct CharacterDto: EntityMapper {
     let id: Int?
     let name: String?
     let description: String?
     let thumbnail: ThumbnailDto?
+    
+    func toEntity() -> Entity {
+        return Entity(id: self.id ?? 0,
+                      title: self.name ?? "",
+                      description: self.description ?? "",
+                      imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
+                      date: Date()) // TODO: convert Date properly
+    }
+    
 }
