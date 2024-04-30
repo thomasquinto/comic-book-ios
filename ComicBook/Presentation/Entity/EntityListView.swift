@@ -20,8 +20,8 @@ struct EntityListView: View {
          makeDetailView: @escaping (Entity) -> AnyView) {
         self.entityName = entityName
         self.fetchEntities = fetchEntities
-        self.viewModel = .init(fetchEntities: fetchEntities)
         self.makeDetailView = makeDetailView
+        self.viewModel = .init(fetchEntities: fetchEntities)
     }
     
     var body: some View {

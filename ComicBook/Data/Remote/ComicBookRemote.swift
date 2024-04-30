@@ -16,7 +16,7 @@ struct ComicBookRemote{
 
 extension ComicBookRemote: ComicBookApi{
     
-    func getResponse<T>(type: T.Type, urlEntity: String, queryItems: [URLQueryItem], offset: Int, limit: Int) async throws -> [Entity] where T: EntityMapper {
+    private func getResponse<T>(type: T.Type, urlEntity: String, queryItems: [URLQueryItem], offset: Int, limit: Int) async throws -> [Entity] where T: EntityMapper {
         let baseUrl = "https://gateway.marvel.com:443/v1/public/\(urlEntity)"
         let publicKey = "***REMOVED***"
         let privateKey = "***REMOVED***"
@@ -77,7 +77,7 @@ extension ComicBookRemote: ComicBookApi{
         }
     }
     
-    func generateHash(ts: Double, publicKey: String, privateKey: String) -> String{
+    private func generateHash(ts: Double, publicKey: String, privateKey: String) -> String{
         return (String(ts) + privateKey + publicKey).md5
     }
 
