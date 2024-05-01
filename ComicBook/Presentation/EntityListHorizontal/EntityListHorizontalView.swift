@@ -51,9 +51,16 @@ struct EntityListHorizontalView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
-                }
-                .task {
-                    await viewModel.getEntities(reset: false)
+                    if !viewModel.hasNoMore {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .opacity(0.0)
+                            .onAppear {
+                                Task {
+                                    await viewModel.getEntities(reset: false)
+                                }
+                            }
+                    }
                 }
             }
             .scrollIndicators(.hidden)
