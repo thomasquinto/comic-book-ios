@@ -10,19 +10,29 @@ import SwiftUI
 struct HomeView: View {
     var body: some View {
         NavigationStack {
-            List {
-                EntityLinkView(name: "Comics", fetchEntities: ComicBookRepositoryImpl.shared.getComics)
-                EntityLinkView(name: "Characters", fetchEntities: ComicBookRepositoryImpl.shared.getCharacters)
-                EntityLinkView(name: "Series", fetchEntities: ComicBookRepositoryImpl.shared.getSeries)
-                EntityLinkView(name: "Creators", fetchEntities: ComicBookRepositoryImpl.shared.getCreators)
-                EntityLinkView(name: "Events", fetchEntities: ComicBookRepositoryImpl.shared.getEvents)
-                EntityLinkView(name: "Stories", fetchEntities: ComicBookRepositoryImpl.shared.getStories)
+            ScrollView {
+                EntityLinkView(name: "Comics", fetchDetails: ComicBookRepositoryImpl.shared.getComics, fetchEntities: ComicBookRepositoryImpl.shared.getComics)
+                EntityLinkView(name: "Characters", fetchDetails: ComicBookRepositoryImpl.shared.getCharacters, fetchEntities: ComicBookRepositoryImpl.shared.getCharacters)
+                EntityLinkView(name: "Series", fetchDetails: ComicBookRepositoryImpl.shared.getSeries, fetchEntities: ComicBookRepositoryImpl.shared.getSeries)
+                EntityLinkView(name: "Creators", fetchDetails: ComicBookRepositoryImpl.shared.getCreators, fetchEntities: ComicBookRepositoryImpl.shared.getCreators)
+                EntityLinkView(name: "Events", fetchDetails: ComicBookRepositoryImpl.shared.getEvents, fetchEntities: ComicBookRepositoryImpl.shared.getEvents)
+                EntityLinkView(name: "Stories", fetchDetails: ComicBookRepositoryImpl.shared.getStories, fetchEntities: ComicBookRepositoryImpl.shared.getStories)
             }
+            .scrollIndicators(.hidden)
+            .scenePadding()
             .navigationTitle("Marvel Comics")
         }
     }
-    
-    func EntityLinkView(name: String, fetchEntities: @escaping (String, Int, Int) async throws -> [Entity]) -> some View {
+}
+
+
+
+struct EntityLinkView : View {
+    let name: String
+    let fetchDetails: (Int, Int, Int, String?) async throws -> [Entity]
+    let fetchEntities: (String, Int, Int) async throws -> [Entity]
+
+    var body: some View {
         NavigationLink {
             EntityListView(
                 entityName: name,
@@ -30,10 +40,10 @@ struct HomeView: View {
                 makeDetailView: makeDetailView
             )
         } label: {
-            Text(name)
+            EntityListHorizontalView(id: 0, name: name, fetchDetails: fetchDetails, makeDetailView: makeDetailView)
         }
+        .buttonStyle(PlainButtonStyle())
     }
-
 }
 
 func makeDetailView(entity: Entity, detailName: String) -> AnyView {

@@ -29,6 +29,10 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         return try await remote.getCharacters(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
     }
     
+    func getCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await remote.getCharacters(id: id, offset: offset, limit: limit, orderBy: orderBy)
+    }
+    
     func getCharacterComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
         return try await remote.getCharacterComics(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
@@ -47,6 +51,10 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
     
     func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
         return try await remote.getComics(titleStartsWith: titleStartsWith, offset: offset, limit: limit)
+    }
+    
+    func getComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await remote.getComics(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
     func getComicCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
@@ -69,6 +77,10 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         return try await remote.getCreators(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
     }
     
+    func getCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await remote.getCreators(id: id, offset: offset, limit: limit, orderBy: orderBy)
+    }
+    
     func getCreatorComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
         return try await remote.getCreatorComics(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
@@ -87,6 +99,10 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
  
     func getEvents(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
         return try await remote.getEvents(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
+    }
+    
+    func getEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await remote.getEvents(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
     func getEventCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
@@ -113,6 +129,10 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         return try await remote.getSeries(titleStartsWith: titleStartsWith, offset: offset, limit: limit)
     }
     
+    func getSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await remote.getSeries(id: id, offset: offset, limit: limit, orderBy: orderBy)
+    }
+    
     func getSeriesCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
         return try await remote.getSeriesCharacters(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
@@ -135,6 +155,10 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
     
     func getStories(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
         return try await remote.getStories(titleStartsWith: titleStartsWith, offset: offset, limit: limit)
+    }
+    
+    func getStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await remote.getStories(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
     func getStoryCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {

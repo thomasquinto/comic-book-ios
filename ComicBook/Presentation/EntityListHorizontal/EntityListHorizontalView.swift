@@ -12,7 +12,7 @@ struct EntityListHorizontalView: View {
     let id: Int
     let name: String
     let fetchDetails: (Int, Int, Int, String?) async throws -> [Entity]
-let makeDetailView: (Entity, String) -> AnyView
+    let makeDetailView: (Entity, String) -> AnyView
     @State var viewModel: EntityListHorizontalViewModel
 
     init(id: Int,
@@ -30,8 +30,15 @@ let makeDetailView: (Entity, String) -> AnyView
     var body: some View {
         VStack(alignment: .leading) {
             if !viewModel.entities.isEmpty {
-                Text(name)
-                    .font(.title3)
+                HStack {
+                    Text(name)
+                        .font(.title3)
+                    if id == 0 {
+                        Spacer()
+                        Text("See more")
+                            .font(.callout)
+                    }
+                }
             }
                 
             ScrollView(.horizontal) {

@@ -87,6 +87,10 @@ extension ComicBookRemote: ComicBookApi{
             queryItems.append(URLQueryItem(name: "orderBy", value: orderBy))
         }
         
+        if urlEntity.isEmpty {
+            return try await getResponse(type: type.self, urlEntity: "\(prefix)", queryItems: queryItems, offset: offset, limit: limit)
+        }
+        
         return try await getResponse(type: type.self, urlEntity: "\(prefix)/\(id)/\(urlEntity)", queryItems: queryItems, offset: offset, limit: limit)
     }
     
@@ -98,6 +102,10 @@ extension ComicBookRemote: ComicBookApi{
         }
         
         return try await getResponse(type: CharacterDto.self, urlEntity: "characters", queryItems: queryItems, offset: offset, limit: limit)
+    }
+    
+    func getCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await getDetails(type: CharacterDto.self, prefix:"characters", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
     func getCharacterComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
@@ -126,6 +134,10 @@ extension ComicBookRemote: ComicBookApi{
         return try await getResponse(type: ComicDto.self, urlEntity: "comics", queryItems: queryItems, offset: offset, limit: limit)
     }
     
+    func getComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await getDetails(type: ComicDto.self, prefix:"comics", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy)
+    }
+    
     func getComicCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
         return try await getDetails(type: CharacterDto.self, prefix:"comics", urlEntity: "characters", id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
@@ -150,6 +162,10 @@ extension ComicBookRemote: ComicBookApi{
         }
         
         return try await getResponse(type: CreatorDto.self, urlEntity: "creators", queryItems: queryItems, offset: offset, limit: limit)
+    }
+    
+    func getCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await getDetails(type: CreatorDto.self, prefix:"creators", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
     func getCreatorComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
@@ -177,6 +193,10 @@ extension ComicBookRemote: ComicBookApi{
         }
         
         return try await getResponse(type: EventDto.self, urlEntity: "events", queryItems: queryItems, offset: offset, limit: limit)
+    }
+    
+    func getEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await getDetails(type: EventDto.self, prefix:"events", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
     func getEventCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
@@ -209,6 +229,10 @@ extension ComicBookRemote: ComicBookApi{
         
         return try await getResponse(type: SeriesDto.self, urlEntity: "series", queryItems: queryItems, offset: offset, limit: limit)
     }
+    
+    func getSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await getDetails(type: SeriesDto.self, prefix:"series", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy)
+    }
 
     func getSeriesCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
         return try await getDetails(type: CharacterDto.self, prefix:"series", urlEntity: "characters", id: id, offset: offset, limit: limit, orderBy: orderBy)
@@ -235,6 +259,10 @@ extension ComicBookRemote: ComicBookApi{
         queryItems.append(URLQueryItem(name: "orderBy", value: "-modified"))
         
         return try await getResponse(type: StoryDto.self, urlEntity: "stories", queryItems: queryItems, offset: offset, limit: limit)
+    }
+    
+    func getStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+        return try await getDetails(type: StoryDto.self, prefix:"stories", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
 
     func getStoryCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
