@@ -19,14 +19,14 @@ class EntityListViewModel {
     var searchText = ""
     var offset = 0
     var limit = 20
-    var isEmpty = false
+    var hasNoMore = false
 
     init(fetchEntities: @escaping (String, Int, Int) async throws -> [Entity]) {
         self.fetchEntities = fetchEntities
     }
         
     func getEntities(reset: Bool = false) async {
-        isEmpty = false
+        hasNoMore = false
         if reset || entities.count == 0{
             entities = []
             offset = 0
@@ -37,9 +37,9 @@ class EntityListViewModel {
         
         do {
             let entitiesResponse = try await fetchEntities(searchText, offset, limit)
+            hasNoMore = entitiesResponse.count < limit
             if reset {
                 entities = entitiesResponse
-                isEmpty = entities.isEmpty
             } else {
                 entities += entitiesResponse
             }

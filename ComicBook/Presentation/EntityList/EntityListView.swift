@@ -56,7 +56,7 @@ extension EntityListView {
                      }
                     .buttonStyle(PlainButtonStyle())
                 }
-                if !viewModel.isEmpty {
+                if !viewModel.hasNoMore {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .foregroundColor(.black)

@@ -25,10 +25,10 @@ class EntityListHorizontalViewModel {
     var isShowingAlert = false
     var offset = 0
     var limit = 20
-    var isEmpty = false
+    var hasNoMore = false
      
     func getEntities(reset: Bool = false) async {
-        isEmpty = false
+        hasNoMore = false
         if reset || entities.count == 0{
             entities = []
             offset = 0
@@ -39,9 +39,9 @@ class EntityListHorizontalViewModel {
         
         do {
             let entitiesResponse = try await fetchDetails(id, offset, limit, nil)
+            hasNoMore = entitiesResponse.count < limit
             if reset {
                 entities = entitiesResponse
-                isEmpty = entities.isEmpty
             } else {
                 entities += entitiesResponse
             }

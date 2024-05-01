@@ -49,7 +49,7 @@ struct EntityListHorizontalView: View {
                         } label: {
                             EntityItemView(entity: entity)
                         }
-                       .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
                 .task {

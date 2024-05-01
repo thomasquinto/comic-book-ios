@@ -60,10 +60,10 @@ struct EntityDetailView: View {
 
                 Spacer()
             }
-            .scrollIndicators(.hidden)
             .scenePadding()
             .frame(maxWidth: UIScreen.main.bounds.size.width)
-        }
+        }            
+        .scrollIndicators(.hidden)
     }
 }
 
