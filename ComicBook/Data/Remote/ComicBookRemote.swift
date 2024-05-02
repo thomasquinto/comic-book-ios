@@ -23,11 +23,11 @@ extension ComicBookRemote: ComicBookApi{
 
         let timestamp = Date().timeIntervalSince1970
         var queryItemArray = [URLQueryItem]()
-        queryItemArray.append(URLQueryItem(name: "apikey", value: publicKey))
-        queryItemArray.append(URLQueryItem(name: "ts", value: String(timestamp)))
-        queryItemArray.append(URLQueryItem(name: "hash", value: generateHash(ts: timestamp, publicKey: publicKey, privateKey: privateKey)))
-        queryItemArray.append(URLQueryItem(name: "offset", value: String(offset)))
-        queryItemArray.append(URLQueryItem(name: "limit", value: String(limit)))
+        queryItemArray.append(URLQueryItem(name: URLKey.apikey.rawValue, value: publicKey))
+        queryItemArray.append(URLQueryItem(name: URLKey.ts.rawValue, value: String(timestamp)))
+        queryItemArray.append(URLQueryItem(name: URLKey.hash.rawValue, value: generateHash(ts: timestamp, publicKey: publicKey, privateKey: privateKey)))
+        queryItemArray.append(URLQueryItem(name: URLKey.offset.rawValue, value: String(offset)))
+        queryItemArray.append(URLQueryItem(name: URLKey.limit.rawValue, value: String(limit)))
         
         for queryItem in queryItems{
             queryItemArray.append(queryItem)
@@ -84,7 +84,7 @@ extension ComicBookRemote: ComicBookApi{
     private func getDetails<T>(type: T.Type, prefix: String, urlEntity: String, id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] where T: MappedItem {
         var queryItems = [URLQueryItem]()
         if let orderBy {
-            queryItems.append(URLQueryItem(name: "orderBy", value: orderBy))
+            queryItems.append(URLQueryItem(name: URLKey.orderBy.rawValue, value: orderBy))
         }
         
         if urlEntity.isEmpty {
@@ -96,16 +96,16 @@ extension ComicBookRemote: ComicBookApi{
     
     func getCharacters(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         var queryItems = [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "orderBy", value: "name"))
+        queryItems.append(URLQueryItem(name: URLKey.orderBy.rawValue, value: OrderBy.name.rawValue))
         if !nameStartsWith.isEmpty {
-            queryItems.append(URLQueryItem(name: "nameStartsWith", value: nameStartsWith))
+            queryItems.append(URLQueryItem(name: URLKey.nameStartsWith.rawValue, value: nameStartsWith))
         }
         
         return try await getResponse(type: CharacterDto.self, urlEntity: ItemType.character.rawValue, queryItems: queryItems, offset: offset, limit: limit)
     }
     
     func getCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: CharacterDto.self, prefix:ItemType.character.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
+        return try await getDetails(type: CharacterDto.self, prefix:ItemType.character.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
     
     func getCharacterComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -126,16 +126,16 @@ extension ComicBookRemote: ComicBookApi{
     
     func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         var queryItems = [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "orderBy", value: "title"))
+        queryItems.append(URLQueryItem(name: URLKey.orderBy.rawValue, value: OrderBy.title.rawValue))
         if !titleStartsWith.isEmpty {
-            queryItems.append(URLQueryItem(name: "titleStartsWith", value: titleStartsWith))
+            queryItems.append(URLQueryItem(name: URLKey.titleStartsWith.rawValue, value: titleStartsWith))
         }
         
         return try await getResponse(type: ComicDto.self, urlEntity: ItemType.comic.rawValue, queryItems: queryItems, offset: offset, limit: limit)
     }
     
     func getComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: ComicDto.self, prefix:ItemType.comic.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
+        return try await getDetails(type: ComicDto.self, prefix:ItemType.comic.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
     
     func getComicCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -156,16 +156,16 @@ extension ComicBookRemote: ComicBookApi{
     
     func getCreators(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         var queryItems = [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "orderBy", value: "lastName"))
+        queryItems.append(URLQueryItem(name: URLKey.orderBy.rawValue, value: "lastName"))
         if !nameStartsWith.isEmpty {
-            queryItems.append(URLQueryItem(name: "nameStartsWith", value: nameStartsWith))
+            queryItems.append(URLQueryItem(name: URLKey.nameStartsWith.rawValue, value: nameStartsWith))
         }
         
         return try await getResponse(type: CreatorDto.self, urlEntity: ItemType.creator.rawValue, queryItems: queryItems, offset: offset, limit: limit)
     }
     
     func getCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: CreatorDto.self, prefix:ItemType.creator.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
+        return try await getDetails(type: CreatorDto.self, prefix:ItemType.creator.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
     
     func getCreatorComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -187,16 +187,16 @@ extension ComicBookRemote: ComicBookApi{
     func getEvents(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
 
         var queryItems = [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "orderBy", value: "name"))
+        queryItems.append(URLQueryItem(name: URLKey.orderBy.rawValue, value: OrderBy.name.rawValue))
         if !nameStartsWith.isEmpty {
-            queryItems.append(URLQueryItem(name: "nameStartsWith", value: nameStartsWith))
+            queryItems.append(URLQueryItem(name: URLKey.nameStartsWith.rawValue, value: nameStartsWith))
         }
         
         return try await getResponse(type: EventDto.self, urlEntity: ItemType.event.rawValue, queryItems: queryItems, offset: offset, limit: limit)
     }
     
     func getEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: EventDto.self, prefix:ItemType.event.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
+        return try await getDetails(type: EventDto.self, prefix:ItemType.event.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
     
     func getEventCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -222,16 +222,16 @@ extension ComicBookRemote: ComicBookApi{
     func getSeries(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
 
         var queryItems = [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "orderBy", value: "title"))
+        queryItems.append(URLQueryItem(name: URLKey.orderBy.rawValue, value: OrderBy.title.rawValue))
         if !titleStartsWith.isEmpty {
-            queryItems.append(URLQueryItem(name: "titleStartsWith", value: titleStartsWith))
+            queryItems.append(URLQueryItem(name: URLKey.titleStartsWith.rawValue, value: titleStartsWith))
         }
         
         return try await getResponse(type: SeriesDto.self, urlEntity: ItemType.series.rawValue, queryItems: queryItems, offset: offset, limit: limit)
     }
     
     func getSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: SeriesDto.self, prefix:ItemType.series.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
+        return try await getDetails(type: SeriesDto.self, prefix:ItemType.series.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
 
     func getSeriesCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -256,13 +256,13 @@ extension ComicBookRemote: ComicBookApi{
 
     func getStories(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         var queryItems = [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "orderBy", value: "-modified"))
+        queryItems.append(URLQueryItem(name: URLKey.orderBy.rawValue, value: OrderBy.modifiedDesc.rawValue))
         
         return try await getResponse(type: StoryDto.self, urlEntity: ItemType.story.rawValue, queryItems: queryItems, offset: offset, limit: limit)
     }
     
     func getStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: StoryDto.self, prefix:ItemType.story.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
+        return try await getDetails(type: StoryDto.self, prefix:ItemType.story.rawValue, urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
 
     func getStoryCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -285,6 +285,24 @@ extension ComicBookRemote: ComicBookApi{
         return try await getDetails(type: StoryDto.self, prefix:ItemType.story.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
 
+}
+
+enum URLKey: String {
+    case ts
+    case apikey
+    case hash
+    case limit
+    case offset
+    case orderBy
+    case titleStartsWith
+    case nameStartsWith
+}
+
+enum OrderBy: String {
+    case name
+    case title
+    case lastName
+    case modifiedDesc = "-modified"
 }
 
 enum NetworkError: Error {
