@@ -33,6 +33,7 @@ struct EntityListHorizontalView: View {
                 HStack {
                     Text(name)
                         .font(.title3)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     if id == 0 {
                         Spacer()
                         Text("See more")

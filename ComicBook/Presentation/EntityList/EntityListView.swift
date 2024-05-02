@@ -91,6 +91,7 @@ struct EntityItem: View {
             }
 
             Text(entity.title)
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 .padding(2)
             
             Spacer()

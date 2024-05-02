@@ -105,7 +105,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
-        return try await getDetails(type: CharacterDto.self, prefix:"characters", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "name")
+        return try await getDetails(type: CharacterDto.self, prefix:"characters", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
     }
     
     func getCharacterComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
@@ -165,7 +165,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
-        return try await getDetails(type: CreatorDto.self, prefix:"creators", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "lastName")
+        return try await getDetails(type: CreatorDto.self, prefix:"creators", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
     }
     
     func getCreatorComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
@@ -196,7 +196,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
-        return try await getDetails(type: EventDto.self, prefix:"events", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "name")
+        return try await getDetails(type: EventDto.self, prefix:"events", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
     }
     
     func getEventCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
@@ -231,7 +231,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
-        return try await getDetails(type: SeriesDto.self, prefix:"series", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "title")
+        return try await getDetails(type: SeriesDto.self, prefix:"series", urlEntity: "", id: id, offset: offset, limit: limit, orderBy: orderBy ?? "-modified")
     }
 
     func getSeriesCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
