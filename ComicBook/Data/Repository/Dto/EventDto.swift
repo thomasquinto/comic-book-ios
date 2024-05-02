@@ -15,10 +15,10 @@ struct EventDto: MappedItem {
     
     func toItem() -> Item {
         return Item(id: self.id ?? 0,
-                      title: self.title ?? "",
-                      description: self.description ?? "",
-                      imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
-                      date: Date(),
-                      itemType: "Events") // TODO: convert Date properly
+                    title: self.title ?? "",
+                    description: self.description ?? "",
+                    imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
+                    date: Date(),
+                    itemType: .event) // TODO: convert Date properly
     }
 }

@@ -13,11 +13,20 @@ struct Item: Identifiable, Hashable {
     let description: String
     let imageUrl: String
     let date: Date
-    let itemType: String
+    let itemType: ItemType
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+}
+
+enum ItemType: String {
+    case comic = "comics"
+    case character = "characters"
+    case creator = "creators"
+    case event = "events"
+    case series = "series"
+    case story = "stories"
 }
 
 

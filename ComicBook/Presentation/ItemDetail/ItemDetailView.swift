@@ -10,7 +10,7 @@ import CachedAsyncImage
 
 struct ItemDetailView: View {
     let item: Item
-    let makeDetailView: (Item, String) -> AnyView
+    let makeDetailView: (Item, ItemType) -> AnyView
     let detailName1: String
     let fetchDetails1: (Int, Int, Int, String?) async throws -> [Item]
     let detailName2: String

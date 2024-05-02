@@ -12,13 +12,13 @@ struct ItemListHorizontalView: View {
     let id: Int
     let name: String
     let fetchDetails: (Int, Int, Int, String?) async throws -> [Item]
-    let makeDetailView: (Item, String) -> AnyView
+    let makeDetailView: (Item, ItemType) -> AnyView
     @State var viewModel: ItemListHorizontalViewModel
 
     init(id: Int,
          name: String,
          fetchDetails: @escaping (Int, Int, Int, String?) async throws -> [Item],
-         makeDetailView: @escaping (Item, String) -> AnyView
+         makeDetailView: @escaping (Item, ItemType) -> AnyView
     ) {
         self.id = id
         self.name = name

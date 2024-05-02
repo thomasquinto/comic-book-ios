@@ -10,15 +10,15 @@ import CachedAsyncImage
 
 struct ItemListView: View {
     
-    let itemName: String
+    let itemType: ItemType
     let fetchItems: (String, Int, Int) async throws -> [Item]
-    let makeDetailView: (Item, String) -> AnyView
+    let makeDetailView: (Item, ItemType) -> AnyView
     @State var viewModel: ItemListViewModel
 
-    init(itemName: String,
+    init(itemName: ItemType,
          fetchItems: @escaping (String, Int, Int) async throws -> [Item],
-         makeDetailView: @escaping (Item, String) -> AnyView) {
-        self.itemName = itemName
+         makeDetailView: @escaping (Item, ItemType) -> AnyView) {
+        self.itemType = itemName
         self.fetchItems = fetchItems
         self.makeDetailView = makeDetailView
         self.viewModel = .init(fetchItems: fetchItems)
@@ -27,7 +27,7 @@ struct ItemListView: View {
     var body: some View {
         NavigationStack {
             itemList
-                .navigationTitle(itemName)
+                .navigationTitle(itemType.rawValue.capitalized)
                 .searchable(text: $viewModel.searchText)
         }
         .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
@@ -50,7 +50,7 @@ extension ItemListView {
             LazyVStack {
                 ForEach(viewModel.items) { item in
                      NavigationLink {
-                         makeDetailView(item, itemName)
+                         makeDetailView(item, itemType)
                      } label: {
                          ItemLabel(item: item)
                      }
