@@ -11,12 +11,12 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                EntityLinkView(name: "Comics", fetchDetails: ComicBookRepositoryImpl.shared.getComics, fetchEntities: ComicBookRepositoryImpl.shared.getComics)
-                EntityLinkView(name: "Characters", fetchDetails: ComicBookRepositoryImpl.shared.getCharacters, fetchEntities: ComicBookRepositoryImpl.shared.getCharacters)
-                EntityLinkView(name: "Series", fetchDetails: ComicBookRepositoryImpl.shared.getSeries, fetchEntities: ComicBookRepositoryImpl.shared.getSeries)
-                EntityLinkView(name: "Creators", fetchDetails: ComicBookRepositoryImpl.shared.getCreators, fetchEntities: ComicBookRepositoryImpl.shared.getCreators)
-                EntityLinkView(name: "Events", fetchDetails: ComicBookRepositoryImpl.shared.getEvents, fetchEntities: ComicBookRepositoryImpl.shared.getEvents)
-                EntityLinkView(name: "Stories", fetchDetails: ComicBookRepositoryImpl.shared.getStories, fetchEntities: ComicBookRepositoryImpl.shared.getStories)
+                ItemLinkView(name: "Comics", fetchDetails: ComicBookRepositoryImpl.shared.getComics, fetchItems: ComicBookRepositoryImpl.shared.getComics)
+                ItemLinkView(name: "Characters", fetchDetails: ComicBookRepositoryImpl.shared.getCharacters, fetchItems: ComicBookRepositoryImpl.shared.getCharacters)
+                ItemLinkView(name: "Series", fetchDetails: ComicBookRepositoryImpl.shared.getSeries, fetchItems: ComicBookRepositoryImpl.shared.getSeries)
+                ItemLinkView(name: "Creators", fetchDetails: ComicBookRepositoryImpl.shared.getCreators, fetchItems: ComicBookRepositoryImpl.shared.getCreators)
+                ItemLinkView(name: "Events", fetchDetails: ComicBookRepositoryImpl.shared.getEvents, fetchItems: ComicBookRepositoryImpl.shared.getEvents)
+                ItemLinkView(name: "Stories", fetchDetails: ComicBookRepositoryImpl.shared.getStories, fetchItems: ComicBookRepositoryImpl.shared.getStories)
             }
             .scrollIndicators(.hidden)
             .scenePadding()
@@ -27,46 +27,46 @@ struct HomeView: View {
 
 
 
-struct EntityLinkView : View {
+struct ItemLinkView : View {
     let name: String
-    let fetchDetails: (Int, Int, Int, String?) async throws -> [Entity]
-    let fetchEntities: (String, Int, Int) async throws -> [Entity]
+    let fetchDetails: (Int, Int, Int, String?) async throws -> [Item]
+    let fetchItems: (String, Int, Int) async throws -> [Item]
 
     var body: some View {
         NavigationLink {
-            EntityListView(
-                entityName: name,
-                fetchEntities: fetchEntities,
+            ItemListView(
+                itemName: name,
+                fetchItems: fetchItems,
                 makeDetailView: makeDetailView
             )
         } label: {
-            EntityListHorizontalView(id: 0, name: name, fetchDetails: fetchDetails, makeDetailView: makeDetailView)
+            ItemListHorizontalView(id: 0, name: name, fetchDetails: fetchDetails, makeDetailView: makeDetailView)
         }
         .buttonStyle(PlainButtonStyle())
     }
 }
 
-func makeDetailView(entity: Entity, detailName: String) -> AnyView {
+func makeDetailView(item: Item, detailName: String) -> AnyView {
     switch detailName {
     case "Characters":
-        return makeCharacterDetailView(entity: entity)
+        return makeCharacterDetailView(item: item)
     case "Comics":
-        return makeComicDetailView(entity: entity)
+        return makeComicDetailView(item: item)
     case "Creators":
-        return makeCreatorDetailView(entity: entity)
+        return makeCreatorDetailView(item: item)
     case "Events":
-        return makeEventDetailView(entity: entity)
+        return makeEventDetailView(item: item)
     case "Series":
-        return makeSeriesDetailView(entity: entity)
+        return makeSeriesDetailView(item: item)
     case "Stories":
-        return makeStoryDetailView(entity: entity)
+        return makeStoryDetailView(item: item)
     default:
-        return makeComicDetailView(entity: entity)
+        return makeComicDetailView(item: item)
     }
 }
 
-func makeCharacterDetailView(entity: Entity) -> AnyView {
-    AnyView(EntityDetailView(entity: entity,
+func makeCharacterDetailView(item: Item) -> AnyView {
+    AnyView(ItemDetailView(item: item,
                              makeDetailView: makeDetailView,
                              detailName1: "Comics",
                              fetchDetails1: ComicBookRepositoryImpl.shared.getCharacterComics,
@@ -81,8 +81,8 @@ func makeCharacterDetailView(entity: Entity) -> AnyView {
             )
 }
 
-func makeComicDetailView(entity: Entity) -> AnyView {
-    AnyView(EntityDetailView(entity: entity,
+func makeComicDetailView(item: Item) -> AnyView {
+    AnyView(ItemDetailView(item: item,
                              makeDetailView: makeDetailView,
                              detailName1: "Characters",
                              fetchDetails1: ComicBookRepositoryImpl.shared.getComicCharacters,
@@ -97,8 +97,8 @@ func makeComicDetailView(entity: Entity) -> AnyView {
             )
 }
 
-func makeCreatorDetailView(entity: Entity) -> AnyView {
-    AnyView(EntityDetailView(entity: entity,
+func makeCreatorDetailView(item: Item) -> AnyView {
+    AnyView(ItemDetailView(item: item,
                              makeDetailView: makeDetailView,
                              detailName1: "Comics",
                              fetchDetails1: ComicBookRepositoryImpl.shared.getCreatorComics,
@@ -113,8 +113,8 @@ func makeCreatorDetailView(entity: Entity) -> AnyView {
             )
 }
 
-func makeEventDetailView(entity: Entity) -> AnyView {
-    AnyView(EntityDetailView(entity: entity,
+func makeEventDetailView(item: Item) -> AnyView {
+    AnyView(ItemDetailView(item: item,
                              makeDetailView: makeDetailView,
                              detailName1: "Comics",
                              fetchDetails1: ComicBookRepositoryImpl.shared.getEventComics,
@@ -129,8 +129,8 @@ func makeEventDetailView(entity: Entity) -> AnyView {
             )
 }
 
-func makeSeriesDetailView(entity: Entity) -> AnyView {
-    AnyView(EntityDetailView(entity: entity,
+func makeSeriesDetailView(item: Item) -> AnyView {
+    AnyView(ItemDetailView(item: item,
                              makeDetailView: makeDetailView,
                              detailName1: "Comics",
                              fetchDetails1: ComicBookRepositoryImpl.shared.getSeriesComics,
@@ -145,8 +145,8 @@ func makeSeriesDetailView(entity: Entity) -> AnyView {
             )
 }
 
-func makeStoryDetailView(entity: Entity) -> AnyView {
-    AnyView(EntityDetailView(entity: entity,
+func makeStoryDetailView(item: Item) -> AnyView {
+    AnyView(ItemDetailView(item: item,
                              makeDetailView: makeDetailView,
                              detailName1: "Comics",
                              fetchDetails1: ComicBookRepositoryImpl.shared.getStoryComics,

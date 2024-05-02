@@ -25,159 +25,159 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
     static let shared: ComicBookRepository = ComicBookRepositoryImpl(remote: ComicBookRemote.shared)
     
     
-    func getCharacters(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+    func getCharacters(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         return try await remote.getCharacters(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
     }
     
-    func getCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getCharacters(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getCharacterComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCharacterComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getCharacterComics(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getCharacterEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCharacterEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getCharacterEvents(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getCharacterSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCharacterSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getCharacterSeries(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getCharacterStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCharacterStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getCharacterStories(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+    func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         return try await remote.getComics(titleStartsWith: titleStartsWith, offset: offset, limit: limit)
     }
     
-    func getComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getComics(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getComicCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getComicCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getComicCharacters(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getComicCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getComicCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getComicCreators(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getComicEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getComicEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getComicEvents(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getComicStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getComicStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getComicStories(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getCreators(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+    func getCreators(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         return try await remote.getCreators(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
     }
     
-    func getCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getCreators(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getCreatorComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCreatorComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getCreatorComics(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getCreatorEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCreatorEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getComicEvents(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getCreatorSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCreatorSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getCreatorSeries(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getCreatorStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getCreatorStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getCreatorStories(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
  
-    func getEvents(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+    func getEvents(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         return try await remote.getEvents(nameStartsWith: nameStartsWith, offset: offset, limit: limit)
     }
     
-    func getEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getEvents(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getEventCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getEventCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getEventCharacters(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getEventComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getEventComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getEventComics(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getEventCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getEventCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getEventCreators(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getEventSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getEventSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getEventSeries(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getEventStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getEventStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getEventStories(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getSeries(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+    func getSeries(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         return try await remote.getSeries(titleStartsWith: titleStartsWith, offset: offset, limit: limit)
     }
     
-    func getSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getSeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getSeries(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getSeriesCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getSeriesCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getSeriesCharacters(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getSeriesComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getSeriesComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getSeriesComics(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getSeriesCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getSeriesCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getSeriesCreators(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getSeriesEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getSeriesEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getSeriesEvents(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getSeriesStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getSeriesStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getSeriesStories(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getStories(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Entity] {
+    func getStories(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
         return try await remote.getStories(titleStartsWith: titleStartsWith, offset: offset, limit: limit)
     }
     
-    func getStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getStories(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getStoryCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getStoryCharacters(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getStoryCharacters(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getStoryComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getStoryComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getStoryComics(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getStoryCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getStoryCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getStoryCreators(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getStoryEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getStoryEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getStoryEvents(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
     
-    func getStorySeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Entity] {
+    func getStorySeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
         return try await remote.getStorySeries(id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
   

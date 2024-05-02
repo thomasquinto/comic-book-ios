@@ -1,5 +1,5 @@
 //
-//  EntityListHorizontalView.swift
+//  ItemListHorizontalView.swift
 //  ComicBook
 //
 //  Created by Thomas Quinto on 4/30/24.
@@ -8,17 +8,17 @@
 import SwiftUI
 import CachedAsyncImage
 
-struct EntityListHorizontalView: View {
+struct ItemListHorizontalView: View {
     let id: Int
     let name: String
-    let fetchDetails: (Int, Int, Int, String?) async throws -> [Entity]
-    let makeDetailView: (Entity, String) -> AnyView
-    @State var viewModel: EntityListHorizontalViewModel
+    let fetchDetails: (Int, Int, Int, String?) async throws -> [Item]
+    let makeDetailView: (Item, String) -> AnyView
+    @State var viewModel: ItemListHorizontalViewModel
 
     init(id: Int,
          name: String,
-         fetchDetails: @escaping (Int, Int, Int, String?) async throws -> [Entity],
-         makeDetailView: @escaping (Entity, String) -> AnyView
+         fetchDetails: @escaping (Int, Int, Int, String?) async throws -> [Item],
+         makeDetailView: @escaping (Item, String) -> AnyView
     ) {
         self.id = id
         self.name = name
@@ -29,7 +29,7 @@ struct EntityListHorizontalView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            if !viewModel.entities.isEmpty {
+            if !viewModel.items.isEmpty {
                 HStack {
                     Text(name)
                         .font(.title3)
@@ -44,11 +44,11 @@ struct EntityListHorizontalView: View {
                 
             ScrollView(.horizontal) {
                 LazyHStack {
-                    ForEach(viewModel.entities) { entity in
+                    ForEach(viewModel.items) { item in
                         NavigationLink {
-                            makeDetailView(entity, entity.entityName)
+                            makeDetailView(item, item.itemType)
                         } label: {
-                            EntityItemView(entity: entity)
+                            ItemHorizontalLabel(item: item)
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
@@ -58,7 +58,7 @@ struct EntityListHorizontalView: View {
                             .opacity(0.0)
                             .onAppear {
                                 Task {
-                                    await viewModel.getEntities(reset: false)
+                                    await viewModel.getItems(reset: false)
                                 }
                             }
                     }
@@ -69,12 +69,12 @@ struct EntityListHorizontalView: View {
     }
 }
 
-struct EntityItemView: View {
-    let entity: Entity
+struct ItemHorizontalLabel: View {
+    let item: Item
 
     var body: some View {
         VStack{
-            CachedAsyncImage(url: URL(string: entity.imageUrl)) { image in
+            CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 100, height: 100)
@@ -87,7 +87,7 @@ struct EntityItemView: View {
 
             Spacer()
 
-            Text(entity.title)
+            Text(item.title)
                 .font(.caption)
                 .padding(2)
         }

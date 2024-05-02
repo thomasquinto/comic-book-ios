@@ -1,5 +1,5 @@
 //
-//  EntityListViewModel.swift
+//  ItemListViewModel.swift
 //  ComicBook
 //
 //  Created by Thomas Quinto on 4/27/24.
@@ -8,11 +8,11 @@
 import Foundation
 
 @Observable
-class EntityListViewModel {
+class ItemListViewModel {
 
-    let fetchEntities: (String, Int, Int) async throws -> [Entity]
+    let fetchItems: (String, Int, Int) async throws -> [Item]
     
-    var entities: [Entity] = []
+    var items: [Item] = []
     var isLoading = false
     var errorMessage = ""
     var isShowingAlert = false
@@ -21,14 +21,14 @@ class EntityListViewModel {
     var limit = 20
     var hasNoMore = false
 
-    init(fetchEntities: @escaping (String, Int, Int) async throws -> [Entity]) {
-        self.fetchEntities = fetchEntities
+    init(fetchItems: @escaping (String, Int, Int) async throws -> [Item]) {
+        self.fetchItems = fetchItems
     }
         
-    func getEntities(reset: Bool = false) async {
+    func getItems(reset: Bool = false) async {
         hasNoMore = false
-        if reset || entities.count == 0{
-            entities = []
+        if reset || items.count == 0{
+            items = []
             offset = 0
         } else {
             offset += limit
@@ -36,12 +36,12 @@ class EntityListViewModel {
         isLoading = true
         
         do {
-            let entitiesResponse = try await fetchEntities(searchText, offset, limit)
-            hasNoMore = entitiesResponse.count < limit
+            let itemsResponse = try await fetchItems(searchText, offset, limit)
+            hasNoMore = itemsResponse.count < limit
             if reset {
-                entities = entitiesResponse
+                items = itemsResponse
             } else {
-                entities += entitiesResponse
+                items += itemsResponse
             }
             isLoading = false
         } catch {

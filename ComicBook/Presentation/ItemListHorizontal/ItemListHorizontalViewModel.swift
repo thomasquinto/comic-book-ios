@@ -1,5 +1,5 @@
 //
-//  EntityListHorizontalViewModel.swift
+//  ItemListHorizontalViewModel.swift
 //  ComicBook
 //
 //  Created by Thomas Quinto on 4/30/24.
@@ -8,18 +8,18 @@
 import Foundation
 
 @Observable
-class EntityListHorizontalViewModel {
+class ItemListHorizontalViewModel {
 
     let id: Int
-    let fetchDetails: (Int, Int, Int, String?) async throws -> [Entity]
+    let fetchDetails: (Int, Int, Int, String?) async throws -> [Item]
 
     init(id: Int, 
-         fetchDetails: @escaping (Int, Int, Int, String?) async throws -> [Entity]) {
+         fetchDetails: @escaping (Int, Int, Int, String?) async throws -> [Item]) {
         self.id = id
         self.fetchDetails = fetchDetails
     }
     
-    var entities: [Entity] = []
+    var items: [Item] = []
     var isLoading = false
     var errorMessage = ""
     var isShowingAlert = false
@@ -27,10 +27,10 @@ class EntityListHorizontalViewModel {
     var limit = 20
     var hasNoMore = false
      
-    func getEntities(reset: Bool = false) async {
+    func getItems(reset: Bool = false) async {
         hasNoMore = false
-        if reset || entities.count == 0{
-            entities = []
+        if reset || items.count == 0{
+            items = []
             offset = 0
         } else {
             offset += limit
@@ -38,12 +38,12 @@ class EntityListHorizontalViewModel {
         isLoading = true
         
         do {
-            let entitiesResponse = try await fetchDetails(id, offset, limit, nil)
-            hasNoMore = entitiesResponse.count < limit
+            let itemsResponse = try await fetchDetails(id, offset, limit, nil)
+            hasNoMore = itemsResponse.count < limit
             if reset {
-                entities = entitiesResponse
+                items = itemsResponse
             } else {
-                entities += entitiesResponse
+                items += itemsResponse
             }
             isLoading = false
         } catch {

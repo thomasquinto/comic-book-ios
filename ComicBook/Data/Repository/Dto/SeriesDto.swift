@@ -7,18 +7,18 @@
 
 import Foundation
 
-struct SeriesDto: MappedEntity {
+struct SeriesDto: MappedItem {
     let id: Int?
     let title: String?
     let description: String?
     let thumbnail: ThumbnailDto?
     
-    func toEntity() -> Entity {
-        return Entity(id: self.id ?? 0,
+    func toItem() -> Item {
+        return Item(id: self.id ?? 0,
                       title: self.title ?? "",
                       description: self.description ?? "",
                       imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
                       date: Date(),
-                      entityName: "Series") // TODO: convert Date properly
+                      itemType: "Series") // TODO: convert Date properly
     }
 }
