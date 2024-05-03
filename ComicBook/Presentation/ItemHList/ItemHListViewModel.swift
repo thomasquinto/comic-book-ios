@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class ItemListHorizontalViewModel {
+class ItemHListViewModel {
 
     let id: Int
     let fetchDetails: (Int, Int, Int, String?) async throws -> [Item]

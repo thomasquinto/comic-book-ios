@@ -8,12 +8,12 @@
 import SwiftUI
 import CachedAsyncImage
 
-struct ItemListHorizontalView: View {
+struct ItemHListView: View {
     let id: Int
     let name: String
     let fetchDetails: (Int, Int, Int, String?) async throws -> [Item]
     let makeDetailView: (Item, ItemType) -> AnyView
-    @State var viewModel: ItemListHorizontalViewModel
+    @State var viewModel: ItemHListViewModel
 
     init(id: Int,
          name: String,

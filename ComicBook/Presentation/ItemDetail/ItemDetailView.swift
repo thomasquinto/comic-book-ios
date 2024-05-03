@@ -50,12 +50,12 @@ struct ItemDetailView: View {
                     .font(.body)
                     .foregroundColor(.secondary)
                                 
-                ItemListHorizontalView(id: item.id, name: detailName1, fetchDetails: fetchDetails1, makeDetailView: makeDetailView)
-                ItemListHorizontalView(id: item.id, name: detailName2, fetchDetails: fetchDetails2, makeDetailView: makeDetailView)
-                ItemListHorizontalView(id: item.id, name: detailName3, fetchDetails: fetchDetails3, makeDetailView: makeDetailView)
-                ItemListHorizontalView(id: item.id, name: detailName4, fetchDetails: fetchDetails4, makeDetailView: makeDetailView)
+                ItemHListView(id: item.id, name: detailName1, fetchDetails: fetchDetails1, makeDetailView: makeDetailView)
+                ItemHListView(id: item.id, name: detailName2, fetchDetails: fetchDetails2, makeDetailView: makeDetailView)
+                ItemHListView(id: item.id, name: detailName3, fetchDetails: fetchDetails3, makeDetailView: makeDetailView)
+                ItemHListView(id: item.id, name: detailName4, fetchDetails: fetchDetails4, makeDetailView: makeDetailView)
                 if let detailName5 {
-                    ItemListHorizontalView(id: item.id, name: detailName5, fetchDetails: fetchDetails5!, makeDetailView: makeDetailView)
+                    ItemHListView(id: item.id, name: detailName5, fetchDetails: fetchDetails5!, makeDetailView: makeDetailView)
                 }
 
                 Spacer()

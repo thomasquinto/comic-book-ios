@@ -25,8 +25,6 @@ struct HomeView: View {
     }
 }
 
-
-
 struct ItemLinkView : View {
     let itemType: ItemType
     let fetchDetails: (Int, Int, Int, String?) async throws -> [Item]
@@ -34,13 +32,13 @@ struct ItemLinkView : View {
 
     var body: some View {
         NavigationLink {
-            ItemListView(
+            ItemVListView(
                 itemName: itemType,
                 fetchItems: fetchItems,
                 makeDetailView: makeDetailView
             )
         } label: {
-            ItemListHorizontalView(id: 0, name: itemType.rawValue.capitalized, fetchDetails: fetchDetails, makeDetailView: makeDetailView)
+            ItemHListView(id: 0, name: itemType.rawValue.capitalized, fetchDetails: fetchDetails, makeDetailView: makeDetailView)
         }
         .buttonStyle(PlainButtonStyle())
     }

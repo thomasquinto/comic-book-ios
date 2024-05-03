@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class ItemListViewModel {
+class ItemVListViewModel {
 
     let fetchItems: (String, Int, Int) async throws -> [Item]
     

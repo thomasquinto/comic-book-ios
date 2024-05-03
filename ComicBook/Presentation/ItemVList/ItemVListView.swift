@@ -8,12 +8,12 @@
 import SwiftUI
 import CachedAsyncImage
 
-struct ItemListView: View {
+struct ItemVListView: View {
     
     let itemType: ItemType
     let fetchItems: (String, Int, Int) async throws -> [Item]
     let makeDetailView: (Item, ItemType) -> AnyView
-    @State var viewModel: ItemListViewModel
+    @State var viewModel: ItemVListViewModel
 
     init(itemName: ItemType,
          fetchItems: @escaping (String, Int, Int) async throws -> [Item],
@@ -43,7 +43,7 @@ struct ItemListView: View {
     }
 }
 
-extension ItemListView {
+extension ItemVListView {
         
     var itemList : some View {
         ScrollView {
