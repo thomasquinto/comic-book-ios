@@ -109,7 +109,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getCharacterComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: ComicDto.self, prefix:ItemType.character.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: ComicDto.self, prefix:ItemType.character.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.title.rawValue)
     }
     
     func getCharacterEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -121,7 +121,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getCharacterStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: StoryDto.self, prefix:ItemType.character.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: StoryDto.self, prefix:ItemType.character.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
     
     func getComics(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
@@ -151,7 +151,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getComicStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: StoryDto.self, prefix:ItemType.comic.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: StoryDto.self, prefix:ItemType.comic.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
     
     func getCreators(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
@@ -169,7 +169,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getCreatorComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: ComicDto.self, prefix:ItemType.creator.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: ComicDto.self, prefix:ItemType.creator.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.title.rawValue)
     }
     
     func getCreatorEvents(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -181,7 +181,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getCreatorStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: StoryDto.self, prefix:ItemType.creator.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: StoryDto.self, prefix:ItemType.creator.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
     
     func getEvents(nameStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
@@ -204,7 +204,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getEventComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: ComicDto.self, prefix:ItemType.event.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: ComicDto.self, prefix:ItemType.event.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.title.rawValue)
     }
     
     func getEventCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -216,7 +216,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getEventStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: StoryDto.self, prefix:ItemType.event.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: StoryDto.self, prefix:ItemType.event.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
     
     func getSeries(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
@@ -239,7 +239,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getSeriesComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: ComicDto.self, prefix:ItemType.series.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: ComicDto.self, prefix:ItemType.series.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.title.rawValue)
     }
     
     func getSeriesCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
@@ -251,7 +251,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getSeriesStories(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: StoryDto.self, prefix:ItemType.series.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: StoryDto.self, prefix:ItemType.series.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.modifiedDesc.rawValue)
     }
 
     func getStories(titleStartsWith: String, offset: Int, limit: Int) async throws -> [Item] {
@@ -270,7 +270,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getStoryComics(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: ComicDto.self, prefix:ItemType.story.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: ComicDto.self, prefix:ItemType.story.rawValue, urlEntity: ItemType.comic.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy ?? OrderBy.title.rawValue)
     }
     
     func getStoryCreators(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
