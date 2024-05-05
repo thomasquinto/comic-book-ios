@@ -282,7 +282,7 @@ extension ComicBookRemote: ComicBookApi{
     }
     
     func getStorySeries(id: Int, offset: Int, limit: Int, orderBy: String?) async throws -> [Item] {
-        return try await getDetails(type: StoryDto.self, prefix:ItemType.story.rawValue, urlEntity: ItemType.story.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
+        return try await getDetails(type: StoryDto.self, prefix:ItemType.story.rawValue, urlEntity: ItemType.series.rawValue, id: id, offset: offset, limit: limit, orderBy: orderBy)
     }
 
 }
