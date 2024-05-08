@@ -29,13 +29,13 @@ struct ItemDetailView: View {
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
-                    .frame(height: 400) // Adjust height as needed
+                    .frame(height: 600) // Adjust height as needed
                     .clipped()
             } placeholder: {
                 Rectangle()
                     .fill(.ultraThinMaterial)
                     .edgesIgnoringSafeArea(.all)
-                    .frame(height: 400) // Adjust height as needed
+                    .frame(height: 600) // Adjust height as needed
                     .clipped()
             }
             

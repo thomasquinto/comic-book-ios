@@ -77,12 +77,14 @@ struct ItemHorizontalLabel: View {
             CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 110, height: 130)
                     .clipped()
+                    .cornerRadius(6)
             } placeholder: {
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 110, height: 130)
+                    .cornerRadius(6)
             }
 
             Spacer()
@@ -91,7 +93,7 @@ struct ItemHorizontalLabel: View {
                 .font(.caption)
                 .padding(2)
         }
-        .frame(width: 100, height: 120)
+        .frame(width: 110, height: 150)
         .padding(2)
     }
 }
