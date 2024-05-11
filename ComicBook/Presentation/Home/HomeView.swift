@@ -19,7 +19,7 @@ struct HomeView: View {
                 ItemLinkView(itemType: .story, fetchDetails: ComicBookRepositoryImpl.shared.getStories, fetchItems: ComicBookRepositoryImpl.shared.getStories)
             }
             .scrollIndicators(.hidden)
-            .scenePadding()
+            .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
             .navigationTitle("Marvel Comics")
         }
     }

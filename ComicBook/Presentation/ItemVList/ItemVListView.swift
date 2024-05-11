@@ -59,8 +59,6 @@ extension ItemVListView {
                 if !viewModel.hasNoMore {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .foregroundColor(.black)
-                        .foregroundColor(.red)
                         .onAppear {
                             Task {
                                 await viewModel.getItems(reset: false)
@@ -82,13 +80,13 @@ struct ItemLabel: View {
             CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 110, height: 130)
+                    .frame(width: 110, height: 165)
                     .clipped()
                     .cornerRadius(6)
             } placeholder: {
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .frame(width: 110, height: 130)
+                    .frame(width: 110, height: 165)
                     .cornerRadius(6)
             }
 

@@ -60,9 +60,9 @@ struct ItemDetailView: View {
 
                 Spacer()
             }
-            .scenePadding()
             .frame(maxWidth: UIScreen.main.bounds.size.width)
-        }            
+            .padding(EdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8))
+        }
         .scrollIndicators(.hidden)
     }
 }

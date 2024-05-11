@@ -36,7 +36,7 @@ struct ItemHListView: View {
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     if id == 0 {
                         Spacer()
-                        Text("See more")
+                        Text("See all")
                             .font(.callout)
                     }
                 }
@@ -77,13 +77,13 @@ struct ItemHorizontalLabel: View {
             CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 110, height: 130)
+                    .frame(width: 110, height: 165)
                     .clipped()
                     .cornerRadius(6)
             } placeholder: {
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .frame(width: 110, height: 130)
+                    .frame(width: 110, height: 165)
                     .cornerRadius(6)
             }
 
@@ -93,7 +93,7 @@ struct ItemHorizontalLabel: View {
                 .font(.caption)
                 .padding(2)
         }
-        .frame(width: 110, height: 150)
+        .frame(width: 110, height: 185)
         .padding(2)
     }
 }
