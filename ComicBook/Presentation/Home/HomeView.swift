@@ -8,54 +8,40 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    enum CoordinateSpaces {
+        case scrollView
+    }
+    
     var body: some View {
+        
         NavigationStack {
             ScrollView {
-                
-                let height = UIScreen.main.bounds.size.width / 1.18 // iPhone
-                //let height = UIScreen.main.bounds.size.width / 1.05 // iPad
 
-                GeometryReader { geometry in
-                    // Track the offset of the scroll view
-                    let yOffset = geometry.frame(in: .global).minY
-                    
-                    // Calculate the alpha value based on the yOffset
-                    let alpha = min( ((yOffset*1.2 + height)/height), 1)
-                    
-                    // Use the offset to adjust the position of the hero image
-                    Image("hero_image")
-                        .resizable()
-                        .scaledToFill()
-                        .offset(y: -yOffset)
-                        .frame(height: max(0, height + yOffset))
-                        //.position(x: geometry.frame(in: .local).midX)
-                        .opacity(alpha)
-                }
-                .frame(height: height)
-                
-                VStack {
-                    ItemLinkView(itemType: .comic, fetchDetails: ComicBookRepositoryImpl.shared.getComics, fetchItems: ComicBookRepositoryImpl.shared.getComics)
-                    ItemLinkView(itemType: .character, fetchDetails: ComicBookRepositoryImpl.shared.getCharacters, fetchItems: ComicBookRepositoryImpl.shared.getCharacters)
-                    ItemLinkView(itemType: .series, fetchDetails: ComicBookRepositoryImpl.shared.getSeries, fetchItems: ComicBookRepositoryImpl.shared.getSeries)
-                    ItemLinkView(itemType: .creator, fetchDetails: ComicBookRepositoryImpl.shared.getCreators, fetchItems: ComicBookRepositoryImpl.shared.getCreators)
-                    ItemLinkView(itemType: .event, fetchDetails: ComicBookRepositoryImpl.shared.getEvents, fetchItems: ComicBookRepositoryImpl.shared.getEvents)
-                    ItemLinkView(itemType: .story, fetchDetails: ComicBookRepositoryImpl.shared.getStories, fetchItems: ComicBookRepositoryImpl.shared.getStories)
-                }
-                .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+            ParallaxHeader (
+                coordinateSpace: CoordinateSpaces.scrollView,
+                defaultHeight: 400
+            ) {
+                Image("hero_image")
+                .resizable()
+                .scaledToFill()
             }
+            
+            VStack {
+                ItemLinkView(itemType: .comic, fetchDetails: ComicBookRepositoryImpl.shared.getComics, fetchItems: ComicBookRepositoryImpl.shared.getComics)
+                ItemLinkView(itemType: .character, fetchDetails: ComicBookRepositoryImpl.shared.getCharacters, fetchItems: ComicBookRepositoryImpl.shared.getCharacters)
+                ItemLinkView(itemType: .series, fetchDetails: ComicBookRepositoryImpl.shared.getSeries, fetchItems: ComicBookRepositoryImpl.shared.getSeries)
+                ItemLinkView(itemType: .creator, fetchDetails: ComicBookRepositoryImpl.shared.getCreators, fetchItems: ComicBookRepositoryImpl.shared.getCreators)
+                ItemLinkView(itemType: .event, fetchDetails: ComicBookRepositoryImpl.shared.getEvents, fetchItems: ComicBookRepositoryImpl.shared.getEvents)
+                ItemLinkView(itemType: .story, fetchDetails: ComicBookRepositoryImpl.shared.getStories, fetchItems: ComicBookRepositoryImpl.shared.getStories)
+            }
+            .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+            
+            }
+            .coordinateSpace(name: CoordinateSpaces.scrollView)
+            .edgesIgnoringSafeArea(.top)
             .scrollIndicators(.hidden)
-            //.modifier(NoBounceModifer())
         }
-    }
-}
-
-struct NoBounceModifer: ViewModifier {
-    init() {
-      UIScrollView.appearance().bounces = false
-    }
-
-    func body(content: Content) -> some View {
-        return content
     }
 }
 
@@ -189,4 +175,52 @@ func makeStoryDetailView(item: Item) -> AnyView {
                            detailName5: ItemType.series.rawValue.capitalized,
                            fetchDetails5: ComicBookRepositoryImpl.shared.getStorySeries)
             )
+}
+
+struct ParallaxHeader<Content: View, Space: Hashable>: View {
+    let content: () -> Content
+    let coordinateSpace: Space
+    let defaultHeight: CGFloat
+
+    init(
+        coordinateSpace: Space,
+        defaultHeight: CGFloat,
+        @ViewBuilder _ content: @escaping () -> Content
+    ) {
+        self.content = content
+        self.coordinateSpace = coordinateSpace
+        self.defaultHeight = defaultHeight
+    }
+    
+    var body: some View {
+        GeometryReader { proxy in
+            let offset = offset(for: proxy)
+            let heightModifier = heightModifier(for: proxy)
+            let alpha = min(((proxy.size.height - offset*1.5)/proxy.size.height), 1)
+            //let blurRadius = min(heightModifier / 20, max(10, heightModifier / 20))
+
+            content()
+                .edgesIgnoringSafeArea(.horizontal)
+                .frame(
+                    width: proxy.size.width,
+                    height: proxy.size.height + heightModifier
+                )
+                .offset(y: offset)
+                .opacity(alpha)
+                //.blur(radius: blurRadius)
+        }.frame(height: defaultHeight)
+    }
+    
+    private func offset(for proxy: GeometryProxy) -> CGFloat {
+        let frame = proxy.frame(in: .named(coordinateSpace))
+        if frame.minY < 0 {
+            return -frame.minY * 0.8
+        }
+        return -frame.minY
+    }
+    
+    private func heightModifier(for proxy: GeometryProxy) -> CGFloat {
+        let frame = proxy.frame(in: .named(coordinateSpace))
+        return max(0, frame.minY)
+    }
 }
