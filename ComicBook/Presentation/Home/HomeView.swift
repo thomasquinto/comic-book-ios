@@ -11,17 +11,51 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                ItemLinkView(itemType: .comic, fetchDetails: ComicBookRepositoryImpl.shared.getComics, fetchItems: ComicBookRepositoryImpl.shared.getComics)
-                ItemLinkView(itemType: .character, fetchDetails: ComicBookRepositoryImpl.shared.getCharacters, fetchItems: ComicBookRepositoryImpl.shared.getCharacters)
-                ItemLinkView(itemType: .series, fetchDetails: ComicBookRepositoryImpl.shared.getSeries, fetchItems: ComicBookRepositoryImpl.shared.getSeries)
-                ItemLinkView(itemType: .creator, fetchDetails: ComicBookRepositoryImpl.shared.getCreators, fetchItems: ComicBookRepositoryImpl.shared.getCreators)
-                ItemLinkView(itemType: .event, fetchDetails: ComicBookRepositoryImpl.shared.getEvents, fetchItems: ComicBookRepositoryImpl.shared.getEvents)
-                ItemLinkView(itemType: .story, fetchDetails: ComicBookRepositoryImpl.shared.getStories, fetchItems: ComicBookRepositoryImpl.shared.getStories)
+                
+                let height = UIScreen.main.bounds.size.width / 1.18 // iPhone
+                //let height = UIScreen.main.bounds.size.width / 1.05 // iPad
+
+                GeometryReader { geometry in
+                    // Track the offset of the scroll view
+                    let yOffset = geometry.frame(in: .global).minY
+                    
+                    // Calculate the alpha value based on the yOffset
+                    let alpha = min( ((yOffset*1.2 + height)/height), 1)
+                    
+                    // Use the offset to adjust the position of the hero image
+                    Image("hero_image")
+                        .resizable()
+                        .scaledToFill()
+                        .offset(y: -yOffset)
+                        .frame(height: max(0, height + yOffset))
+                        //.position(x: geometry.frame(in: .local).midX)
+                        .opacity(alpha)
+                }
+                .frame(height: height)
+                
+                VStack {
+                    ItemLinkView(itemType: .comic, fetchDetails: ComicBookRepositoryImpl.shared.getComics, fetchItems: ComicBookRepositoryImpl.shared.getComics)
+                    ItemLinkView(itemType: .character, fetchDetails: ComicBookRepositoryImpl.shared.getCharacters, fetchItems: ComicBookRepositoryImpl.shared.getCharacters)
+                    ItemLinkView(itemType: .series, fetchDetails: ComicBookRepositoryImpl.shared.getSeries, fetchItems: ComicBookRepositoryImpl.shared.getSeries)
+                    ItemLinkView(itemType: .creator, fetchDetails: ComicBookRepositoryImpl.shared.getCreators, fetchItems: ComicBookRepositoryImpl.shared.getCreators)
+                    ItemLinkView(itemType: .event, fetchDetails: ComicBookRepositoryImpl.shared.getEvents, fetchItems: ComicBookRepositoryImpl.shared.getEvents)
+                    ItemLinkView(itemType: .story, fetchDetails: ComicBookRepositoryImpl.shared.getStories, fetchItems: ComicBookRepositoryImpl.shared.getStories)
+                }
+                .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
             }
             .scrollIndicators(.hidden)
-            .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-            .navigationTitle("Marvel Comics")
+            //.modifier(NoBounceModifer())
         }
+    }
+}
+
+struct NoBounceModifer: ViewModifier {
+    init() {
+      UIScrollView.appearance().bounces = false
+    }
+
+    func body(content: Content) -> some View {
+        return content
     }
 }
 

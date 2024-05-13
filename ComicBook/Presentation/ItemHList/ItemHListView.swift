@@ -66,6 +66,7 @@ struct ItemHListView: View {
             }
             .scrollIndicators(.hidden)
         }
+        .background(Color.clear)
     }
 }
 
