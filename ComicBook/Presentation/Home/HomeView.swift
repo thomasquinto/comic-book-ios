@@ -18,13 +18,15 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
 
+            let aspectRatio = UIScreen.main.bounds.size.width / UIScreen.main.bounds.size.height
+                
             ParallaxHeader (
                 coordinateSpace: CoordinateSpaces.scrollView,
-                defaultHeight: 400
+                defaultHeight: aspectRatio > 0.7 ? UIScreen.main.bounds.height / 1.3 : UIScreen.main.bounds.height / 2
             ) {
                 Image("hero_image")
-                .resizable()
-                .scaledToFill()
+                    .resizable()
+                    .scaledToFill()
             }
             
             VStack {
@@ -35,7 +37,7 @@ struct HomeView: View {
                 ItemLinkView(itemType: .event, fetchDetails: ComicBookRepositoryImpl.shared.getEvents, fetchItems: ComicBookRepositoryImpl.shared.getEvents)
                 ItemLinkView(itemType: .story, fetchDetails: ComicBookRepositoryImpl.shared.getStories, fetchItems: ComicBookRepositoryImpl.shared.getStories)
             }
-            .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+            .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4))
             
             }
             .coordinateSpace(name: CoordinateSpaces.scrollView)
@@ -196,7 +198,7 @@ struct ParallaxHeader<Content: View, Space: Hashable>: View {
         GeometryReader { proxy in
             let offset = offset(for: proxy)
             let heightModifier = heightModifier(for: proxy)
-            let alpha = min(((proxy.size.height - offset*1.5)/proxy.size.height), 1)
+            let alpha = min(((proxy.size.height - offset*2.0)/proxy.size.height), 1)
             //let blurRadius = min(heightModifier / 20, max(10, heightModifier / 20))
 
             content()
@@ -214,7 +216,7 @@ struct ParallaxHeader<Content: View, Space: Hashable>: View {
     private func offset(for proxy: GeometryProxy) -> CGFloat {
         let frame = proxy.frame(in: .named(coordinateSpace))
         if frame.minY < 0 {
-            return -frame.minY * 0.8
+            return -frame.minY * 0.6
         }
         return -frame.minY
     }
