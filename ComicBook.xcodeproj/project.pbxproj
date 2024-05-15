@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		ED326CD82BF5291100934AD6 /* FetchItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED326CD72BF5291100934AD6 /* FetchItemsMapper.swift */; };
+		ED8D5FC52BF5443F004B4DA1 /* ItemLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8D5FC42BF5443F004B4DA1 /* ItemLinkView.swift */; };
 		EDC933D02BDC0FA40056BBB0 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC933CF2BDC0FA40056BBB0 /* ItemDetailView.swift */; };
 		EDC933D42BDDB4340056BBB0 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC933D32BDDB4340056BBB0 /* Item.swift */; };
 		EDC933D92BDDC0F00056BBB0 /* ItemVListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC933D82BDDC0F00056BBB0 /* ItemVListViewModel.swift */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		ED326CD72BF5291100934AD6 /* FetchItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchItemsMapper.swift; sourceTree = "<group>"; };
+		ED8D5FC42BF5443F004B4DA1 /* ItemLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemLinkView.swift; sourceTree = "<group>"; };
 		EDC933CF2BDC0FA40056BBB0 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		EDC933D32BDDB4340056BBB0 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		EDC933D82BDDC0F00056BBB0 /* ItemVListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemVListViewModel.swift; sourceTree = "<group>"; };
@@ -115,6 +117,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ED8D5FC32BF54402004B4DA1 /* ItemLink */ = {
+			isa = PBXGroup;
+			children = (
+				ED8D5FC42BF5443F004B4DA1 /* ItemLinkView.swift */,
+			);
+			path = ItemLink;
+			sourceTree = "<group>";
+		};
 		EDC933D52BDDBD590056BBB0 /* ItemVList */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				EDC9341D2BE1421D0056BBB0 /* Home */,
+				ED8D5FC32BF54402004B4DA1 /* ItemLink */,
 				EDC9341C2BE142150056BBB0 /* ItemDetail */,
 				EDC933D52BDDBD590056BBB0 /* ItemVList */,
 				EDC934202BE14BE40056BBB0 /* ItemHList */,
@@ -437,6 +448,7 @@
 				EDEB79642BCF028F007711FD /* ComicDto.swift in Sources */,
 				EDC933D42BDDB4340056BBB0 /* Item.swift in Sources */,
 				EDC933F92BDDF2140056BBB0 /* StoryDto.swift in Sources */,
+				ED8D5FC52BF5443F004B4DA1 /* ItemLinkView.swift in Sources */,
 				EDC9341F2BE142910056BBB0 /* HomeView.swift in Sources */,
 				EDC933F32BDDF1D60056BBB0 /* CreatorDto.swift in Sources */,
 				ED326CD82BF5291100934AD6 /* FetchItemsMapper.swift in Sources */,

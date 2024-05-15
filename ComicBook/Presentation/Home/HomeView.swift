@@ -25,13 +25,13 @@ struct HomeView: View {
                     defaultHeight: aspectRatio > 0.7 ? UIScreen.main.bounds.height / 1.3 : UIScreen.main.bounds.height / 2
                 ) {
                     Image("hero_image")
-                        .resizable()
+                    .resizable()
                         .scaledToFill()
                 }
                 
                 VStack {
                     ForEach(getItemTypesForHome(), id: \.self) { itemType in
-                        ItemLinkView(itemType: itemType)
+                        ItemLinkView(itemType: itemType, detailItem: nil)
                     }
                 }
                 .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4))
@@ -44,26 +44,6 @@ struct HomeView: View {
     }
 }
 
-struct ItemLinkView : View {
-    let itemType: ItemType
-
-    var body: some View {
-        NavigationLink {
-            ItemVListView(
-                itemType: itemType,
-                detailItem: nil,
-                repository: ComicBookRepositoryImpl.shared
-            )
-        } label: {
-            ItemHListView(
-                itemType: itemType,
-                detailItem: nil,
-                repository: ComicBookRepositoryImpl.shared
-            )
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
 
 struct ParallaxHeader<Content: View, Space: Hashable>: View {
     let content: () -> Content

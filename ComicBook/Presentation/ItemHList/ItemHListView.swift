@@ -32,11 +32,9 @@ struct ItemHListView: View {
                     Text(itemType.rawValue.capitalized)
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    if detailItem == nil {
-                        Spacer()
-                        Text("See all")
-                            .font(.callout)
-                    }
+                    Spacer()
+                    Text("See all")
+                        .font(.callout)
                 }
             }
                 

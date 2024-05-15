@@ -41,7 +41,7 @@ struct ItemDetailView: View {
                     .foregroundColor(.secondary)
                                 
                 ForEach(getItemTypesForDetail(itemType: item.itemType), id: \.self) { itemType in
-                    ItemHListView(itemType: itemType, detailItem: item, repository: repository)
+                    ItemLinkView(itemType: itemType, detailItem: item)
                 }
 
                 Spacer()

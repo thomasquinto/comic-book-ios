@@ -48,7 +48,10 @@ extension ComicBookRemote: ComicBookApi{
             queryItemArray.append(URLQueryItem(name: URLKey.orderBy.rawValue, value: orderBy))
         }
         if !startsWith.isEmpty {
-            queryItemArray.append(URLQueryItem(name: getStartsWithKey(itemType: itemType), value: startsWith))
+            let startsWithKey = getStartsWithKey(itemType: itemType)
+            if !startsWithKey.isEmpty {
+                queryItemArray.append(URLQueryItem(name: startsWithKey, value: startsWith))
+            }
         }
         
         let url = URL(string: baseUrl)
@@ -228,7 +231,7 @@ func getStartsWithKey(itemType: ItemType) -> String {
     case .series:
         return URLKey.titleStartsWith.rawValue
     case .story:
-        return URLKey.titleStartsWith.rawValue
+        return ""
     }
 }
 
