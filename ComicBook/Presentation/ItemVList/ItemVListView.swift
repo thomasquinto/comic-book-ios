@@ -27,9 +27,12 @@ struct ItemVListView: View {
     }
     
     var body: some View {
+        
+        let title = detailItem == nil ? itemType.rawValue.capitalized : itemType.rawValue.capitalized + " - " + detailItem!.title
+        
         NavigationStack {
             itemList
-                .navigationTitle(itemType.rawValue.capitalized)
+                .navigationTitle(title)
                 .searchable(text: $viewModel.searchText)
         }
         .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
