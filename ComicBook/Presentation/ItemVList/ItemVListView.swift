@@ -40,11 +40,22 @@ struct ItemVListView: View {
             Button("OK", role: .cancel) { }
         }
         .onChange(of: viewModel.searchText) {
-            Task {
-                await viewModel.getItems(reset: true)
-            }
+            viewModel.resetItems()
         }
         .navigationTitle("Marvel Comics")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    viewModel.showBottomSheet.toggle()
+                } label: {
+                    Image(systemName: "line.horizontal.3.decrease.circle")
+                }
+                .sheet(isPresented: $viewModel.showBottomSheet) {
+                    bottomSheet
+                        .presentationDetents([.fraction(0.3)])
+                }
+            }
+        }
     }
 }
 
@@ -66,7 +77,7 @@ extension ItemVListView {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .onAppear {
                             Task {
-                                await viewModel.getItems(reset: false)
+                                await viewModel.getItems()
                             }
                         }
                 }
@@ -103,4 +114,34 @@ struct ItemLabel: View {
         }
         .padding(2)
     }
+}
+
+extension ItemVListView {
+    
+    var bottomSheet: some View {
+        VStack(alignment: .leading) {
+            Text("Sort")
+                .frame(maxWidth: .infinity, alignment: .center)
+                .fontWeight(.bold)
+            ForEach(getOrderByValues(itemType: itemType), id: \.self) { orderBy in
+                Button {
+                    viewModel.showBottomSheet.toggle()
+                    viewModel.orderBy = orderBy
+                    viewModel.resetItems()
+                } label: {
+                    HStack {
+                        Image(systemName: viewModel.orderBy == orderBy ?  "circle.fill" : "circle")
+                        Text(getOrderByName(orderBy: orderBy))
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                .frame(alignment: .leading)
+                .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .background(Color.white.ignoresSafeArea())
+    }
+    
+
 }

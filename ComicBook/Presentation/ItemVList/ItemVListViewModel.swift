@@ -21,6 +21,7 @@ class ItemVListViewModel {
         self.itemType = itemType
         self.detailItem = detailItem
         self.repository = repository
+        self.orderBy = getDefaultOrderBy(itemType: itemType)
     }
     
     var items: [Item] = []
@@ -31,11 +32,18 @@ class ItemVListViewModel {
     var offset = 0
     var limit = 20
     var hasNoMore = false
-        
-    func getItems(reset: Bool = false) async {
+    var showBottomSheet = false
+    var orderBy: OrderBy = OrderBy.modifiedDesc
+    
+    func resetItems() {
         hasNoMore = false
-        if reset || items.count == 0{
-            items = []
+        items = []
+        offset = 0
+    }
+        
+    func getItems() async {
+        hasNoMore = false
+        if items.count == 0{
             offset = 0
         } else {
             offset += limit
@@ -46,15 +54,10 @@ class ItemVListViewModel {
             let fetchItems = getFetchItems(itemType: itemType, repository: repository)
             let prefix = detailItem?.itemType.rawValue ?? ""
             let id = detailItem?.id ?? 0
-            let orderBy = getDefaultOrderBy(itemType: itemType)
             
             let itemsResponse = try await fetchItems(prefix, id, offset, limit, orderBy.rawValue, searchText, false)
             hasNoMore = itemsResponse.count < limit
-            if reset {
-                items = itemsResponse
-            } else {
-                items += itemsResponse
-            }
+            items += itemsResponse
             isLoading = false
         } catch {
             isLoading = false

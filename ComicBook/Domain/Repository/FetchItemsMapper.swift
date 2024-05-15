@@ -100,7 +100,7 @@ func getOrderByName(orderBy: OrderBy) -> String {
     case .onSaleDate:
         return "On Sale Date"
     case .onSaleDateDesc:
-        return "On Sale Date: Most Recemt"
+        return "On Sale Date: Most Recent"
     case .startDate:
         return "Start Date"
     case .startDateDesc:

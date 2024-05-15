@@ -54,7 +54,7 @@ struct ItemHListView: View {
                             .opacity(0.0)
                             .onAppear {
                                 Task {
-                                    await viewModel.getItems(reset: false)
+                                    await viewModel.getItems()
                                 }
                             }
                     }

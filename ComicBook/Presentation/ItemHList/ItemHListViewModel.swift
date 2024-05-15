@@ -31,10 +31,9 @@ class ItemHListViewModel {
     var limit = 20
     var hasNoMore = false
      
-    func getItems(reset: Bool = false) async {
+    func getItems() async {
         hasNoMore = false
-        if reset || items.count == 0{
-            items = []
+        if items.count == 0{
             offset = 0
         } else {
             offset += limit
@@ -49,11 +48,7 @@ class ItemHListViewModel {
 
             let itemsResponse = try await fetchItems(prefix, id, offset, limit, orderBy.rawValue, "", false)
             hasNoMore = itemsResponse.count < limit
-            if reset {
-                items = itemsResponse
-            } else {
-                items += itemsResponse
-            }
+            items += itemsResponse
             isLoading = false
         } catch {
             isLoading = false
