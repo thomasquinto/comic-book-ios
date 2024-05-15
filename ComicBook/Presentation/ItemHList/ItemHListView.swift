@@ -9,32 +9,33 @@ import SwiftUI
 import CachedAsyncImage
 
 struct ItemHListView: View {
-    let id: Int
-    let name: String
-    let fetchDetails: (Int, Int, Int, String?) async throws -> [Item]
+    let itemType: ItemType
+    let detailItem: Item?
+    let repository: ComicBookRepository
     let makeDetailView: (Item, ItemType) -> AnyView
+
     @State var viewModel: ItemHListViewModel
 
-    init(id: Int,
-         name: String,
-         fetchDetails: @escaping (Int, Int, Int, String?) async throws -> [Item],
+    init(itemType: ItemType,
+         detailItem: Item?,
+         repository: ComicBookRepository,
          makeDetailView: @escaping (Item, ItemType) -> AnyView
     ) {
-        self.id = id
-        self.name = name
-        self.fetchDetails = fetchDetails
+        self.itemType = itemType
+        self.detailItem = detailItem
+        self.repository = repository
         self.makeDetailView = makeDetailView
-        self.viewModel = .init(id: id, fetchDetails: fetchDetails)
+        _viewModel = State(initialValue: ItemHListViewModel(itemType: itemType, detailItem: detailItem, repository: repository))
     }
 
     var body: some View {
         VStack(alignment: .leading) {
             if !viewModel.items.isEmpty {
                 HStack {
-                    Text(name)
+                    Text(itemType.rawValue.capitalized)
                         .font(.title3)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    if id == 0 {
+                    if detailItem == nil {
                         Spacer()
                         Text("See all")
                             .font(.callout)

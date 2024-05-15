@@ -11,17 +11,22 @@ import CachedAsyncImage
 struct ItemVListView: View {
     
     let itemType: ItemType
-    let fetchItems: (String, Int, Int) async throws -> [Item]
+    let detailItem: Item?
+    let repository: ComicBookRepository
     let makeDetailView: (Item, ItemType) -> AnyView
+    
     @State var viewModel: ItemVListViewModel
 
-    init(itemName: ItemType,
-         fetchItems: @escaping (String, Int, Int) async throws -> [Item],
-         makeDetailView: @escaping (Item, ItemType) -> AnyView) {
-        self.itemType = itemName
-        self.fetchItems = fetchItems
+    init(itemType: ItemType,
+         detailItem: Item?,
+         repository: ComicBookRepository,
+         makeDetailView: @escaping (Item, ItemType) -> AnyView
+    ) {
+        self.itemType = itemType
+        self.detailItem = detailItem
+        self.repository = repository
         self.makeDetailView = makeDetailView
-        self.viewModel = .init(fetchItems: fetchItems)
+        _viewModel = State(initialValue: ItemVListViewModel(itemType: itemType, detailItem: detailItem, repository: repository))
     }
     
     var body: some View {

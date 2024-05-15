@@ -10,18 +10,9 @@ import CachedAsyncImage
 
 struct ItemDetailView: View {
     let item: Item
+    let repository: ComicBookRepository
     let makeDetailView: (Item, ItemType) -> AnyView
-    let detailName1: String
-    let fetchDetails1: (Int, Int, Int, String?) async throws -> [Item]
-    let detailName2: String
-    let fetchDetails2: (Int, Int, Int, String?) async throws -> [Item]
-    let detailName3: String
-    let fetchDetails3: (Int, Int, Int, String?) async throws -> [Item]
-    let detailName4: String
-    let fetchDetails4: (Int, Int, Int, String?) async throws -> [Item]
-    let detailName5: String?
-    let fetchDetails5: ((Int, Int, Int, String?) async throws -> [Item])?
-
+    
     var body: some View {
         ScrollView {
             // Hero Image
@@ -50,12 +41,8 @@ struct ItemDetailView: View {
                     .font(.body)
                     .foregroundColor(.secondary)
                                 
-                ItemHListView(id: item.id, name: detailName1, fetchDetails: fetchDetails1, makeDetailView: makeDetailView)
-                ItemHListView(id: item.id, name: detailName2, fetchDetails: fetchDetails2, makeDetailView: makeDetailView)
-                ItemHListView(id: item.id, name: detailName3, fetchDetails: fetchDetails3, makeDetailView: makeDetailView)
-                ItemHListView(id: item.id, name: detailName4, fetchDetails: fetchDetails4, makeDetailView: makeDetailView)
-                if let detailName5 {
-                    ItemHListView(id: item.id, name: detailName5, fetchDetails: fetchDetails5!, makeDetailView: makeDetailView)
+                ForEach(getItemTypesForDetail(itemType: item.itemType), id: \.self) { itemType in
+                    ItemHListView(itemType: itemType, detailItem: item, repository: repository, makeDetailView: makeDetailView)
                 }
 
                 Spacer()

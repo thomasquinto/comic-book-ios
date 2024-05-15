@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED326CD82BF5291100934AD6 /* FetchItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED326CD72BF5291100934AD6 /* FetchItemsMapper.swift */; };
 		EDC933D02BDC0FA40056BBB0 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC933CF2BDC0FA40056BBB0 /* ItemDetailView.swift */; };
 		EDC933D42BDDB4340056BBB0 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC933D32BDDB4340056BBB0 /* Item.swift */; };
 		EDC933D92BDDC0F00056BBB0 /* ItemVListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC933D82BDDC0F00056BBB0 /* ItemVListViewModel.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ED326CD72BF5291100934AD6 /* FetchItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchItemsMapper.swift; sourceTree = "<group>"; };
 		EDC933CF2BDC0FA40056BBB0 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		EDC933D32BDDB4340056BBB0 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		EDC933D82BDDC0F00056BBB0 /* ItemVListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemVListViewModel.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				EDEB795E2BCEFC89007711FD /* ComicBookRepository.swift */,
+				ED326CD72BF5291100934AD6 /* FetchItemsMapper.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				EDC933F92BDDF2140056BBB0 /* StoryDto.swift in Sources */,
 				EDC9341F2BE142910056BBB0 /* HomeView.swift in Sources */,
 				EDC933F32BDDF1D60056BBB0 /* CreatorDto.swift in Sources */,
+				ED326CD82BF5291100934AD6 /* FetchItemsMapper.swift in Sources */,
 				EDC933D02BDC0FA40056BBB0 /* ItemDetailView.swift in Sources */,
 				EDC934132BE073640056BBB0 /* ResponseDto.swift in Sources */,
 				EDC934032BDEB1560056BBB0 /* SeriesDto.swift in Sources */,

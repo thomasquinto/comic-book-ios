@@ -10,13 +10,17 @@ import Foundation
 @Observable
 class ItemHListViewModel {
 
-    let id: Int
-    let fetchDetails: (Int, Int, Int, String?) async throws -> [Item]
+    let itemType: ItemType
+    let detailItem: Item?
+    let repository: ComicBookRepository
 
-    init(id: Int, 
-         fetchDetails: @escaping (Int, Int, Int, String?) async throws -> [Item]) {
-        self.id = id
-        self.fetchDetails = fetchDetails
+    init(itemType: ItemType,
+         detailItem: Item?,
+         repository: ComicBookRepository         
+    ) {
+        self.itemType = itemType
+        self.detailItem = detailItem
+        self.repository = repository
     }
     
     var items: [Item] = []
@@ -36,9 +40,14 @@ class ItemHListViewModel {
             offset += limit
         }
         isLoading = true
-        
+                
         do {
-            let itemsResponse = try await fetchDetails(id, offset, limit, nil)
+            let fetchItems = getFetchItems(itemType: itemType, repository: repository)
+            let prefix = detailItem?.itemType.rawValue ?? ""
+            let id = detailItem?.id ?? 0
+            let orderBy = detailItem != nil ? getDefaultOrderBy(itemType: itemType) : OrderBy.modifiedDesc
+
+            let itemsResponse = try await fetchItems(prefix, id, offset, limit, orderBy.rawValue, "", false)
             hasNoMore = itemsResponse.count < limit
             if reset {
                 items = itemsResponse

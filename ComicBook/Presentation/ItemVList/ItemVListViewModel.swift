@@ -10,7 +10,18 @@ import Foundation
 @Observable
 class ItemVListViewModel {
 
-    let fetchItems: (String, Int, Int) async throws -> [Item]
+    let itemType: ItemType
+    let detailItem: Item?
+    let repository: ComicBookRepository
+
+    init(itemType: ItemType,
+         detailItem: Item?,
+         repository: ComicBookRepository
+    ) {
+        self.itemType = itemType
+        self.detailItem = detailItem
+        self.repository = repository
+    }
     
     var items: [Item] = []
     var isLoading = false
@@ -20,10 +31,6 @@ class ItemVListViewModel {
     var offset = 0
     var limit = 20
     var hasNoMore = false
-
-    init(fetchItems: @escaping (String, Int, Int) async throws -> [Item]) {
-        self.fetchItems = fetchItems
-    }
         
     func getItems(reset: Bool = false) async {
         hasNoMore = false
@@ -36,7 +43,12 @@ class ItemVListViewModel {
         isLoading = true
         
         do {
-            let itemsResponse = try await fetchItems(searchText, offset, limit)
+            let fetchItems = getFetchItems(itemType: itemType, repository: repository)
+            let prefix = detailItem?.itemType.rawValue ?? ""
+            let id = detailItem?.id ?? 0
+            let orderBy = getDefaultOrderBy(itemType: itemType)
+            
+            let itemsResponse = try await fetchItems(prefix, id, offset, limit, orderBy.rawValue, searchText, false)
             hasNoMore = itemsResponse.count < limit
             if reset {
                 items = itemsResponse
