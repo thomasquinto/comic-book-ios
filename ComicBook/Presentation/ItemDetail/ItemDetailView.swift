@@ -11,7 +11,6 @@ import CachedAsyncImage
 struct ItemDetailView: View {
     let item: Item
     let repository: ComicBookRepository
-    let makeDetailView: (Item, ItemType) -> AnyView
     
     var body: some View {
         ScrollView {
@@ -42,7 +41,7 @@ struct ItemDetailView: View {
                     .foregroundColor(.secondary)
                                 
                 ForEach(getItemTypesForDetail(itemType: item.itemType), id: \.self) { itemType in
-                    ItemHListView(itemType: itemType, detailItem: item, repository: repository, makeDetailView: makeDetailView)
+                    ItemHListView(itemType: itemType, detailItem: item, repository: repository)
                 }
 
                 Spacer()

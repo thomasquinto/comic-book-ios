@@ -12,19 +12,16 @@ struct ItemHListView: View {
     let itemType: ItemType
     let detailItem: Item?
     let repository: ComicBookRepository
-    let makeDetailView: (Item, ItemType) -> AnyView
 
     @State var viewModel: ItemHListViewModel
 
     init(itemType: ItemType,
          detailItem: Item?,
-         repository: ComicBookRepository,
-         makeDetailView: @escaping (Item, ItemType) -> AnyView
+         repository: ComicBookRepository
     ) {
         self.itemType = itemType
         self.detailItem = detailItem
         self.repository = repository
-        self.makeDetailView = makeDetailView
         _viewModel = State(initialValue: ItemHListViewModel(itemType: itemType, detailItem: detailItem, repository: repository))
     }
 
@@ -47,7 +44,7 @@ struct ItemHListView: View {
                 LazyHStack {
                     ForEach(viewModel.items) { item in
                         NavigationLink {
-                            makeDetailView(item, item.itemType)
+                            ItemDetailView(item: item, repository: repository)
                         } label: {
                             ItemHorizontalLabel(item: item)
                         }

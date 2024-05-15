@@ -52,23 +52,17 @@ struct ItemLinkView : View {
             ItemVListView(
                 itemType: itemType,
                 detailItem: nil,
-                repository: ComicBookRepositoryImpl.shared,
-                makeDetailView: makeDetailView
+                repository: ComicBookRepositoryImpl.shared
             )
         } label: {
             ItemHListView(
                 itemType: itemType,
                 detailItem: nil,
-                repository: ComicBookRepositoryImpl.shared,
-                makeDetailView: makeDetailView
+                repository: ComicBookRepositoryImpl.shared
             )
         }
         .buttonStyle(PlainButtonStyle())
     }
-}
-
-func makeDetailView(item: Item, detailType: ItemType) -> AnyView {
-    return AnyView(ItemDetailView(item: item, repository: ComicBookRepositoryImpl.shared, makeDetailView: makeDetailView))
 }
 
 struct ParallaxHeader<Content: View, Space: Hashable>: View {
