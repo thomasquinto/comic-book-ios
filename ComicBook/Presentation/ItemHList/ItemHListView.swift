@@ -31,10 +31,13 @@ struct ItemHListView: View {
                 HStack {
                     Text(itemType.rawValue.capitalized)
                         .font(.title3)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .fontWeight(.bold)
                     Spacer()
                     Text("See all")
                         .font(.callout)
+                        .fontWeight(.bold)
+                    Image(systemName: "chevron.right")
+                        .padding(.trailing, 8)
                 }
             }
                 
