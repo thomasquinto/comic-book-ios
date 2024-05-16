@@ -111,7 +111,11 @@ struct ItemLabel: View {
                 .padding(2)
             
             Spacer()
+            
+            Image(systemName: "chevron.right")
+                .padding(.trailing, 8)
         }
+        .contentShape(Rectangle()) // Makes the entire HStack tappable
         .padding(2)
     }
 }
