@@ -140,7 +140,6 @@ extension ItemVListView {
             }
         }
         .frame(maxWidth: .infinity)
-        .background(Color.white.ignoresSafeArea())
     }
     
 
