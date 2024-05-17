@@ -21,23 +21,19 @@ struct ItemDetailView: View {
                 CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
                     image.resizable()
                         .aspectRatio(contentMode: .fill)
-                        .edgesIgnoringSafeArea(.all)
-                        .frame(height: 600) // Adjust height as needed
+                        .frame(minHeight: 600)
                         .clipped()
                 } placeholder: {
                     Rectangle()
                         .fill(.ultraThinMaterial)
-                        .edgesIgnoringSafeArea(.all)
-                        .frame(height: 600) // Adjust height as needed
+                        .frame(minHeight: 600)
                         .clipped()
                 }
-                
-                
                 
                 VStack(alignment: .leading, spacing: 16) {
                     // Title
                     Text(item.name)
-                        .font(.title)
+                        .font(.title2)
                         .fontWeight(.bold)
                     
                     // Description
@@ -51,7 +47,6 @@ struct ItemDetailView: View {
                     
                     Spacer()
                 }
-                .frame(maxWidth: UIScreen.main.bounds.size.width)
                 .padding(EdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8))
             }
             .navigationBarBackButtonHidden(true)
@@ -70,7 +65,8 @@ struct ItemDetailView: View {
                     .font(.system(size: 20))
                     .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 0))
             }
-        }
+        }        
     }
+
 }
 
