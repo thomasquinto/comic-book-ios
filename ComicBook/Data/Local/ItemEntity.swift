@@ -11,9 +11,9 @@ import SwiftData
 @Model
 class ItemEntity: Identifiable {
     @Attribute(.unique)
-    var compoundKey: String
+    var id: UUID = UUID()
     var index: Int
-    var id: Int
+    var itemId: Int
     var itemType: String
     var name: String
     var desc: String
@@ -22,10 +22,9 @@ class ItemEntity: Identifiable {
     var isFavorite: Bool = false
     var updated: Date = Date()
     
-    init(index: Int, id: Int, itemType: String, name: String, desc: String, date: Date, imageUrl: String) {
-        self.compoundKey = ItemEntity.generateCompoundKey(id: id, itemTypeValue: itemType)
+    init(index: Int, itemId: Int, itemType: String, name: String, desc: String, date: Date, imageUrl: String) {
         self.index = index
-        self.id = id
+        self.itemId = itemId
         self.itemType = itemType
         self.name = name
         self.desc = desc
@@ -35,7 +34,7 @@ class ItemEntity: Identifiable {
     
     convenience init(item: Item, index: Int) {
         self.init(index: index,
-                  id: item.id,
+                  itemId: item.id,
                   itemType: item.itemType.rawValue,
                   name: item.name,
                   desc: item.description,
@@ -44,15 +43,12 @@ class ItemEntity: Identifiable {
     }
     
     func toItem() -> Item {
-        return Item(id: id,
+        return Item(id: itemId,
                     itemType: ItemType(rawValue: itemType)!,
                     name: name,
                     description: desc,
                     date: date,
                     imageUrl: imageUrl)
     }
-    
-    static func generateCompoundKey(id: Int, itemTypeValue: String) -> String {
-        return "\(id)_\(itemTypeValue)"
-    }
+   
 }

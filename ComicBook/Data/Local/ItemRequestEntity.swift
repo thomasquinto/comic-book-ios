@@ -11,7 +11,7 @@ import SwiftData
 @Model
 class ItemRequestEntity: Identifiable {
     @Attribute(.unique)
-    var compoundKey: String
+    var id: UUID = UUID()
     var paramKey: String
     var paramExtras: String
     @Relationship(deleteRule: .cascade)
@@ -19,7 +19,6 @@ class ItemRequestEntity: Identifiable {
     var created: Date = Date()
     
     init(paramKey: String, paramExtras: String, itemEntities: [ItemEntity]) {
-        self.compoundKey = ItemRequestEntity.generateCompoundKey(paramKey: paramKey, paramExtras: paramExtras)
         self.paramKey = paramKey
         self.paramExtras = paramExtras
         self.itemEntities = itemEntities
@@ -32,8 +31,5 @@ class ItemRequestEntity: Identifiable {
     static func generateParamExtras(offset: Int, limit: Int, orderBy: String, startsWith: String) -> String {
         return "\(offset)-\(limit)-\(orderBy)-\(startsWith)"
     }
-    
-    static func generateCompoundKey(paramKey: String, paramExtras: String) -> String {
-        return paramKey + "-" + paramExtras
-    }
+  
 }

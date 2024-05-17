@@ -45,7 +45,7 @@ class LocalDatabase: NSObject {
         let paramExtras = ItemRequestEntity.generateParamExtras(offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
         let itemRequestEntity = ItemRequestEntity(paramKey: paramKey, paramExtras: paramExtras, itemEntities: itemEntities)
         
-        print("Caching items for key: \(itemRequestEntity.compoundKey)")
+        print("Caching items for key: \(paramKey)-\(paramExtras)")
         
         persistentContainer.mainContext.insert(itemRequestEntity)
         //try persistentContainer.mainContext.save()
@@ -60,21 +60,21 @@ class LocalDatabase: NSObject {
                      startsWith: String) -> [Item]? {
         let paramKey = ItemRequestEntity.generateParamKey(itemType: itemType, prefix: prefix, id: id)
         let paramExtras = ItemRequestEntity.generateParamExtras(offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
-        let compoundKey = ItemRequestEntity.generateCompoundKey(paramKey: paramKey, paramExtras: paramExtras)
         
-        print("Looking for cached items for key: \(compoundKey)")
+        print("Looking for cached items for key: \(paramKey)-\(paramExtras)")
         
         do {
             let itemRequestEntity = try persistentContainer.mainContext.fetch(
                 FetchDescriptor<ItemRequestEntity>(
                     predicate: #Predicate {
-                        $0.compoundKey == compoundKey
+                        $0.paramKey == paramKey &&
+                        $0.paramExtras == paramExtras
                     }
                 )
             ).first
             
             if let itemRequestEntity {
-                print("Found cached items for key: \(compoundKey)")
+                print("Found cached items for key: \(paramKey)-\(paramExtras)")
                 let itemEntities = itemRequestEntity.itemEntities.sorted(by: { $0.index < $1.index })
                 return itemEntities.map { itemEntity in
                     itemEntity.toItem()
@@ -83,7 +83,7 @@ class LocalDatabase: NSObject {
                 return nil
             }
         } catch {
-            print("Error fetching cached items for key: \(compoundKey): \(error)")
+            print("Error fetching cached items for key: \(paramKey)-\(paramExtras): \(error)")
             return nil
         }
     }
