@@ -9,11 +9,11 @@ import Foundation
 
 struct Item: Identifiable, Hashable {
     let id: Int
-    let title: String
-    let description: String
-    let imageUrl: String
-    let date: Date
     let itemType: ItemType
+    let name: String
+    let description: String
+    let date: Date
+    let imageUrl: String
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

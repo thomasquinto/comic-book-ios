@@ -89,7 +89,7 @@ struct ItemHorizontalLabel: View {
 
             Spacer()
 
-            Text(item.title)
+            Text(item.name)
                 .font(.caption)
                 .padding(2)
         }

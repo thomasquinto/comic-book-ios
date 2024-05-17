@@ -14,10 +14,10 @@ struct CreatorDto: MappedItem{
     
     func toItem() -> Item {
         return Item(id: self.id ?? 0,
-                    title: self.fullName ?? "",
+                    itemType: .creator,
+                    name: self.fullName ?? "",
                     description: "",
-                    imageUrl: thumbnail?.getThumbnailUrl() ?? "https://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg",
                     date: Date(),
-                    itemType: .creator) // TODO: convert Date properly
+                    imageUrl: thumbnail?.getThumbnailUrl() ?? ThumbnailDto.missingImageUrl)
     }
 }

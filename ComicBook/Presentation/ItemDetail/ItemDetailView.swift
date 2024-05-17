@@ -31,7 +31,7 @@ struct ItemDetailView: View {
             
             VStack(alignment: .leading, spacing: 16) {
                 // Title
-                Text(item.title)
+                Text(item.name)
                     .font(.title)
                     .fontWeight(.bold)
                 

@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import SwiftData
 
 struct ComicBookRepositoryImpl: ComicBookRepository {
     
     fileprivate let remote: ComicBookRemote
+    private let useCache = true
     
     private init(remote: ComicBookRemote){
         self.remote = remote
@@ -24,6 +26,33 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
      */
     static let shared: ComicBookRepository = ComicBookRepositoryImpl(remote: ComicBookRemote.shared)
     
+    func getItems(
+        getRemoteItems: (String, Int, Int, Int, String, String) async throws -> [Item],
+        itemType: ItemType,
+        prefix: String,
+        id: Int,
+        offset: Int,
+        limit: Int,
+        orderBy: String,
+        startsWith: String,
+        fetchFromRemote: Bool
+    ) async throws -> [Item] {
+        if (fetchFromRemote || !useCache) {
+            return try await getRemoteItems(prefix, id, offset, limit, orderBy, startsWith)
+        }
+        
+        var items = await LocalDatabase.shared.lookupCache(itemType: itemType, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
+        if let items = items {
+            return items
+        }
+        items = try await getRemoteItems(prefix, id, offset, limit, orderBy, startsWith)
+        if let items = items {
+            await LocalDatabase.shared.cacheItems(itemType: itemType, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, items: items)
+            return items
+        }
+        return []
+    }
+    
     func getCharacters(
         prefix: String,
         id: Int,
@@ -33,7 +62,7 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         startsWith: String,
         fetchFromRemote: Bool
     ) async throws -> [Item] {
-        return try await remote.getCharacters(prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
+        return try await getItems(getRemoteItems: remote.getCharacters, itemType: .character, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, fetchFromRemote: fetchFromRemote)
     }
     
     func getComics(
@@ -45,7 +74,7 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         startsWith: String,
         fetchFromRemote: Bool
     ) async throws -> [Item] {
-        return try await remote.getComics(prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
+        return try await getItems(getRemoteItems: remote.getComics, itemType: .comic, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, fetchFromRemote: fetchFromRemote)
     }
     
     func getCreators(
@@ -57,7 +86,7 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         startsWith: String,
         fetchFromRemote: Bool
     ) async throws -> [Item] {
-        return try await remote.getCreators(prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
+        return try await getItems(getRemoteItems: remote.getCreators, itemType: .creator, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, fetchFromRemote: fetchFromRemote)
     }
     
     func getEvents(
@@ -69,7 +98,7 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         startsWith: String,
         fetchFromRemote: Bool
     ) async throws -> [Item] {
-        return try await remote.getEvents(prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
+        return try await getItems(getRemoteItems: remote.getEvents, itemType: .event, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, fetchFromRemote: fetchFromRemote)
     }
 
     func getSeries(
@@ -81,7 +110,7 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         startsWith: String,
         fetchFromRemote: Bool
     ) async throws -> [Item] {
-        return try await remote.getSeries(prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
+        return try await getItems(getRemoteItems: remote.getSeries, itemType: .series, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, fetchFromRemote: fetchFromRemote)
     }
     
     func getStories(
@@ -93,6 +122,6 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         startsWith: String,
         fetchFromRemote: Bool
     ) async throws -> [Item] {
-        return try await remote.getStories(prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
+        return try await getItems(getRemoteItems: remote.getStories, itemType: .story, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, fetchFromRemote: fetchFromRemote)
     }
 }

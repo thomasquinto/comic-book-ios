@@ -28,7 +28,7 @@ struct ItemVListView: View {
     
     var body: some View {
         
-        let title = detailItem == nil ? itemType.rawValue.capitalized : itemType.rawValue.capitalized + " - " + detailItem!.title
+        let title = detailItem == nil ? itemType.rawValue.capitalized : itemType.rawValue.capitalized + " - " + detailItem!.name
         
         NavigationStack {
             itemList
@@ -106,7 +106,7 @@ struct ItemLabel: View {
                     .cornerRadius(6)
             }
 
-            Text(item.title)
+            Text(item.name)
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                 .padding(2)
             
