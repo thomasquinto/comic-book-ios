@@ -34,8 +34,10 @@ class ItemVListViewModel {
     var hasNoMore = false
     var showBottomSheet = false
     var orderBy: OrderBy = OrderBy.modifiedDesc
+    private var fetchFromRemote: Bool = false
     
-    func resetItems() {
+    func resetItems(fetchFromRemote: Bool = false) {
+        self.fetchFromRemote = fetchFromRemote
         hasNoMore = false
         items = []
         offset = 0
@@ -55,7 +57,8 @@ class ItemVListViewModel {
             let prefix = detailItem?.itemType.rawValue ?? ""
             let id = detailItem?.id ?? 0
             
-            let itemsResponse = try await fetchItems(prefix, id, offset, limit, orderBy.rawValue, searchText, false)
+            let itemsResponse = try await fetchItems(prefix, id, offset, limit, orderBy.rawValue, searchText, fetchFromRemote)
+            self.fetchFromRemote = false
             hasNoMore = itemsResponse.count < limit
             items += itemsResponse
             isLoading = false

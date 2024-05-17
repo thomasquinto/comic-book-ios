@@ -83,6 +83,9 @@ extension ItemVListView {
                 }
             }
         }
+        .refreshable {
+            viewModel.resetItems(fetchFromRemote: true)
+        }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .scrollIndicators(.hidden)
     }

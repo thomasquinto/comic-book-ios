@@ -27,14 +27,14 @@ class LocalDatabase: NSObject {
         }
     }()
     
-    func cacheItems(itemType: ItemType,
-                    prefix: String,
-                    id: Int,
-                    offset: Int,
-                    limit: Int,
-                    orderBy: String,
-                    startsWith: String,
-                    items: [Item]) async {
+    func saveItemRequest(itemType: ItemType,
+                         prefix: String,
+                         id: Int,
+                         offset: Int,
+                         limit: Int,
+                         orderBy: String,
+                         startsWith: String,
+                         items: [Item]) async {
         
         var itemEntities = [] as [ItemEntity]
         for (index, item) in items.enumerated() {
@@ -48,16 +48,15 @@ class LocalDatabase: NSObject {
         print("Caching items for key: \(paramKey)-\(paramExtras)")
         
         persistentContainer.mainContext.insert(itemRequestEntity)
-        //try persistentContainer.mainContext.save()
     }
     
-    func lookupCache(itemType: ItemType,
-                     prefix: String,
-                     id: Int,
-                     offset: Int,
-                     limit: Int,
-                     orderBy: String,
-                     startsWith: String) -> [Item]? {
+    func retrieveItemRequest(itemType: ItemType,
+                             prefix: String,
+                             id: Int,
+                             offset: Int,
+                             limit: Int,
+                             orderBy: String,
+                             startsWith: String) -> [Item]? {
         let paramKey = ItemRequestEntity.generateParamKey(itemType: itemType, prefix: prefix, id: id)
         let paramExtras = ItemRequestEntity.generateParamExtras(offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
         
@@ -85,6 +84,50 @@ class LocalDatabase: NSObject {
         } catch {
             print("Error fetching cached items for key: \(paramKey)-\(paramExtras): \(error)")
             return nil
+        }
+    }
+    
+    func clearItemRequestForKey(itemType: ItemType,
+                                prefix: String,
+                                id: Int) {
+        let paramKey = ItemRequestEntity.generateParamKey(itemType: itemType, prefix: prefix, id: id)
+        
+        print("Clearing cached items for key: \(paramKey)")
+        
+        do {
+            let itemRequestEntities = try persistentContainer.mainContext.fetch(
+                FetchDescriptor<ItemRequestEntity>(
+                    predicate: #Predicate {
+                        $0.paramKey == paramKey
+                    }
+                )
+            )
+            
+            itemRequestEntities.forEach { itemRequestEntity in
+                print("Deleting cached items for key: \(itemRequestEntity.paramKey)-\(itemRequestEntity.paramExtras)")
+                persistentContainer.mainContext.delete(itemRequestEntity)
+            }
+            
+        } catch {
+            print("Error clearing cached items for key: \(paramKey): \(error)")
+        }
+    }
+    
+    func clearItemRequests() {
+        print("Clearing all cached items")
+        
+        do {
+            let itemRequestEntities = try persistentContainer.mainContext.fetch(
+                FetchDescriptor<ItemRequestEntity>()
+            )
+            
+            itemRequestEntities.forEach { itemRequestEntity in
+                print("Deleting cached items for id: \(itemRequestEntity.id)")
+                persistentContainer.mainContext.delete(itemRequestEntity)
+            }
+            
+        } catch {
+            print("Error clearing all cached items: \(error)")
         }
     }
 }

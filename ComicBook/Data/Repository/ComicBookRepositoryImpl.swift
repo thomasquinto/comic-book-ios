@@ -37,20 +37,24 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         startsWith: String,
         fetchFromRemote: Bool
     ) async throws -> [Item] {
-        if (fetchFromRemote || !useCache) {
+        if !useCache { // only for internal testing
             return try await getRemoteItems(prefix, id, offset, limit, orderBy, startsWith)
         }
         
-        var items = await LocalDatabase.shared.lookupCache(itemType: itemType, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
-        if let items = items {
-            return items
+        if fetchFromRemote {
+            await LocalDatabase.shared.clearItemRequestForKey(itemType: itemType, prefix: prefix, id: id)
+        } else {
+            let items = await LocalDatabase.shared.retrieveItemRequest(itemType: itemType, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
+            if let items = items {
+                return items
+            }
         }
-        items = try await getRemoteItems(prefix, id, offset, limit, orderBy, startsWith)
-        if let items = items {
-            await LocalDatabase.shared.cacheItems(itemType: itemType, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, items: items)
-            return items
-        }
-        return []
+        
+        let items = try await getRemoteItems(prefix, id, offset, limit, orderBy, startsWith)
+        
+        await LocalDatabase.shared.saveItemRequest(itemType: itemType, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, items: items)
+        
+        return items
     }
     
     func getCharacters(
