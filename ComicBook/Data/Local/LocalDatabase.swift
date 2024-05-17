@@ -87,9 +87,9 @@ class LocalDatabase: NSObject {
         }
     }
     
-    func clearItemRequestForKey(itemType: ItemType,
-                                prefix: String,
-                                id: Int) {
+    func clearItemRequestsForKey(itemType: ItemType,
+                                 prefix: String,
+                                 id: Int) {
         let paramKey = ItemRequestEntity.generateParamKey(itemType: itemType, prefix: prefix, id: id)
         
         print("Clearing cached items for key: \(paramKey)")

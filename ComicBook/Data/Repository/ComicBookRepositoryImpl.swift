@@ -42,7 +42,7 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         }
         
         if fetchFromRemote {
-            await LocalDatabase.shared.clearItemRequestForKey(itemType: itemType, prefix: prefix, id: id)
+            await LocalDatabase.shared.clearItemRequestsForKey(itemType: itemType, prefix: prefix, id: id)
         } else {
             let items = await LocalDatabase.shared.retrieveItemRequest(itemType: itemType, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith)
             if let items = items {
