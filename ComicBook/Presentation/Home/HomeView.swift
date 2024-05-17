@@ -9,6 +9,14 @@ import SwiftUI
 
 struct HomeView: View {
     
+    let repository: ComicBookRepository
+    @State var viewModel: HomeViewModel
+
+    init(repository: ComicBookRepository) {
+        self.repository = repository
+        _viewModel = State(initialValue: HomeViewModel(repository: repository))
+    }
+    
     enum CoordinateSpaces {
         case scrollView
     }
@@ -25,7 +33,7 @@ struct HomeView: View {
                     defaultHeight: aspectRatio > 0.7 ? UIScreen.main.bounds.height / 1.3 : UIScreen.main.bounds.height / 2
                 ) {
                     Image("hero_image")
-                    .resizable()
+                        .resizable()
                         .scaledToFill()
                 }
                 
@@ -36,6 +44,11 @@ struct HomeView: View {
                 }
                 .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4))
             
+            }
+            .refreshable {
+                Task {
+                    await viewModel.refresh()
+                }
             }
             .coordinateSpace(name: CoordinateSpaces.scrollView)
             .edgesIgnoringSafeArea(.top)

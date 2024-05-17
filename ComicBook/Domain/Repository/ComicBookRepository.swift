@@ -68,5 +68,7 @@ protocol ComicBookRepository{
         startsWith: String,
         fetchFromRemote: Bool
     ) async throws -> [Item]
+    
+    func deleteCache() async throws
 
 }

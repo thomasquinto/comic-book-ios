@@ -128,4 +128,8 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
     ) async throws -> [Item] {
         return try await getItems(getRemoteItems: remote.getStories, itemType: .story, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, fetchFromRemote: fetchFromRemote)
     }
+    
+    func deleteCache() async throws {
+        await LocalDatabase.shared.clearItemRequests()
+    }
 }

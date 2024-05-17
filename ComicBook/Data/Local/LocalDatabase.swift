@@ -122,7 +122,7 @@ class LocalDatabase: NSObject {
             )
             
             itemRequestEntities.forEach { itemRequestEntity in
-                print("Deleting cached items for id: \(itemRequestEntity.id)")
+                print("Deleting cached items for key: \(itemRequestEntity.paramKey)-\(itemRequestEntity.paramExtras)")
                 persistentContainer.mainContext.delete(itemRequestEntity)
             }
             

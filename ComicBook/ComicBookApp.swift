@@ -11,7 +11,7 @@ import SwiftUI
 struct ComicBookApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView(repository: ComicBookRepositoryImpl.shared)
         }
     }
 }
