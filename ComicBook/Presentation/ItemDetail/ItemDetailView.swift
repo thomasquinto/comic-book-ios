@@ -11,23 +11,54 @@ import CachedAsyncImage
 struct ItemDetailView: View {
     let item: Item
     let repository: ComicBookRepository
+    @State var viewModel: ItemDetailViewModel
+
+    init(item: Item, repository: ComicBookRepository) {
+        self.item = item
+        self.repository = repository
+        _viewModel = State(initialValue: ItemDetailViewModel(item: item, repository: repository))
+    }
     
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack(alignment: .topLeading) {
             ScrollView {
-                // Hero Image
-                CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
-                    image.resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(minHeight: 600)
-                        .clipped()
-                } placeholder: {
-                    Rectangle()
-                        .fill(.ultraThinMaterial)
-                        .frame(minHeight: 600)
-                        .clipped()
+                ZStack(alignment: .bottomTrailing) {
+                    // Hero Image
+                    CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
+                        image.resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(maxHeight: 600)
+                            .clipped()
+                    } placeholder: {
+                        Rectangle()
+                            .fill(.ultraThinMaterial)
+                            .frame(maxHeight: 600)
+                            .clipped()
+                    }
+                    
+                    Button {
+                        Task {
+                            await viewModel.toggleFavorite()
+                        }
+                    } label: {
+                        Image(
+                            systemName: viewModel.isFavorite ?
+                                "heart.fill" : "heart"
+                        )
+                        .foregroundColor(
+                            viewModel.isFavorite ?
+                                .red : .black
+                        )
+                        //.font(.system(size: 20))
+                        .frame(width: 40, height: 40)
+                        .background(Color.white.opacity(0.8))
+                        .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                        .font(.system(size: 20))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 12, trailing: 0))
+                    }
+                    .padding([.leading, .trailing], 20)
                 }
                 
                 VStack(alignment: .leading, spacing: 16) {
@@ -65,7 +96,12 @@ struct ItemDetailView: View {
                     .font(.system(size: 20))
                     .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 0))
             }
-        }        
+        }
+        .onAppear() {
+            Task {
+                await viewModel.initFavorite()
+            }
+        }
     }
 
 }

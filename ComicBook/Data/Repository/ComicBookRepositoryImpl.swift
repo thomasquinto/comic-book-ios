@@ -129,7 +129,15 @@ struct ComicBookRepositoryImpl: ComicBookRepository {
         return try await getItems(getRemoteItems: remote.getStories, itemType: .story, prefix: prefix, id: id, offset: offset, limit: limit, orderBy: orderBy, startsWith: startsWith, fetchFromRemote: fetchFromRemote)
     }
     
-    func deleteCache() async throws {
+    func deleteCache() async {
         await LocalDatabase.shared.clearItemRequests()
+    }
+    
+    func retrieveFavoriteItems() async -> [Item] {
+        return await LocalDatabase.shared.retrieveFavoriteItems()
+    }
+    
+    func updateFavorite(item: Item, isFavorite: Bool) async {
+        await LocalDatabase.shared.updateFavorite(item: item, isFavorite: isFavorite)
     }
 }

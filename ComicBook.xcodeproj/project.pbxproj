@@ -10,6 +10,7 @@
 		ED10D11A2BF6C1520077643B /* LocalDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED10D1192BF6C1520077643B /* LocalDatabase.swift */; };
 		ED326CD82BF5291100934AD6 /* FetchItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED326CD72BF5291100934AD6 /* FetchItemsMapper.swift */; };
 		ED778AF52BF7EEC2002ECA41 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED778AF42BF7EEC2002ECA41 /* HomeViewModel.swift */; };
+		ED778AF72BF810E5002ECA41 /* ItemDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED778AF62BF810E5002ECA41 /* ItemDetailViewModel.swift */; };
 		ED8D5FC52BF5443F004B4DA1 /* ItemLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8D5FC42BF5443F004B4DA1 /* ItemLinkView.swift */; };
 		ED8D5FC82BF66403004B4DA1 /* ItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8D5FC72BF66403004B4DA1 /* ItemEntity.swift */; };
 		ED8D5FCA2BF66410004B4DA1 /* ItemRequestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED8D5FC92BF66410004B4DA1 /* ItemRequestEntity.swift */; };
@@ -64,6 +65,7 @@
 		ED10D1192BF6C1520077643B /* LocalDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDatabase.swift; sourceTree = "<group>"; };
 		ED326CD72BF5291100934AD6 /* FetchItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchItemsMapper.swift; sourceTree = "<group>"; };
 		ED778AF42BF7EEC2002ECA41 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		ED778AF62BF810E5002ECA41 /* ItemDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewModel.swift; sourceTree = "<group>"; };
 		ED8D5FC42BF5443F004B4DA1 /* ItemLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemLinkView.swift; sourceTree = "<group>"; };
 		ED8D5FC72BF66403004B4DA1 /* ItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEntity.swift; sourceTree = "<group>"; };
 		ED8D5FC92BF66410004B4DA1 /* ItemRequestEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRequestEntity.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				EDC933CF2BDC0FA40056BBB0 /* ItemDetailView.swift */,
+				ED778AF62BF810E5002ECA41 /* ItemDetailViewModel.swift */,
 			);
 			path = ItemDetail;
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 				EDC933F32BDDF1D60056BBB0 /* CreatorDto.swift in Sources */,
 				ED326CD82BF5291100934AD6 /* FetchItemsMapper.swift in Sources */,
 				ED10D11A2BF6C1520077643B /* LocalDatabase.swift in Sources */,
+				ED778AF72BF810E5002ECA41 /* ItemDetailViewModel.swift in Sources */,
 				EDC933D02BDC0FA40056BBB0 /* ItemDetailView.swift in Sources */,
 				EDC934132BE073640056BBB0 /* ResponseDto.swift in Sources */,
 				EDC934032BDEB1560056BBB0 /* SeriesDto.swift in Sources */,

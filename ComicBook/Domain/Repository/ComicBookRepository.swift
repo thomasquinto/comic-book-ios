@@ -69,6 +69,10 @@ protocol ComicBookRepository{
         fetchFromRemote: Bool
     ) async throws -> [Item]
     
-    func deleteCache() async throws
+    func deleteCache() async
+    
+    func retrieveFavoriteItems() async -> [Item]
+    
+    func updateFavorite(item: Item, isFavorite: Bool) async
 
 }

@@ -130,4 +130,66 @@ class LocalDatabase: NSObject {
             print("Error clearing all cached items: \(error)")
         }
     }
+    
+    func retrieveFavoriteItems() -> [Item] {
+        print("Retrieving favorite items")
+        
+        do {
+            let itemEntities = try persistentContainer.mainContext.fetch(
+                FetchDescriptor<ItemEntity>(
+                    predicate: #Predicate {
+                        $0.isFavorite == true
+                    }
+                )
+            )
+            
+            let items = itemEntities.sorted(by: { $0.updated > $1.updated }).map { itemEntity in
+                itemEntity.toItem()
+            }
+            
+            return items
+        } catch {
+            print("Error fetching favorite items: \(error)")
+            return []
+        }
+    }
+    
+    func updateFavorite(item: Item, isFavorite: Bool) {
+        print("Updating favorite status for item \(item.id) to \(isFavorite)")
+
+        do {
+            let itemId = item.id
+            let itemEntities = try persistentContainer.mainContext.fetch(
+                FetchDescriptor<ItemEntity>(
+                    predicate: #Predicate {
+                        $0.itemId == itemId &&
+                        $0.isFavorite == true
+                    }
+                )
+            )
+            
+            print("Found \(itemEntities.count) favorite items")
+            
+            if itemEntities.map({ $0.itemId }).contains(item.id) {
+                let itemEntity = itemEntities.first(where: { $0.itemId == item.id })!
+                if (!isFavorite) {
+                    print("Removing favorite item \(item.id)")
+                    persistentContainer.mainContext.delete(itemEntity)
+                    try persistentContainer.mainContext.save()
+                }
+                return
+            }
+            
+            if isFavorite {
+                print("Adding favorite item \(item.id)")
+                let itemEntity = ItemEntity(item: item, index: -1)
+                itemEntity.isFavorite = isFavorite
+                itemEntity.updated = Date()
+                persistentContainer.mainContext.insert(itemEntity)
+                try persistentContainer.mainContext.save()
+            }
+        } catch {
+            print("Error updating favorite status for item \(item.id) to \(isFavorite): \(error)")
+        }
+    }
 }

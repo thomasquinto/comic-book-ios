@@ -17,10 +17,6 @@ class HomeViewModel {
     }
     
     func refresh() async {
-        do {
-            try await repository.deleteCache()
-        } catch {
-            print("Error: \(error)")
-        }
+        await repository.deleteCache()
     }
 }
