@@ -11,6 +11,7 @@ struct HomeView: View {
     
     let repository: ComicBookRepository
     @State var viewModel: HomeViewModel
+    @StateObject var globalState = GlobalState()
 
     init(repository: ComicBookRepository) {
         self.repository = repository
@@ -48,12 +49,14 @@ struct HomeView: View {
             .refreshable {
                 Task {
                     await viewModel.refresh()
+                    globalState.globalRefresh.toggle()
                 }
             }
             .coordinateSpace(name: CoordinateSpaces.scrollView)
             .edgesIgnoringSafeArea(.top)
             .scrollIndicators(.hidden)
         }
+        .environmentObject(globalState)
     }
 }
 
@@ -104,4 +107,11 @@ struct ParallaxHeader<Content: View, Space: Hashable>: View {
         let frame = proxy.frame(in: .named(coordinateSpace))
         return max(0, frame.minY)
     }
+}
+
+class GlobalState: ObservableObject {
+    @Published var globalRefresh: Bool = false
+    @Published var favoritesUpdated: Bool = false
+    
+    init() {}
 }

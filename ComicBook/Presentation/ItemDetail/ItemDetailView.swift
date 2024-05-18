@@ -12,6 +12,7 @@ struct ItemDetailView: View {
     let item: Item
     let repository: ComicBookRepository
     @State var viewModel: ItemDetailViewModel
+    @EnvironmentObject var globalState: GlobalState
 
     init(item: Item, repository: ComicBookRepository) {
         self.item = item
@@ -41,6 +42,7 @@ struct ItemDetailView: View {
                     Button {
                         Task {
                             await viewModel.toggleFavorite()
+                            globalState.favoritesUpdated.toggle()
                         }
                     } label: {
                         Image(

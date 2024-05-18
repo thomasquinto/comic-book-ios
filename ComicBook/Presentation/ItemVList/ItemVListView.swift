@@ -15,6 +15,7 @@ struct ItemVListView: View {
     let repository: ComicBookRepository
     
     @State var viewModel: ItemVListViewModel
+    @EnvironmentObject var globalState: GlobalState
 
     init(itemType: ItemType,
          detailItem: Item?,
@@ -49,7 +50,7 @@ struct ItemVListView: View {
         }
         .navigationTitle("Marvel Comics")
         .toolbar {
-            if (itemType != .favorite) {
+            if ![.favorite, .story].contains(itemType) {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         viewModel.showBottomSheet.toggle()
@@ -62,6 +63,16 @@ struct ItemVListView: View {
                     }
                 }
             }
+        }
+        .onReceive(globalState.$favoritesUpdated) { favoritesUpdated in
+            if itemType == .favorite {
+                print("Updating favorites")
+                viewModel.resetItems()
+            }
+        }
+        .onReceive(globalState.$globalRefresh) { favoritesUpdated in
+            print("Global refresh invoked")
+            viewModel.resetItems()
         }
     }
 }

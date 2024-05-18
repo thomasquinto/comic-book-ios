@@ -12,6 +12,7 @@ struct ItemHListView: View {
     let itemType: ItemType
     let detailItem: Item?
     let repository: ComicBookRepository
+    @EnvironmentObject var globalState: GlobalState
 
     @State var viewModel: ItemHListViewModel
 
@@ -39,6 +40,7 @@ struct ItemHListView: View {
                     Image(systemName: "chevron.right")
                         .padding(.trailing, 8)
                 }
+                .contentShape(Rectangle()) // Makes the entire HStack tappable
             }
                 
             ScrollView(.horizontal) {
@@ -66,6 +68,20 @@ struct ItemHListView: View {
             .scrollIndicators(.hidden)
         }
         .background(Color.clear)
+        .onReceive(globalState.$favoritesUpdated) { favoritesUpdated in
+            if itemType == .favorite {
+                Task {
+                    print("Updating favorites")
+                    await viewModel.getItems()
+                }
+            }
+        }
+        .onReceive(globalState.$globalRefresh) { favoritesUpdated in
+            Task {
+                print("Global refresh invoked")
+                await viewModel.getItems()
+            }
+        }
     }
 }
 
