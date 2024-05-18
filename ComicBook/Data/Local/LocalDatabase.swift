@@ -103,10 +103,16 @@ class LocalDatabase: NSObject {
                 )
             )
             
+            if itemRequestEntities.isEmpty {
+                print("No cached items to delete")
+                return
+            }
+            
             itemRequestEntities.forEach { itemRequestEntity in
                 print("Deleting cached items for key: \(itemRequestEntity.paramKey)-\(itemRequestEntity.paramExtras)")
                 persistentContainer.mainContext.delete(itemRequestEntity)
             }
+            try persistentContainer.mainContext.save()
             
         } catch {
             print("Error clearing cached items for key: \(paramKey): \(error)")
@@ -121,10 +127,16 @@ class LocalDatabase: NSObject {
                 FetchDescriptor<ItemRequestEntity>()
             )
             
+            if itemRequestEntities.isEmpty {
+                print("No cached items to delete")
+                return
+            }
+            
             itemRequestEntities.forEach { itemRequestEntity in
                 print("Deleting cached items for key: \(itemRequestEntity.paramKey)-\(itemRequestEntity.paramExtras)")
                 persistentContainer.mainContext.delete(itemRequestEntity)
             }
+            try persistentContainer.mainContext.save()
             
         } catch {
             print("Error clearing all cached items: \(error)")
@@ -143,7 +155,7 @@ class LocalDatabase: NSObject {
                 )
             )
             
-            let items = itemEntities.sorted(by: { $0.updated > $1.updated }).map { itemEntity in
+            let items = itemEntities.sorted(by: { $0.updatedAt > $1.updatedAt }).map { itemEntity in
                 itemEntity.toItem()
             }
             
@@ -184,7 +196,6 @@ class LocalDatabase: NSObject {
                 print("Adding favorite item \(item.id)")
                 let itemEntity = ItemEntity(item: item, index: -1)
                 itemEntity.isFavorite = isFavorite
-                itemEntity.updated = Date()
                 persistentContainer.mainContext.insert(itemEntity)
                 try persistentContainer.mainContext.save()
             }

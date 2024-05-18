@@ -31,9 +31,14 @@ struct ItemVListView: View {
         let title = detailItem == nil ? itemType.rawValue.capitalized : itemType.rawValue.capitalized + " - " + detailItem!.name
         
         NavigationStack {
-            itemList
-                .navigationTitle(title)
-                .searchable(text: $viewModel.searchText)
+            if ![.favorite, .story].contains(itemType) {
+                itemList
+                    .navigationTitle(title)
+                    .searchable(text: $viewModel.searchText)
+            } else {
+                itemList
+                    .navigationTitle(title)
+            }
         }
         .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
         .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingAlert) {
@@ -44,15 +49,17 @@ struct ItemVListView: View {
         }
         .navigationTitle("Marvel Comics")
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    viewModel.showBottomSheet.toggle()
-                } label: {
-                    Image(systemName: "line.horizontal.3.decrease.circle")
-                }
-                .sheet(isPresented: $viewModel.showBottomSheet) {
-                    bottomSheet
-                        .presentationDetents([.fraction(0.3)])
+            if (itemType != .favorite) {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        viewModel.showBottomSheet.toggle()
+                    } label: {
+                        Image(systemName: "line.horizontal.3.decrease.circle")
+                    }
+                    .sheet(isPresented: $viewModel.showBottomSheet) {
+                        bottomSheet
+                            .presentationDetents([.fraction(0.3)])
+                    }
                 }
             }
         }

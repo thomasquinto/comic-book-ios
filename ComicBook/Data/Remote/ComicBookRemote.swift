@@ -232,6 +232,8 @@ func getStartsWithKey(itemType: ItemType) -> String {
         return URLKey.titleStartsWith.rawValue
     case .story:
         return ""
+    case .favorite:
+        return ""
     }
 }
 

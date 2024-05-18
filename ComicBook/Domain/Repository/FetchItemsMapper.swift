@@ -21,6 +21,8 @@ func getFetchItems(itemType: ItemType, repository: ComicBookRepository) -> ((Str
         return repository.getSeries
     case ItemType.story:
         return repository.getStories
+    case ItemType.favorite:
+        return repository.getComics //TODO: fix
     }
 }
 
@@ -38,11 +40,13 @@ func getItemTypesForDetail(itemType: ItemType) -> [ItemType] {
         return [.comic, .character, .creator, .event, .story]
     case ItemType.story:
         return [.comic, .character, .creator, .event, .series]
+    case ItemType.favorite:
+        return [] //TODO: fix
     }
 }
 
 func getItemTypesForHome() -> [ItemType] {
-    return [.comic, .character, .series, .creator, .event, .story]
+    return [.favorite, .comic, .character, .series, .creator, .event, .story]
 }
 
 func getDefaultOrderBy(itemType: ItemType) -> OrderBy {
@@ -59,6 +63,8 @@ func getDefaultOrderBy(itemType: ItemType) -> OrderBy {
         return .title
     case ItemType.story:
         return .modifiedDesc
+    case ItemType.favorite:
+        return .name
     }
 }
 
@@ -76,6 +82,8 @@ func getOrderByValues(itemType: ItemType) -> [OrderBy] {
         return [.title, .startYear, .startYearDesc, .modifiedDesc]
     case ItemType.story:
         return [.modifiedDesc]
+    case ItemType.favorite:
+        return []
     }
 }
 

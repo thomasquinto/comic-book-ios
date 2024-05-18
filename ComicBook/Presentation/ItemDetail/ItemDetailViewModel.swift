@@ -20,7 +20,7 @@ class ItemDetailViewModel {
     }
     
     func initFavorite() async {
-        isFavorite = await repository.retrieveFavoriteItems().contains(item)
+        isFavorite = await repository.retrieveFavoriteItems().map { $0.id }.contains(item.id)
     }
     
     func toggleFavorite() async {

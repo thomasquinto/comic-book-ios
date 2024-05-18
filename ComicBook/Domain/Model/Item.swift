@@ -27,6 +27,7 @@ enum ItemType: String {
     case event = "events"
     case series = "series"
     case story = "stories"
+    case favorite = "favorites"
 }
 
 

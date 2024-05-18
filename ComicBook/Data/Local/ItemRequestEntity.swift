@@ -10,8 +10,6 @@ import SwiftData
 
 @Model
 class ItemRequestEntity: Identifiable {
-    @Attribute(.unique)
-    var id: UUID = UUID()
     var paramKey: String
     var paramExtras: String
     @Relationship(deleteRule: .cascade)

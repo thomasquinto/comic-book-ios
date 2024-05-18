@@ -10,8 +10,6 @@ import SwiftData
 
 @Model
 class ItemEntity: Identifiable {
-    @Attribute(.unique)
-    var id: UUID = UUID()
     var index: Int
     var itemId: Int
     var itemType: String
@@ -20,7 +18,7 @@ class ItemEntity: Identifiable {
     var date: Date
     var imageUrl: String
     var isFavorite: Bool = false
-    var updated: Date = Date()
+    var updatedAt: Date = Date()
     
     init(index: Int, itemId: Int, itemType: String, name: String, desc: String, date: Date, imageUrl: String) {
         self.index = index

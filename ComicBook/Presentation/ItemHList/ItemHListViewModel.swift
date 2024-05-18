@@ -32,6 +32,12 @@ class ItemHListViewModel {
     var hasNoMore = false
      
     func getItems() async {
+        if itemType == ItemType.favorite {
+            items = await repository.retrieveFavoriteItems()
+            //hasNoMore = true
+            return
+        }
+        
         hasNoMore = false
         if items.count == 0{
             offset = 0
