@@ -108,3 +108,12 @@ struct ItemDetailView: View {
 
 }
 
+// This re-enables the swipe back gesture which gets disabled when hiding system nav bar back buton
+extension UINavigationController {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = nil
+    }
+}
+
+
