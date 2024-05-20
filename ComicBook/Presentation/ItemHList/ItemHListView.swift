@@ -12,10 +12,13 @@ struct ItemHListView: View {
     let itemType: ItemType
     let detailItem: Item?
     let repository: ComicBookRepository
-    @EnvironmentObject var globalState: GlobalState
 
     @State var viewModel: ItemHListViewModel
 
+    @EnvironmentObject var globalState: GlobalState
+    @State private var hasInitializedFavoritesUpdated = false
+    @State private var hasInitializedGlobalRefresh = false
+    
     init(itemType: ItemType,
          detailItem: Item?,
          repository: ComicBookRepository
@@ -59,6 +62,7 @@ struct ItemHListView: View {
                             .opacity(0.0)
                             .onAppear {
                                 Task {
+                                    print("HList getItems")
                                     await viewModel.getItems()
                                 }
                             }
@@ -69,16 +73,24 @@ struct ItemHListView: View {
         }
         .background(Color.clear)
         .onReceive(globalState.$favoritesUpdated) { favoritesUpdated in
+            if (!hasInitializedFavoritesUpdated) {
+                hasInitializedFavoritesUpdated = true
+                return
+            }
             if itemType == .favorite {
                 Task {
-                    print("Updating favorites")
+                    print("HList updating favorites")
                     await viewModel.getItems()
                 }
             }
         }
-        .onReceive(globalState.$globalRefresh) { favoritesUpdated in
+        .onReceive(globalState.$globalRefresh) { globalRefresh in
+            if (!hasInitializedGlobalRefresh) {
+                hasInitializedGlobalRefresh = true
+                return
+            }
             Task {
-                print("Global refresh invoked")
+                print("HList global refresh invoked")
                 await viewModel.getItems()
             }
         }

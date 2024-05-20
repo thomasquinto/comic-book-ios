@@ -43,7 +43,7 @@ class ItemVListViewModel {
         offset = 0
     }
         
-    func getItems() async {
+    nonisolated func getItems() async {
         if itemType == ItemType.favorite {
             items = await repository.retrieveFavoriteItems()
             hasNoMore = true

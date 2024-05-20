@@ -19,7 +19,7 @@ class ItemDetailViewModel {
         self.repository = repository
     }
     
-    func initFavorite() async {
+    nonisolated func initFavorite() async {
         isFavorite = await repository.retrieveFavoriteItems().map { $0.id }.contains(item.id)
     }
     
