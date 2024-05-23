@@ -39,6 +39,11 @@ struct ItemVListView: View {
                 itemList
                     .navigationTitle(title)
                     .searchable(text: $viewModel.searchText)
+                    .navigationTitle("Search")
+                    .onReceive(viewModel.$debouncedSearchText) { searchText in
+                        viewModel.searchText = searchText
+                        viewModel.resetItems()
+                    }
             } else {
                 itemList
                     .navigationTitle(title)

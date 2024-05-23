@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 @Observable
 class ItemVListViewModel {
@@ -22,13 +23,24 @@ class ItemVListViewModel {
         self.detailItem = detailItem
         self.repository = repository
         self.orderBy = getDefaultOrderBy(itemType: itemType)
+        
+        $searchText
+            .debounce(for: 0.5, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .sink { [weak self] text in
+                self?.debouncedSearchText = text
+            }
+            .store(in: &cancellables)
     }
+    
+    @ObservationIgnored @Published var searchText = ""
+    @ObservationIgnored @Published private(set) var debouncedSearchText: String = ""
+    private var cancellables = Set<AnyCancellable>()
     
     var items: [Item] = []
     var isLoading = false
     var errorMessage = ""
     var isShowingAlert = false
-    var searchText = ""
     var offset = 0
     var limit = 20
     var hasNoMore = false
