@@ -73,7 +73,6 @@ struct ItemVListView: View {
                 return
             }
             if itemType == .favorite {
-                print("VList updating favorites")
                 viewModel.resetItems()
             }
         }
@@ -82,7 +81,6 @@ struct ItemVListView: View {
                 hasInitializedGlobalRefresh = true
                 return
             }
-            print("VList global refresh invoked")
             viewModel.resetItems()
         }
     }

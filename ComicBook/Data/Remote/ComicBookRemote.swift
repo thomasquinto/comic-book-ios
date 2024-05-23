@@ -32,8 +32,10 @@ extension ComicBookRemote: ComicBookApi{
     ) async throws -> [Item] where T: MappedItem {
         
         let urlSuffix = id == 0 || prefix.isEmpty ? "\(itemType.rawValue)" : "\(prefix)/\(id)/\(itemType.rawValue)"
-                
-        let baseUrl = "https://gateway.marvel.com:443/v1/public/\(urlSuffix)"
+           
+        let baseUrl = "http://3.101.90.31:8080/v1/public/\(urlSuffix)"
+        //let baseUrl = "http://192.168.1.101:8080/v1/public/\(urlSuffix)"
+        //let baseUrl = "https://gateway.marvel.com:443/v1/public/\(urlSuffix)"
         let publicKey = "***REMOVED***"
         let privateKey = "***REMOVED***"
 

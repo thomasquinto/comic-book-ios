@@ -30,6 +30,12 @@ class ItemHListViewModel {
     var offset = 0
     var limit = 20
     var hasNoMore = false
+    
+    func resetItems() {
+        hasNoMore = false
+        items = []
+        offset = 0
+    }
      
     nonisolated func getItems() async {
         if itemType == ItemType.favorite {
@@ -47,7 +53,6 @@ class ItemHListViewModel {
         isLoading = true
                 
         do {
-            print("HList fetching items")
             let fetchItems = getFetchItems(itemType: itemType, repository: repository)
             let prefix = detailItem?.itemType.rawValue ?? ""
             let id = detailItem?.id ?? 0

@@ -62,7 +62,6 @@ struct ItemHListView: View {
                             .opacity(0.0)
                             .onAppear {
                                 Task {
-                                    print("HList getItems")
                                     await viewModel.getItems()
                                 }
                             }
@@ -79,7 +78,6 @@ struct ItemHListView: View {
             }
             if itemType == .favorite {
                 Task {
-                    print("HList updating favorites")
                     await viewModel.getItems()
                 }
             }
@@ -88,9 +86,9 @@ struct ItemHListView: View {
             if (!hasInitializedGlobalRefresh) {
                 hasInitializedGlobalRefresh = true
                 return
-            }
+            }   
+            viewModel.resetItems()
             Task {
-                print("HList global refresh invoked")
                 await viewModel.getItems()
             }
         }
