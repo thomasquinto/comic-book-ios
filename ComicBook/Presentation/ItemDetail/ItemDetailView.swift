@@ -51,11 +51,10 @@ struct ItemDetailView: View {
                         )
                         .foregroundColor(
                             viewModel.isFavorite ?
-                                .red : .black
+                                .red : .primary
                         )
-                        //.font(.system(size: 20))
                         .frame(width: 40, height: 40)
-                        .background(Color.white.opacity(0.8))
+                        .background(.background.opacity(0.8))
                         .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                         .font(.system(size: 20))
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 12, trailing: 0))
@@ -92,8 +91,8 @@ struct ItemDetailView: View {
             } label: {
                 Image(systemName: "chevron.backward")
                     .frame(width: 40, height: 40)
-                    .foregroundColor(.black)
-                    .background(Color.white.opacity(0.8))
+                    .foregroundColor(.primary)
+                    .background(.background.opacity(0.8))
                     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                     .font(.system(size: 20))
                     .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 0))
