@@ -13,6 +13,7 @@ struct ItemVListView: View {
     let itemType: ItemType
     let detailItem: Item?
     let repository: ComicBookRepository
+    let useGrid: Bool
     
     @State var viewModel: ItemVListViewModel
     
@@ -22,21 +23,24 @@ struct ItemVListView: View {
     
     init(itemType: ItemType,
          detailItem: Item?,
-         repository: ComicBookRepository
+         repository: ComicBookRepository,
+         useGrid: Bool = true
     ) {
         self.itemType = itemType
         self.detailItem = detailItem
         self.repository = repository
+        self.useGrid = useGrid
         _viewModel = State(initialValue: ItemVListViewModel(itemType: itemType, detailItem: detailItem, repository: repository))
     }
     
     var body: some View {
         
         let title = detailItem == nil ? itemType.rawValue.capitalized : itemType.rawValue.capitalized + " - " + detailItem!.name
-        
+            
         NavigationStack {
+            let itemCollectionView = useGrid ? AnyView(itemGrid) : AnyView(itemList)
             if ![.favorite, .story].contains(itemType) {
-                itemList
+                itemCollectionView
                     .navigationTitle(title)
                     .searchable(text: $viewModel.searchText)
                     .onReceive(viewModel.$debouncedSearchText) { searchText in
@@ -44,7 +48,7 @@ struct ItemVListView: View {
                         viewModel.resetItems()
                     }
             } else {
-                itemList
+                itemCollectionView
                     .navigationTitle(title)
             }
         }
@@ -91,16 +95,17 @@ struct ItemVListView: View {
 }
 
 extension ItemVListView {
-        
+    
     var itemList : some View {
+        
         ScrollView {
             LazyVStack {
                 ForEach(viewModel.items) { item in
-                     NavigationLink {
-                         ItemDetailView(item: item, repository: repository)
-                     } label: {
-                         ItemLabel(item: item)
-                     }
+                    NavigationLink {
+                        ItemDetailView(item: item, repository: repository)
+                    } label: {
+                        ItemLabelRow(item: item)
+                    }
                     .buttonStyle(PlainButtonStyle())
                 }
                 if !viewModel.hasNoMore {
@@ -119,29 +124,93 @@ extension ItemVListView {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .scrollIndicators(.hidden)
+
+    }
+    
+    var itemGrid : some View {
+        GeometryReader { geometry in
+            let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Int(geometry.size.width / 170))
+            
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(viewModel.items) { item in
+                        NavigationLink {
+                            ItemDetailView(item: item, repository: repository)
+                        } label: {
+                            ItemLabel(item: item)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    if !viewModel.hasNoMore {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .onAppear {
+                                Task {
+                                    await viewModel.getItems()
+                                }
+                            }
+                    }
+                }
+            }
+            .refreshable {
+                viewModel.resetItems(fetchFromRemote: true)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .scrollIndicators(.hidden)
+        }
     }
 }
 
 struct ItemLabel: View {
     let item: Item
-    
+
     var body: some View {
-        HStack{
+        VStack{
             CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 110, height: 165)
+                    .frame(width: 160, height: 240)
                     .clipped()
                     .cornerRadius(6)
             } placeholder: {
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .frame(width: 110, height: 165)
+                    .frame(width: 160, height: 240)
+                    .cornerRadius(6)
+            }
+
+            Spacer()
+
+            Text(item.name)
+                .font(.callout)
+                .fontWeight(.semibold)
+                .padding(2)
+        }
+        .frame(width: 160, height: 270)
+        .padding(2)
+    }
+}
+
+struct ItemLabelRow: View {
+    let item: Item
+
+    var body: some View {
+        HStack{
+            CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
+                image.resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 160, height: 240)
+                    .clipped()
+                    .cornerRadius(6)
+            } placeholder: {
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .frame(width: 160, height: 240)
                     .cornerRadius(6)
             }
 
             Text(item.name)
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                .fontWeight(.bold)
                 .padding(2)
             
             Spacer()

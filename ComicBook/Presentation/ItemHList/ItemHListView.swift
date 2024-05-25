@@ -44,6 +44,7 @@ struct ItemHListView: View {
                         .padding(.trailing, 8)
                 }
                 .contentShape(Rectangle()) // Makes the entire HStack tappable
+                .padding(.top, 20)
             }
                 
             ScrollView(.horizontal) {
@@ -52,7 +53,7 @@ struct ItemHListView: View {
                         NavigationLink {
                             ItemDetailView(item: item, repository: repository)
                         } label: {
-                            ItemHorizontalLabel(item: item)
+                            ItemLabel(item: item)
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
@@ -92,34 +93,5 @@ struct ItemHListView: View {
                 await viewModel.getItems()
             }
         }
-    }
-}
-
-struct ItemHorizontalLabel: View {
-    let item: Item
-
-    var body: some View {
-        VStack{
-            CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
-                image.resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 110, height: 165)
-                    .clipped()
-                    .cornerRadius(6)
-            } placeholder: {
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 110, height: 165)
-                    .cornerRadius(6)
-            }
-
-            Spacer()
-
-            Text(item.name)
-                .font(.caption)
-                .padding(2)
-        }
-        .frame(width: 110, height: 185)
-        .padding(2)
     }
 }

@@ -30,12 +30,12 @@ struct ItemDetailView: View {
                     CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
                         image.resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(maxHeight: 600)
+                            .frame(maxHeight: UIScreen.main.bounds.height / 1.3)
                             .clipped()
                     } placeholder: {
                         Rectangle()
                             .fill(.ultraThinMaterial)
-                            .frame(maxHeight: 600)
+                            .frame(maxHeight: UIScreen.main.bounds.height / 1.3)
                             .clipped()
                     }
                     
