@@ -14,6 +14,7 @@ struct ItemVListView: View {
     let detailItem: Item?
     let repository: ComicBookRepository
     let useGrid: Bool
+    let sizeFactor: CGFloat = UIDevice.current.userInterfaceIdiom == .phone ? 0.6875 : 1.0
     
     @State var viewModel: ItemVListViewModel
     
@@ -104,7 +105,7 @@ extension ItemVListView {
                     NavigationLink {
                         ItemDetailView(item: item, repository: repository)
                     } label: {
-                        ItemLabelRow(item: item)
+                        ItemLabelRow(item: item, sizeFactor: sizeFactor)
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
@@ -129,7 +130,7 @@ extension ItemVListView {
     
     var itemGrid : some View {
         GeometryReader { geometry in
-            let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Int(geometry.size.width / 170))
+            let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Int(geometry.size.width / ((160 * sizeFactor) + 10)))
             
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {
@@ -137,7 +138,7 @@ extension ItemVListView {
                         NavigationLink {
                             ItemDetailView(item: item, repository: repository)
                         } label: {
-                            ItemLabel(item: item)
+                            ItemLabel(item: item, sizeFactor: sizeFactor)
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
@@ -163,49 +164,52 @@ extension ItemVListView {
 
 struct ItemLabel: View {
     let item: Item
+    let sizeFactor: CGFloat
 
     var body: some View {
         VStack{
             CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 160, height: 240)
+                    .frame(width: 160 * sizeFactor, height: 240 * sizeFactor)
                     .clipped()
                     .cornerRadius(6)
             } placeholder: {
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .frame(width: 160, height: 240)
+                    .frame(width: 160 * sizeFactor, height: 240 * sizeFactor)
                     .cornerRadius(6)
             }
 
             Spacer()
 
             Text(item.name)
-                .font(.callout)
+                .lineLimit(1)
+                .font(.footnote)
                 .fontWeight(.semibold)
                 .padding(2)
         }
-        .frame(width: 160, height: 270)
+        .frame(width: 160 * sizeFactor)
         .padding(2)
     }
 }
 
 struct ItemLabelRow: View {
     let item: Item
+    let sizeFactor: CGFloat
 
     var body: some View {
         HStack{
             CachedAsyncImage(url: URL(string: item.imageUrl)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 160, height: 240)
+                    .frame(width: 160 * sizeFactor, height: 240 * sizeFactor)
                     .clipped()
                     .cornerRadius(6)
             } placeholder: {
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .frame(width: 160, height: 240)
+                    .frame(width: 160 * sizeFactor, height: 240 * sizeFactor)
                     .cornerRadius(6)
             }
 

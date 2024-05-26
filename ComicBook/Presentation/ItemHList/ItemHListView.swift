@@ -12,6 +12,7 @@ struct ItemHListView: View {
     let itemType: ItemType
     let detailItem: Item?
     let repository: ComicBookRepository
+    let sizeFactor: CGFloat = UIDevice.current.userInterfaceIdiom == .phone ? 0.6875 : 1.0
 
     @State var viewModel: ItemHListViewModel
 
@@ -44,7 +45,7 @@ struct ItemHListView: View {
                         .padding(.trailing, 8)
                 }
                 .contentShape(Rectangle()) // Makes the entire HStack tappable
-                .padding(.top, 20)
+                .padding(.top, 16)
             }
                 
             ScrollView(.horizontal) {
@@ -53,7 +54,7 @@ struct ItemHListView: View {
                         NavigationLink {
                             ItemDetailView(item: item, repository: repository)
                         } label: {
-                            ItemLabel(item: item)
+                            ItemLabel(item: item, sizeFactor: sizeFactor)
                         }
                         .buttonStyle(PlainButtonStyle())
                     }

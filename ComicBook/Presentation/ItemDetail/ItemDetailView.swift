@@ -69,9 +69,11 @@ struct ItemDetailView: View {
                         .fontWeight(.bold)
                     
                     // Description
-                    Text(item.description)
-                        .font(.body)
-                        .foregroundColor(.secondary)
+                    if item.description != "" {
+                        Text(item.description)
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                    }
                     
                     ForEach(getItemTypesForDetail(itemType: item.itemType), id: \.self) { itemType in
                         ItemLinkView(itemType: itemType, detailItem: item)
