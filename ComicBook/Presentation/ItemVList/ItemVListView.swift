@@ -40,7 +40,7 @@ struct ItemVListView: View {
             
         NavigationStack {
             let itemCollectionView = useGrid ? AnyView(itemGrid) : AnyView(itemList)
-            if ![.favorite, .story].contains(itemType) {
+            if getItemTypesForSearching().contains(itemType) {
                 itemCollectionView
                     .navigationTitle(title)
                     .searchable(text: $viewModel.searchText)
@@ -62,7 +62,7 @@ struct ItemVListView: View {
         }
         .navigationTitle("Marvel Comics")
         .toolbar {
-            if ![.favorite, .story].contains(itemType) {
+            if getItemTypesForSorting().contains(itemType) {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         viewModel.showBottomSheet.toggle()

@@ -49,6 +49,15 @@ func getItemTypesForHome() -> [ItemType] {
     return [.favorite, .comic, .character, .series, .creator, .event, .story]
 }
 
+
+func getItemTypesForSearching() -> [ItemType] {
+    return [.comic, .character, .series, .creator, .event]
+}
+
+func getItemTypesForSorting() -> [ItemType] {
+    return [.comic, .character, .series, .creator, .event]
+}
+
 func getDefaultOrderBy(itemType: ItemType) -> OrderBy {
     switch itemType {
     case ItemType.character:
