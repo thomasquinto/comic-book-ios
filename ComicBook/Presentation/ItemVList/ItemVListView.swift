@@ -18,9 +18,7 @@ struct ItemVListView: View {
     
     @State var viewModel: ItemVListViewModel
     
-    @EnvironmentObject var globalState: GlobalState
-    @State private var hasInitializedFavoritesUpdated = false
-    @State private var hasInitializedGlobalRefresh = false
+    @Environment(GlobalState.self) var globalState
     
     init(itemType: ItemType,
          detailItem: Item?,
@@ -76,18 +74,16 @@ struct ItemVListView: View {
                 }
             }
         }
-        .onReceive(globalState.$favoritesUpdated) { favoritesUpdated in
-            if (!hasInitializedFavoritesUpdated) {
-                hasInitializedFavoritesUpdated = true
+        .onChange(of: globalState.favoritesUpdated, initial: true) { favoritesUpdated, initial in
+            if initial {
                 return
             }
             if itemType == .favorite {
                 viewModel.resetItems()
             }
         }
-        .onReceive(globalState.$globalRefresh) { globalRefresh in
-            if (!hasInitializedGlobalRefresh) {
-                hasInitializedGlobalRefresh = true
+        .onChange(of: globalState.globalRefresh, initial: true) { globalRefresh, initial in
+            if (initial) {
                 return
             }
             viewModel.resetItems()

@@ -11,7 +11,7 @@ struct HomeView: View {
     
     let repository: ComicBookRepository
     @State var viewModel: HomeViewModel
-    @StateObject var globalState = GlobalState()
+    @State var globalState = GlobalState()
 
     init(repository: ComicBookRepository) {
         self.repository = repository
@@ -56,7 +56,7 @@ struct HomeView: View {
             .edgesIgnoringSafeArea(.top)
             .scrollIndicators(.hidden)
         }
-        .environmentObject(globalState)
+        .environment(globalState)
     }
 }
 
@@ -109,9 +109,10 @@ struct ParallaxHeader<Content: View, Space: Hashable>: View {
     }
 }
 
-class GlobalState: ObservableObject {
-    @Published var globalRefresh: Bool = false
-    @Published var favoritesUpdated: Bool = false
+@Observable
+class GlobalState {
+    var globalRefresh: Bool = false
+    var favoritesUpdated: Bool = false
     
     init() {}
 }

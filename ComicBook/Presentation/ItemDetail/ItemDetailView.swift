@@ -12,7 +12,7 @@ struct ItemDetailView: View {
     let item: Item
     let repository: ComicBookRepository
     @State var viewModel: ItemDetailViewModel
-    @EnvironmentObject var globalState: GlobalState
+    @Environment(GlobalState.self) var globalState
 
     init(item: Item, repository: ComicBookRepository) {
         self.item = item

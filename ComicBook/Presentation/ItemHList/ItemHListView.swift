@@ -16,9 +16,7 @@ struct ItemHListView: View {
 
     @State var viewModel: ItemHListViewModel
 
-    @EnvironmentObject var globalState: GlobalState
-    @State private var hasInitializedFavoritesUpdated = false
-    @State private var hasInitializedGlobalRefresh = false
+    @Environment(GlobalState.self) var globalState
     
     init(itemType: ItemType,
          detailItem: Item?,
@@ -73,9 +71,8 @@ struct ItemHListView: View {
             .scrollIndicators(.hidden)
         }
         .background(Color.clear)
-        .onReceive(globalState.$favoritesUpdated) { favoritesUpdated in
-            if (!hasInitializedFavoritesUpdated) {
-                hasInitializedFavoritesUpdated = true
+        .onChange(of: globalState.favoritesUpdated, initial: true) { favoritesUpdated, initial in
+            if initial {
                 return
             }
             if itemType == .favorite {
@@ -84,9 +81,8 @@ struct ItemHListView: View {
                 }
             }
         }
-        .onReceive(globalState.$globalRefresh) { globalRefresh in
-            if (!hasInitializedGlobalRefresh) {
-                hasInitializedGlobalRefresh = true
+        .onChange(of: globalState.globalRefresh, initial: true) { globalRefresh, initial in
+            if initial {
                 return
             }   
             viewModel.resetItems()
