@@ -36,8 +36,8 @@ extension ComicBookRemote: ComicBookApi{
         let baseUrl = "***REMOVED***\(urlSuffix)"
         //let baseUrl = "http://192.168.1.101:8080/v1/public/\(urlSuffix)"
         //let baseUrl = "https://gateway.marvel.com/v1/public/\(urlSuffix)"
-        let publicKey = "***REMOVED***"
-        let privateKey = "***REMOVED***"
+        let publicKey = "MARVEL_API_PUBLIC_KEY"
+        let privateKey = "MARVEL_API_PRIVATE_KEY"
 
         let timestamp = Date().timeIntervalSince1970
         var queryItemArray = [URLQueryItem]()
