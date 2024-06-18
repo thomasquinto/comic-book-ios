@@ -71,20 +71,16 @@ struct ItemHListView: View {
             .scrollIndicators(.hidden)
         }
         .background(Color.clear)
-        .onChange(of: globalState.favoritesUpdated, initial: true) { favoritesUpdated, initial in
-            if initial {
-                return
-            }
+        .onChange(of: globalState.favoritesUpdated, initial: false) { oldValue, newValue in
+            print("HList favoritesUpdated oldValue: \(oldValue) newValue: \(newValue)")
             if itemType == .favorite {
                 Task {
                     await viewModel.getItems()
                 }
             }
         }
-        .onChange(of: globalState.globalRefresh, initial: true) { globalRefresh, initial in
-            if initial {
-                return
-            }   
+        .onChange(of: globalState.globalRefresh, initial: false) { oldValue, newValue in
+            print("HList globalRefresh oldValue: \(oldValue) newValue: \(newValue)")
             viewModel.resetItems()
             Task {
                 await viewModel.getItems()

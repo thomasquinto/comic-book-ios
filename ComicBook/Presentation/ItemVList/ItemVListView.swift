@@ -74,18 +74,14 @@ struct ItemVListView: View {
                 }
             }
         }
-        .onChange(of: globalState.favoritesUpdated, initial: true) { favoritesUpdated, initial in
-            if initial {
-                return
-            }
+        .onChange(of: globalState.favoritesUpdated, initial: false) { oldValue, newValue in
+            print("VList favoritesUpdated oldValue: \(oldValue) newValue: \(newValue)")
             if itemType == .favorite {
                 viewModel.resetItems()
             }
         }
-        .onChange(of: globalState.globalRefresh, initial: true) { globalRefresh, initial in
-            if (initial) {
-                return
-            }
+        .onChange(of: globalState.globalRefresh, initial: false) { oldValue, newValue in
+            print("VList globalRefresh oldValue: \(oldValue) newValue: \(newValue)")
             viewModel.resetItems()
         }
     }
