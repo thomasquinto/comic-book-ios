@@ -32,7 +32,7 @@ class ItemEntity: Identifiable {
     
     convenience init(item: Item, index: Int) {
         self.init(index: index,
-                  itemId: item.id,
+                  itemId: item.itemId,
                   itemType: item.itemType.rawValue,
                   name: item.name,
                   desc: item.description,
@@ -41,7 +41,8 @@ class ItemEntity: Identifiable {
     }
     
     func toItem() -> Item {
-        return Item(id: itemId,
+        return Item(id: "\(itemId)\(itemType)".hashValue,
+                    itemId: itemId,
                     itemType: ItemType(rawValue: itemType)!,
                     name: name,
                     description: desc,

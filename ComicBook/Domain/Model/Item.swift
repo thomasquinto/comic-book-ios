@@ -9,6 +9,7 @@ import Foundation
 
 struct Item: Identifiable, Hashable {
     let id: Int
+    let itemId: Int
     let itemType: ItemType
     let name: String
     let description: String

@@ -14,7 +14,8 @@ struct EventDto: MappedItem {
     let thumbnail: ThumbnailDto?
     
     func toItem() -> Item {
-        return Item(id: self.id ?? 0,
+        return Item(id: generateId(id: self.id ?? 0, itemType: .event),
+                    itemId: self.id ?? 0,
                     itemType: .event,
                     name: self.title ?? "",
                     description: self.description ?? "",

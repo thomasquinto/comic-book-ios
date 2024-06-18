@@ -170,11 +170,14 @@ class LocalDatabase: NSObject {
         print("Updating favorite status for item \(item.id) to \(isFavorite)")
 
         do {
-            let itemId = item.id
+            let itemId = item.itemId
+            let itemTypeString = item.itemType.rawValue
+            
             let itemEntities = try persistentContainer.mainContext.fetch(
                 FetchDescriptor<ItemEntity>(
                     predicate: #Predicate {
                         $0.itemId == itemId &&
+                        $0.itemType == itemTypeString &&
                         $0.isFavorite == true
                     }
                 )
@@ -182,8 +185,8 @@ class LocalDatabase: NSObject {
             
             print("Found \(itemEntities.count) favorite items")
             
-            if itemEntities.map({ $0.itemId }).contains(item.id) {
-                let itemEntity = itemEntities.first(where: { $0.itemId == item.id })!
+            if itemEntities.map({ $0.itemId }).contains(item.itemId) {
+                let itemEntity = itemEntities.first(where: { $0.itemId == item.itemId })!
                 if (!isFavorite) {
                     print("Removing favorite item \(item.id)")
                     persistentContainer.mainContext.delete(itemEntity)

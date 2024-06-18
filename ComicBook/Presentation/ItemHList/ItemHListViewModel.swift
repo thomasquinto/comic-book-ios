@@ -56,7 +56,7 @@ class ItemHListViewModel {
         do {
             let fetchItems = getFetchItems(itemType: itemType, repository: repository)
             let prefix = detailItem?.itemType.rawValue ?? ""
-            let id = detailItem?.id ?? 0
+            let id = detailItem?.itemId ?? 0
             let orderBy = detailItem != nil ? getDefaultOrderBy(itemType: itemType) : OrderBy.modifiedDesc
 
             let itemsResponse = try await fetchItems(prefix, id, offset, limit, orderBy.rawValue, "", false)

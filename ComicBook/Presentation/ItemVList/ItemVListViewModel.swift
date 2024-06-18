@@ -74,7 +74,7 @@ class ItemVListViewModel {
         do {
             let fetchItems = getFetchItems(itemType: itemType, repository: repository)
             let prefix = detailItem?.itemType.rawValue ?? ""
-            let id = detailItem?.id ?? 0
+            let id = detailItem?.itemId ?? 0
             
             let itemsResponse = try await fetchItems(prefix, id, offset, limit, orderBy.rawValue, searchText, fetchFromRemote)
             self.fetchFromRemote = false

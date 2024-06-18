@@ -13,7 +13,8 @@ struct CreatorDto: MappedItem{
     let thumbnail: ThumbnailDto?
     
     func toItem() -> Item {
-        return Item(id: self.id ?? 0,
+        return Item(id: generateId(id: self.id ?? 0, itemType: .creator),
+                    itemId: self.id ?? 0,
                     itemType: .creator,
                     name: self.fullName ?? "",
                     description: "",
