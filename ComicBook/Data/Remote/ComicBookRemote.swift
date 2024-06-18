@@ -33,9 +33,7 @@ extension ComicBookRemote: ComicBookApi{
         
         let urlSuffix = id == 0 || prefix.isEmpty ? "\(itemType.rawValue)" : "\(prefix)/\(id)/\(itemType.rawValue)"
            
-        let baseUrl = "***REMOVED***\(urlSuffix)"
-        //let baseUrl = "http://192.168.1.101:8080/v1/public/\(urlSuffix)"
-        //let baseUrl = "https://gateway.marvel.com/v1/public/\(urlSuffix)"
+        let baseUrl = "https://gateway.marvel.com/v1/public/\(urlSuffix)"
         let publicKey = "MARVEL_API_PUBLIC_KEY"
         let privateKey = "MARVEL_API_PRIVATE_KEY"
 
